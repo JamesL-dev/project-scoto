@@ -5,6 +5,9 @@
 
 ## Logo: TBD
 
+## Gantt Chart
+[Gantt Chart](https://docs.google.com/spreadsheets/d/1ek0lzaA0r-ovCgkcUTNwH6t-urSb6KmnIw5vToFRsNw/edit#gid=0)
+
 ## Team Leads:
 #1 IT Manager - James
 #2 Software Architect - Zach
