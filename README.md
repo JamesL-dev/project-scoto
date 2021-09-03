@@ -1,11 +1,11 @@
 # project-scoto
 
-Company Name: ScoSoft
-Game Name: Scoto
+## Company Name: ScoSoft
+## Game Name: Scoto
 
-Logo: TBD
+## Logo: TBD
 
-Team Leads:
+## Team Leads:
 #1 IT Manager - James
 #2 Software Architect - Zach
 #3 QA Manager - Hayden
