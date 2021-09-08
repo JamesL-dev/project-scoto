@@ -1,18 +1,19 @@
-# project-scoto
-
+![](scosoft_logo_small.png?raw=true)
 ## Company Name: ScoSoft
 ## Game Name: Scoto
 
-## Logo: TBD
+## Gantt Chart: [Gantt Chart](https://drive.google.com/drive/folders/1nwNhnjqR3Bz005b1cVQ_VZfjXXNCWSZI)
 
-## Gantt Chart
-[Gantt Chart](https://drive.google.com/drive/folders/1nwNhnjqR3Bz005b1cVQ_VZfjXXNCWSZI)
+# Team Leads:
+#1 IT Manager: James
 
-## Team Leads:
-#1 IT Manager - James
-#2 Software Architect - Zach
-#3 QA Manager - Hayden
-#4 Project Manager - Austin
-#5 AI Specialist - Rodney
-#6 Version Control - Kadence
+#2 Software Architect: Zach
+
+#3 QA Manager: Hayden
+
+#4 Project Manager: Austin
+
+#5 AI Specialist: Rodney
+
+#6 Version Control: Kadence
 
