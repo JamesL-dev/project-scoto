@@ -6,7 +6,7 @@
 ## Logo: TBD
 
 ## Gantt Chart
-[Gantt Chart](https://docs.google.com/spreadsheets/d/1ek0lzaA0r-ovCgkcUTNwH6t-urSb6KmnIw5vToFRsNw/edit#gid=0)
+[Gantt Chart](https://drive.google.com/drive/folders/1nwNhnjqR3Bz005b1cVQ_VZfjXXNCWSZI)
 
 ## Team Leads:
 #1 IT Manager - James
