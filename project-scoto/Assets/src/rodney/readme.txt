@@ -1,1 +1,1 @@
-I updated my readme. Will this work?
+The feature i will be implimenting are the weapons that will be used offensivly against the enemies in the maze.
