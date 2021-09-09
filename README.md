@@ -1,4 +1,4 @@
-![](scosoft_logo_alpha.png?raw=true)
+![](scosoft_logo_main.png?raw=true)
 ## Company Name: ScoSoft
 ## Game Name: Scoto
 
