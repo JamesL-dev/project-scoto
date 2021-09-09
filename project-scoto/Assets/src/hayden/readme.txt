@@ -1,1 +1,1 @@
-i added my own readme
+i am creating the enemies as well as the player flashlight and how that affects them
