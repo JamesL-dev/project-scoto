@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LoadRoom : MonoBehaviour {
-    public BaseEnemy enemy;
+    public GameObject enemy;
 
     private void Start() {
         enemy = Instantiate(enemy);
