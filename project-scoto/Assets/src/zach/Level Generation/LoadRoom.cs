@@ -6,7 +6,6 @@ public class LoadRoom : MonoBehaviour {
     public BaseEnemy enemy;
 
     private void Start() {
-        enemy = new BaseEnemy(Vector3.forward);
         enemy = Instantiate(enemy);
     }
 }
