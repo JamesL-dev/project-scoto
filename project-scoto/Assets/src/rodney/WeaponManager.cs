@@ -5,9 +5,9 @@ using UnityEngine;
 public class WeaponManager : MonoBehaviour
 {
     public int CurrentWeapon = 0;
-    public bool EnableAttack = 0;
-    public bool BowFound = 0;
-    public bool TridentFound = 0;
+    public bool EnableAttack = false;
+    public bool BowFound = false;
+    public bool TridentFound = false;
     public int FireAmount = 0;
     
     // Start is called before the first frame update
