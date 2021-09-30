@@ -1067,6 +1067,30 @@ Transform:
   m_Father: {fileID: 685583357}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1479577818 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100002, guid: 022a72268e462114788abcf0c0b07418, type: 3}
+  m_PrefabInstance: {fileID: 962924732}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1479577819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1479577818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d304cb104a85b40a2d960b3ab5a50d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentWeapon: 0
+  EnableAttack: 0
+  BowFound: 0
+  TridentFound: 0
+  FireAmount: 0
+  timer: 0
+  TIMER_MAX: 50
 --- !u!1 &1628193703
 GameObject:
   m_ObjectHideFlags: 0
