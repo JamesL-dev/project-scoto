@@ -37,9 +37,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _Parallax: 0.005
-    - _Shininess: 0.24853565
+    - _Shininess: 0.275
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ReflectColor: {r: 1, g: 1, b: 1, a: 0.5}
-    - _SpecColor: {r: 0.1646136, g: 0.1882353, b: 0.16474521, a: 1}
+    - _SpecColor: {r: 0.20478816, g: 0.24528301, b: 0.20478816, a: 1}
   m_BuildTextureStacks: []
