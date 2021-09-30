@@ -1,5 +1,5 @@
 {
-    "name": "FireWeapon",
+    "name": "WeaponInputActions",
     "maps": [
         {
             "name": "Player",
@@ -10,6 +10,14 @@
                     "type": "Button",
                     "id": "9e538d25-1eef-44af-9dec-49dfdf9535fc",
                     "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ChangeWeapon",
+                    "type": "Value",
+                    "id": "3db17be7-9f98-4d2c-b171-352158c95334",
+                    "expectedControlType": "Integer",
                     "processors": "",
                     "interactions": ""
                 }
@@ -23,6 +31,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "FireWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44751eee-802c-4a0e-a325-bc3839360911",
+                    "path": "*/{ScrollVertical}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

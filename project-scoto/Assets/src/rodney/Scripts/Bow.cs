@@ -7,12 +7,7 @@ public class Bow : WeaponSuperclass
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        MAX_TIME = 10; 
+        weapon = GameObject.Find ("Bow");
     }
 }
