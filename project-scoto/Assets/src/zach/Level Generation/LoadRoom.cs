@@ -6,6 +6,7 @@ public class LoadRoom : MonoBehaviour {
     public GameObject enemy;
 
     private void Start() {
-        enemy = Instantiate(enemy);
+        enemy = Instantiate(enemy, this.transform);
+        enemy.transform.position += 5 * Vector3.forward;
     }
 }
