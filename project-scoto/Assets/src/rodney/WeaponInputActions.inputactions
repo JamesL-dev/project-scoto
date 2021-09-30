@@ -1,0 +1,33 @@
+{
+    "name": "FireWeapon",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "ff3e015a-7bf9-4eba-9c70-009f98e97ee6",
+            "actions": [
+                {
+                    "name": "FireWeapon",
+                    "type": "Button",
+                    "id": "9e538d25-1eef-44af-9dec-49dfdf9535fc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "15d3c645-ce53-4e1b-8627-cc0c2892aca2",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FireWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
