@@ -19,8 +19,8 @@ public class powerupScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.Rotate(new Vector3(1f, 0f, 0f));
 
-    
     }
 
     // Object destroyed when player collides with
