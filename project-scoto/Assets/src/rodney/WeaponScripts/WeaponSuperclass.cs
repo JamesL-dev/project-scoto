@@ -21,7 +21,11 @@ public class WeaponSuperclass : MonoBehaviour
         
     }
 
-    void SpawnProjectile() {
+    public void SpawnProjectile() {
         Instantiate(projectile);
+    }
+
+    public void SpawnProjectile(Vector3 position, Quaternion rotation) {
+        Instantiate(projectile, position, rotation);
     }
 }
