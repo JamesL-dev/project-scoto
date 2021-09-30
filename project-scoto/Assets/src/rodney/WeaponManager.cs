@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class WeaponManager : MonoBehaviour
-{
+public class WeaponManager : MonoBehaviour {
     public int CurrentWeapon = 0;
     public bool EnableAttack = true;
     public bool BowFound = false;
@@ -16,6 +15,8 @@ public class WeaponManager : MonoBehaviour
     
     private WeaponInputActions weapon_input_actions;
     private InputAction FireWeapon;
+
+    public Bow bow;
     
     private void Awake() {
         weapon_input_actions = new WeaponInputActions();
@@ -31,8 +32,7 @@ public class WeaponManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         if(FireWeapon.ReadValue<float>() != 0 && EnableAttack == true) {
             FireBow();
             EnableAttack = false;
@@ -46,8 +46,8 @@ public class WeaponManager : MonoBehaviour
         }
     }
 
-    public static void FireBow()
-    {
+    public static void FireBow() {
         Debug.Log("Fired Bow");
+        //BOW.GetComponent<WeaponSuperclass>().SpawnProjectile();
     }
 }
