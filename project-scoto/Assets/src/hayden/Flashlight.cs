@@ -9,6 +9,8 @@
         [SerializeField] private int m_maxBatteryLevel;
         [SerializeField] private float m_timeBetwenFlashlightDeplete;
         [SerializeField] private int m_flashlightDepleteAmnt;
+        [SerializeField] private AudioSource clickOnSound;
+        [SerializeField] private AudioSource clickOffSound;
         private int m_batteryLevel;
         private bool m_isFlashlightOn;
         private bool m_isBatteryZero;
@@ -58,12 +60,12 @@
             if (m_isFlashlightOn)
             {
                 m_isFlashlightOn = false;
-                // play sound
+                clickOffSound.Play();
             }
             else
             {
                 m_isFlashlightOn = true;
-                // play sound
+                clickOnSound.Play();
             }
         }
 
