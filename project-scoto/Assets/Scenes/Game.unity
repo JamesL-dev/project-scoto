@@ -278,7 +278,7 @@ GameObject:
   m_Component:
   - component: {fileID: 263810675}
   - component: {fileID: 263810676}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GreekFireContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -400,6 +400,10 @@ PrefabInstance:
       value: GreekFire
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 5528b5a385dd26b45bbc7a0729da9522, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 5528b5a385dd26b45bbc7a0729da9522, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -465,7 +469,7 @@ GameObject:
   - component: {fileID: 685583357}
   - component: {fileID: 685583359}
   - component: {fileID: 685583358}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -539,7 +543,7 @@ GameObject:
   m_Component:
   - component: {fileID: 789693168}
   - component: {fileID: 789693169}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: BowContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -586,7 +590,7 @@ GameObject:
   - component: {fileID: 827849452}
   - component: {fileID: 827849455}
   - component: {fileID: 827849454}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -698,7 +702,7 @@ GameObject:
   m_Component:
   - component: {fileID: 934037106}
   - component: {fileID: 934037105}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -788,9 +792,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 789693168}
     m_Modifications:
+    - target: {fileID: 100000, guid: 022a72268e462114788abcf0c0b07418, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 022a72268e462114788abcf0c0b07418, type: 3}
       propertyPath: m_Name
       value: Bow
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 022a72268e462114788abcf0c0b07418, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: 022a72268e462114788abcf0c0b07418, type: 3}
       propertyPath: m_IsActive
@@ -929,7 +941,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1109267617}
   - component: {fileID: 1109267618}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Flashlight Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1202,7 +1214,7 @@ GameObject:
   - component: {fileID: 1452576986}
   - component: {fileID: 1452576985}
   - component: {fileID: 1452576984}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -1465,7 +1477,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1785261553}
   - component: {fileID: 1785261554}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Weapons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
