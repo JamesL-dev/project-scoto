@@ -105,7 +105,11 @@ public class BaseEnemy : MonoBehaviour
     {
         //Make sure enemy doesn't move
         m_agent.SetDestination(transform.position);
-        transform.LookAt(m_player);
+
+        // freezes x axis rotation, so weird glitching doesnt happen
+        Vector3 playerCoords = m_player.transform.position;
+        playerCoords.y = transform.position.y;
+        transform.LookAt(playerCoords);
 
         if (!m_alreadyAttacked)
         {
