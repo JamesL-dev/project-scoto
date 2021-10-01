@@ -9,8 +9,9 @@
         [SerializeField] private int m_maxBatteryLevel;
         [SerializeField] private float m_timeBetwenFlashlightDeplete;
         [SerializeField] private int m_flashlightDepleteAmnt;
-        [SerializeField] private AudioSource clickOnSound;
-        [SerializeField] private AudioSource clickOffSound;
+        [SerializeField] private AudioSource m_clickOnSound;
+        [SerializeField] private AudioSource m_clickOffSound;
+        [SerializeField] private Light m_light;
         private int m_batteryLevel;
         private bool m_isFlashlightOn;
         private bool m_isBatteryZero;
@@ -22,6 +23,7 @@
         {
             m_batteryLevel = m_maxBatteryLevel;
             m_isFlashlightOn = true;
+            m_light.enabled = false;
             m_isBatteryZero = false;
             m_currentlyDepleting = false;
         }
@@ -35,7 +37,14 @@
                 m_currentlyDepleting = true;
             }
 
-            Debug.Log(m_batteryLevel);
+            if (m_isFlashlightOn && !m_isBatteryZero)
+            {
+                m_light.enabled = true;
+            }
+            else
+            {
+                m_light.enabled = false;
+            }
         }
 
         public bool AddBattery(int chargeAmount)
@@ -60,12 +69,12 @@
             if (m_isFlashlightOn)
             {
                 m_isFlashlightOn = false;
-                clickOffSound.Play();
+                m_clickOffSound.Play();
             }
             else
             {
                 m_isFlashlightOn = true;
-                clickOnSound.Play();
+                m_clickOnSound.Play();
             }
         }
 
