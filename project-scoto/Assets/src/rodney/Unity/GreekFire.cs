@@ -6,7 +6,6 @@ public class GreekFire : WeaponSuperclass
 {
     void Start()
     {
-        MAX_TIME = 5; 
-        weapon = GameObject.Find ("GreekFire");   
+        MAX_TIME = 5;  
     }
 }
