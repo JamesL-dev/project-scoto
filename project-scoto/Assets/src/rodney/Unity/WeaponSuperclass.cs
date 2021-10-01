@@ -6,14 +6,14 @@ public class WeaponSuperclass : MonoBehaviour
 {
     protected int Damage = 0;
     protected static int MAX_TIME = 30;
-    protected bool IsActive = true;
+    protected bool IsActive = false;
     
     public GameObject weapon = null;
     public GameObject projectile = null;
 
     public void setActive(bool yes) {
-        if (yes) {weapon.SetActive(true); IsActive = true;}
-        if (!yes) {weapon.SetActive(false); IsActive = false;}
+        weapon.SetActive(yes);
+        IsActive = yes;
     }
 
     public bool isActive() { return IsActive; }
