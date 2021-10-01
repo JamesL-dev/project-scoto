@@ -1,24 +1,124 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BaseEnemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    private Vector3 m_position;
-    BaseEnemy(Vector3 position)
+    [SerializeField] protected float m_health;
+    [SerializeField] protected float m_speed;
+
+    [SerializeField] protected float m_sightRange;
+    [SerializeField] protected float m_attackRange;
+    [SerializeField] protected float m_walkPointRange;
+
+    [SerializeField] protected float m_timeBetweenAttacks;
+
+    [SerializeField] protected LayerMask m_groundMask;
+    [SerializeField] protected LayerMask m_playerMask;
+
+    [SerializeField] protected NavMeshAgent m_agent;
+    [SerializeField] protected Transform m_player;
+
+    protected Vector3 m_walkPoint;
+    protected bool m_walkPointSet;
+    protected bool m_alreadyAttacked;
+    protected bool m_playerInSightRange, m_playerInAttackRange;
+
+
+
+    private void Awake()
     {
-        // spawn at that position
-        
-    }
-    void Start()
-    {
-        
+        m_player = GameObject.Find("Player").transform;
+        m_agent = GetComponent<NavMeshAgent>();
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        m_agent.speed = m_speed;
+
+    }
+
+    private void Update()
+    {
+        //Check for sight and attack range
+        m_playerInSightRange = Physics.CheckSphere(transform.position, m_sightRange, m_playerMask);
+        m_playerInAttackRange = Physics.CheckSphere(transform.position, m_attackRange, m_playerMask);
+
+        if (!m_playerInSightRange && !m_playerInAttackRange) Patrol();
+        if (m_playerInSightRange && !m_playerInAttackRange) ChasePlayer();
+        if (m_playerInAttackRange && m_playerInSightRange) Attack();
+    }
+
+    // does not see player, so randomly walks around
+    private void Patrol()
+    {
+        if (!m_walkPointSet) CreateWalkPoint();
+
+        if (m_walkPointSet)
+            m_agent.SetDestination(m_walkPoint);
+
+        Vector3 distanceToWalkPoint = transform.position - m_walkPoint;
+
+        //Walkpoint reached
+        if (distanceToWalkPoint.magnitude < 1f)
+            m_walkPointSet = false;
+    }
+
+    // sees player, so chases player
+    private void ChasePlayer()
+    {
+        m_agent.SetDestination(m_player.position);
+    }
+
+    private void CreateWalkPoint()
+    {
+        //Calculate random point in range
+        float randomZ = Random.Range(-m_walkPointRange, m_walkPointRange);
+        float randomX = Random.Range(-m_walkPointRange, m_walkPointRange);
+
+        m_walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+
+        if (Physics.Raycast(m_walkPoint, -transform.up, 2f, m_groundMask))
+            m_walkPointSet = true;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        m_health -= damage;
+
+        // Destroy enemy in a half a second
+        if (m_health <= 0) Invoke(nameof(Die), 0.5f);
+    }
+    private void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    private void ResetAttack()
+    {
+        m_alreadyAttacked = false;
+    }
+
+    private void Attack()
+    {
+        //Make sure enemy doesn't move
+        m_agent.SetDestination(transform.position);
+        transform.LookAt(m_player);
+
+        if (!m_alreadyAttacked)
+        {
+            ///Attack code here
+
+            m_alreadyAttacked = true;
+
+            // call reset attack after a certain amount of time
+            Invoke(nameof(ResetAttack), m_timeBetweenAttacks);
+        }
+    }
+
+    private void CowerAway()
+    {
     }
 }
