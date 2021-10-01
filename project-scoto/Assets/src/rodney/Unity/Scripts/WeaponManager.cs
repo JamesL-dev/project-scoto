@@ -21,6 +21,7 @@ public class WeaponManager : MonoBehaviour {
     
     public Bow bow;
     public GreekFire greekFire;
+    public Trident trident;
 
     private void Awake() {
         weapon_input_actions = new WeaponInputActions();
@@ -53,12 +54,9 @@ public class WeaponManager : MonoBehaviour {
             EnableAttack = false;
             timer = bow.Time();
         }
-        if(EnableAttack == false && timer > 0) {
-            timer --;
-        }
-        if(EnableAttack == false && timer == 0) {
-            EnableAttack = true;
-        }
+        
+        if(EnableAttack == false && timer > 0) { timer --; }
+        if(EnableAttack == false && timer == 0) { EnableAttack = true; }
 
         // CONTROL INVENTORY
         float ChangeWeaponVal = ChangeWeapon.ReadValue<float>();
@@ -70,6 +68,8 @@ public class WeaponManager : MonoBehaviour {
             CurrentWeapon --;
             if (CurrentWeapon <= 0) {CurrentWeapon = InvSize;}
         }
+
+        // INVENTORY DEBUG
         Text debug_ = GameObject.Find ("Current Inv Slot").GetComponent<Text>();
         debug_.text = CurrentWeapon.ToString();
         
@@ -78,6 +78,9 @@ public class WeaponManager : MonoBehaviour {
 
         if(CurrentWeapon == 2 && EnableAttack == true && greekFire.isActive() == false) {greekFire.setActive(true);}
         if(CurrentWeapon != 2 && EnableAttack == true && greekFire.isActive() == true) {greekFire.setActive(false);}
+
+        if(CurrentWeapon == 3 && EnableAttack == true && trident.isActive() == false) {trident.setActive(true);}
+        if(CurrentWeapon != 3 && EnableAttack == true && trident.isActive() == true) {trident.setActive(false);}
 
     }
 
