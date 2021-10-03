@@ -7,6 +7,7 @@ public class BaseEnemy : MonoBehaviour
 {
     [SerializeField] protected float m_health;
     [SerializeField] protected float m_speed;
+    [SerializeField] protected float m_maxHealth;
 
     [SerializeField] protected float m_sightRange;
     [SerializeField] protected float m_attackRange;
@@ -26,6 +27,9 @@ public class BaseEnemy : MonoBehaviour
     protected bool m_playerInSightRange, m_playerInAttackRange;
 
 
+    public float GetHealth() {return m_health;}
+    public float GetMaxHealth() {return m_maxHealth;}
+    public float GetAttackRange() {return m_attackRange;}
 
     private void Awake()
     {
@@ -84,16 +88,32 @@ public class BaseEnemy : MonoBehaviour
             m_walkPointSet = true;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         m_health -= damage;
+    
+        if (m_health <= 0)
+        {
+            m_health = 0;
 
-        // Destroy enemy in a half a second
-        if (m_health <= 0) Invoke(nameof(Die), 0.5f);
+            // Destroy enemy in a half a second
+            Invoke(nameof(Die), 0.5f);
+        }
     }
+
+    public void TakeHealth(float health)
+    {
+        m_health += health;
+
+        if (m_health > m_maxHealth)
+        {
+            m_health = m_maxHealth;
+        }
+    }
+
     private void Die()
     {
-        Destroy(gameObject);
+        // DestroyImmediate(gameObject, true);
     }
 
     private void ResetAttack()
@@ -110,6 +130,8 @@ public class BaseEnemy : MonoBehaviour
         Vector3 playerCoords = m_player.transform.position;
         playerCoords.y = transform.position.y;
         transform.LookAt(playerCoords);
+
+        Debug.Log("Attacking");
 
         if (!m_alreadyAttacked)
         {
