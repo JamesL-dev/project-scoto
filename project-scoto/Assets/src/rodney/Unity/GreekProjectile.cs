@@ -4,19 +4,30 @@ using UnityEngine;
 
 public class GreekProjectile : MonoBehaviour
 {
-    public float velocity = 1F;
+    float velocity_scalar = .2F;
     public bool destroy = true;
-    public int MAX_TIME = 90;
+    public int MAX_TIME = 120;
 
+    Vector3 acceleration = new Vector3(0.0F,-0.001F,0.0F);
+    Vector3 velocity = new Vector3(0,0,0);
 
     int timer = 0;
 
+    void Awake() {
+        velocity = gameObject.transform.rotation*Quaternion.Euler(80,0,0) * Vector3.up * velocity_scalar;
+    }
+
     void FixedUpdate() {
-        gameObject.transform.position += gameObject.transform.rotation*Quaternion.Euler(90,0,0) * Vector3.up * velocity;
+        gameObject.transform.position += velocity ;
+        velocity += acceleration;
         
         if(destroy) {
             timer ++;
             if(timer > MAX_TIME) {Destroy(gameObject);}
         }
+    }
+
+    void OnCollisionEnter(Collision other) {
+        Debug.Log("Grenade collision occured");
     }
 }

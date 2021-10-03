@@ -54,13 +54,14 @@ public class WeaponManager : MonoBehaviour {
             switch(CurrentWeapon) {
                 case 1:
                     FireBow();
+                    timer = bow.Time();
                     break;
                 case 2:
                     FireGreek();
+                    timer = greekFire.Time();
                     break;
             }
             EnableAttack = false;
-            timer = bow.Time();
         }
         
         if(EnableAttack == false && timer > 0) { timer --; }
