@@ -5,10 +5,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour {
     // Variables
-    public float jump_force, move_speed, gravity, friction, sprint_multiplier;
+    public float jump_force, move_speed, gravity, friction, sprint_multiplier, air_control_multiplier;
     public Vector2 mouse_sens;
-    private Vector3 player_vel, velocity; // player_vel is relative to the player, velocity is absolute
-    private bool is_grounded;
+    private Vector3 velocity;
     private float x_rotation = 0f;
     private Vector2 movement_value, mouse_value;
     private float jump_value, sprinting_value;
@@ -64,39 +63,50 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        move_player();
+    }
+
+    private void move_player() {
         // Apply gravity.
-        player_vel.y += gravity;
+        velocity.y += gravity;
 
         // Check if player is grounded.
-        is_grounded = Physics.CheckSphere(transform.position, 0.1f, ground_mask);
+        bool is_grounded = Physics.CheckSphere(transform.position, 0.1f, ground_mask);
         if (is_grounded) {
-            // Update player's relative velocity.
-            player_vel.x += movement_value.x * move_speed;
-            player_vel.x *= friction;
-            if (sprinting_value > 0 && player_vel.z > 0) {
-                player_vel.z += movement_value.y * move_speed * sprint_multiplier;
-            } else {
-                player_vel.z += movement_value.y * move_speed;
-            }
-            player_vel.z *= friction;
-            
             // Stop falling.
-            if (player_vel.y < 0) {
-                player_vel.y = 0f;
-
+            if (velocity.y < 0) {
+                velocity.y = 0;
             }
 
-            // Jump.
+            // If jump is pressed, jump.
             if (jump_value > 0) {
-                player_vel.y = jump_force;
+                velocity.y = jump_force;
             }
         }
 
-        // Update velocity and move player.
-        float angle_radians = transform.eulerAngles.y * Mathf.Deg2Rad;
-        velocity.x = (Mathf.Cos(angle_radians) * player_vel.x) + (Mathf.Sin(angle_radians) * player_vel.z);
-        velocity.y = player_vel.y;
-        velocity.z = (Mathf.Sin(angle_radians) * player_vel.x * -1f) + (Mathf.Cos(angle_radians) * player_vel.z);
+        // Do horizontal movement and move player.
+        horizontal_movement();
         controller.Move(velocity);
+    }
+
+    private void horizontal_movement() {
+        // Calculate horizontal movement relative to the player.
+        Vector3 player_move = Vector3.zero;
+        player_move.x = movement_value.x * move_speed;
+        if (sprinting_value > 0 && movement_value.y > 0) {
+            player_move.z = movement_value.y * move_speed * sprint_multiplier;
+        } else {
+            player_move.z = movement_value.y * move_speed;
+        }
+
+        // Convert player movement to absolute movement.
+        float angle_radians = transform.eulerAngles.y * Mathf.Deg2Rad;
+        Vector3 abs_move = Vector3.zero;
+        abs_move.x = (Mathf.Cos(angle_radians) * player_move.x) + (Mathf.Sin(angle_radians) * player_move.z);
+        abs_move.z = (Mathf.Sin(angle_radians) * player_move.x * -1f) + (Mathf.Cos(angle_radians) * player_move.z);
+
+        // Update horizontal velocity.
+        velocity.x = (velocity.x + abs_move.x) * friction;
+        velocity.z = (velocity.z + abs_move.z) * friction;
     }
 }
