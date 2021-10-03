@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class Bow : WeaponSuperclass {    
     void Start() {
-        MAX_TIME = 10; 
+        MAX_TIME = 5; 
     }
 }

@@ -17,7 +17,47 @@
                     "name": "ChangeWeapon",
                     "type": "Value",
                     "id": "3db17be7-9f98-4d2c-b171-352158c95334",
-                    "expectedControlType": "Integer",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "one",
+                    "type": "Button",
+                    "id": "979e847e-8f9b-49a3-8daa-fec58c325373",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "two",
+                    "type": "Button",
+                    "id": "f50224e3-7db7-4242-a0d2-25db239b4df5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "three",
+                    "type": "Button",
+                    "id": "9cff9bc0-d50b-4bc3-a448-e3b66e2cbf56",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "four",
+                    "type": "Button",
+                    "id": "cc602b2c-dfc9-4a52-8427-c6552139f0cb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DEBUGGING",
+                    "type": "Button",
+                    "id": "d9837a73-6adf-4a2b-8fe8-eb383bde259b",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -42,6 +82,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "ChangeWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "709ddf3b-833a-4eb1-8943-86e7cf3bde5a",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "one",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "20b23d93-1ee3-4f41-8a7f-fcedadfb6675",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "two",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "712c755c-dc31-45ee-8f84-918363ab77c4",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "three",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b33ff137-d4a2-493a-9e98-c8957679710a",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "four",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c1e49321-fd84-4646-bbe7-a92a027ff307",
+                    "path": "<Keyboard>/h",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DEBUGGING",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
