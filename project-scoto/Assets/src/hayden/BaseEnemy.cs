@@ -131,8 +131,6 @@ public class BaseEnemy : MonoBehaviour
         playerCoords.y = transform.position.y;
         transform.LookAt(playerCoords);
 
-        Debug.Log("Attacking");
-
         if (!m_alreadyAttacked)
         {
             ///Attack code here

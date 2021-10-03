@@ -26,7 +26,7 @@ public class EnemyMoveToPlayerTest
         float expectedActualDiff = Mathf.Abs(expectedEnemyDistance - 
                                             Vector3.Distance(playerCoords, enemyCoords));
         
-        Assert.IsTrue(expectedActualDiff < 1);
+        Assert.IsTrue(expectedActualDiff < 1); // allowing for some discrepancy
 
         // see if enemy is in attack range of player
         yield return null;

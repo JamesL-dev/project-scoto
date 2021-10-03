@@ -14,4 +14,5 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Tests/PlayMode/haydenPlayMode/enemyMovementTestScene.unity
     guid: be94f6ed21a52bd40b7f7e1b35761cca
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 5014deb25feeaa9429613361155004f4, type: 2}
