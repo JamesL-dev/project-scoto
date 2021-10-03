@@ -5,7 +5,7 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     float velocity_scalar = .2F;
-    bool destroy = true;
+    bool timer_on = true, in_ground = false, in_enemy = false;
     int MAX_TIME = 180;
 
     Vector3 acceleration = new Vector3(0.0F,-0.0001F,0.0F);
@@ -19,16 +19,28 @@ public class Arrow : MonoBehaviour
     }
 
     void FixedUpdate() {
-        gameObject.transform.position += velocity ;
-        velocity += acceleration;
+        if(!in_ground && !in_enemy) {
+            gameObject.transform.position += velocity ;
+            velocity += acceleration;
+        }
 
-        if(destroy) {
+        if(timer_on) {
             timer ++;
             if(timer > MAX_TIME) {Destroy(gameObject);}
         }
     }
 
-    void OnCollisionEnter(Collision other) {
-        Debug.Log("Arrow collision occured");
+    void OnTriggerEnter(Collider other) {
+        Debug.Log("Collision occured with layer " + other.gameObject.layer.ToString());
+
+        if(other.gameObject.layer == LayerMask.NameToLayer("Default")) {   
+            Debug.Log("Collision with default layer");
+            in_enemy = true;
+        }
+
+        if(other.gameObject.layer == LayerMask.NameToLayer("Ground")) {   
+            Debug.Log("Collision with ground layer");
+            in_ground = true;
+        }
     }
 }

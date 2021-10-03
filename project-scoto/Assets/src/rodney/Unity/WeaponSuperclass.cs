@@ -5,7 +5,7 @@ using UnityEngine;
 public class WeaponSuperclass : MonoBehaviour
 {
     protected int Damage = 0;
-    protected int MAX_TIME = 30;
+    protected int MAX_TIME = 15;
     protected bool IsActive = false;
     
     public GameObject weapon = null;

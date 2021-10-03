@@ -69,6 +69,14 @@ public class WeaponManager : MonoBehaviour {
                         FireGreek();
                         timer = greekFire.Time();
                         break;
+                    case 3:
+                        // DO NOTHING
+                        break;
+                    case 4:
+                        // FLASHLIGHT ACTIVATION FUNCTION
+                        break;
+                    default:
+                        break;
                 }
                 FiringWeapons = true;
             }
@@ -92,10 +100,6 @@ public class WeaponManager : MonoBehaviour {
             if (two.ReadValue<float>() != 0) {CurrentWeapon = 2; WeaponChanged = true;}
             if (three.ReadValue<float>() != 0) {CurrentWeapon = 3; WeaponChanged = true;}
             if (four.ReadValue<float>() != 0) {CurrentWeapon = 4; WeaponChanged = true;}
-
-            // INVENTORY DEBUG
-            // Text debug_ = GameObject.Find ("Current Inv Slot").GetComponent<Text>();
-            // debug_.text = CurrentWeapon.ToString();
             
             // CHANGE DISPLAYED WEAPON / ITEM
             if(WeaponChanged) {
@@ -189,7 +193,8 @@ public class WeaponManager : MonoBehaviour {
 
     public void FireBow() {
         GameObject Object = GameObject.FindGameObjectWithTag("MainCamera");
-        bow.SpawnProjectile(Object.transform.position, Object.transform.rotation*Quaternion.Euler(-90,0,0));
+        Quaternion rotation = Object.transform.rotation*Quaternion.Euler(-90,0,0);
+        bow.SpawnProjectile(Object.transform.position - rotation*Vector3.up*2.5F, rotation);
     }
 
     public void FireGreek() {
