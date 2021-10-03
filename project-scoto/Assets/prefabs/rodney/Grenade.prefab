@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 33965599697136672}
   - component: {fileID: 23022011092513436}
   - component: {fileID: 7453885477446329778}
+  - component: {fileID: 232105710275672067}
   m_Layer: 0
-  m_Name: grenade_lowpoly_prefab
+  m_Name: Grenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,3 +98,16 @@ MonoBehaviour:
   velocity: 0.5
   destroy: 1
   MAX_TIME: 90
+--- !u!135 &232105710275672067
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415556611663978}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.056450196
+  m_Center: {x: -0.0009902306, y: 0.056450196, z: 0.00051543314}
