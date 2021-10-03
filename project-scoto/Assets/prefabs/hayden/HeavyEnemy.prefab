@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: -4048956666575139114}
   - component: {fileID: -9180886961795753466}
   - component: {fileID: -7612911845198390136}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Pants_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 2299342971937255085}
   - component: {fileID: 2485197445601547346}
   - component: {fileID: -5307875529818561819}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Teeth_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 896073787764023951}
   - component: {fileID: -7091069780226137594}
   - component: {fileID: 3622005133013704946}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Eyes_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 8525202082881500963}
   - component: {fileID: -6015668238524459212}
   - component: {fileID: -6941910184180802337}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body_mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 2951970819275964355}
   - component: {fileID: 4477536861545633307}
   - component: {fileID: 7107980730941618630}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HeavyEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -418,7 +418,7 @@ MonoBehaviour:
   m_timeBetweenAttacks: 0
   m_groundMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
   m_playerMask:
     serializedVersion: 2
     m_Bits: 128
