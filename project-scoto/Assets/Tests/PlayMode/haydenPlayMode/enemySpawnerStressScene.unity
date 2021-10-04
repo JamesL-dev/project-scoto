@@ -1701,6 +1701,14 @@ PrefabInstance:
       value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 7107980730941618630, guid: 6b6903acb9a055549acc10cb76804bce, type: 3}
+      propertyPath: m_health
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7107980730941618630, guid: 6b6903acb9a055549acc10cb76804bce, type: 3}
+      propertyPath: m_maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7107980730941618630, guid: 6b6903acb9a055549acc10cb76804bce, type: 3}
       propertyPath: m_sightRange
       value: 500
       objectReference: {fileID: 0}

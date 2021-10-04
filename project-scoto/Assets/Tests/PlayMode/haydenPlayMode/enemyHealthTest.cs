@@ -17,6 +17,14 @@ public class EnemyHealthTest
 
         heavyEnemy.TakeDamage(heavyEnemy.GetMaxHealth() + 100);
         Assert.AreEqual(0, heavyEnemy.GetHealth());
+
+        heavyEnemy.TakeHealth(heavyEnemy.GetMaxHealth());
+        heavyEnemy.TakeDamage(heavyEnemy.GetMaxHealth());
+        Assert.AreEqual(0, heavyEnemy.GetHealth());
+
+        heavyEnemy.TakeHealth(heavyEnemy.GetMaxHealth());
+        heavyEnemy.TakeDamage(heavyEnemy.GetMaxHealth()-1);
+        Assert.IsTrue(heavyEnemy.GetHealth() > 0);
         yield return null;
     }
 
@@ -27,6 +35,15 @@ public class EnemyHealthTest
 
         heavyEnemy.TakeHealth(heavyEnemy.GetMaxHealth() + 100);
         Assert.AreEqual(heavyEnemy.GetMaxHealth(), heavyEnemy.GetHealth());
+
+        heavyEnemy.TakeDamage(heavyEnemy.GetMaxHealth());
+        heavyEnemy.TakeHealth(heavyEnemy.GetMaxHealth());
+        Assert.AreEqual(heavyEnemy.GetMaxHealth(), heavyEnemy.GetHealth());
+
+        heavyEnemy.TakeDamage(1000);
+        yield return null;
+        Debug.Log(heavyEnemy.GetMaxHealth());
+        Assert.IsTrue(heavyEnemy.GetHealth() < heavyEnemy.GetMaxHealth());
         yield return null;
     }
 }
