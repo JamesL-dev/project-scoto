@@ -573,7 +573,7 @@ MonoBehaviour:
   friction: 0.8
   sprint_multiplier: 2
   air_control_multiplier: 0.5
-  mouse_sens: {x: 100, y: 0.4}
+  mouse_sens: {x: 0.4, y: 0.4}
   ground_mask:
     serializedVersion: 2
     m_Bits: 64
