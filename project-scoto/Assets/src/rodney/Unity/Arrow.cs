@@ -14,31 +14,38 @@ public class Arrow : MonoBehaviour
     int timer = 0;
 
 
-    void Awake() {
+    void Awake() 
+    {
         velocity = -(gameObject.transform.rotation * Vector3.up * velocity_scalar);
     }
 
-    void FixedUpdate() {
-        if(!in_ground && !in_enemy) {
+    void FixedUpdate() 
+    {
+        if(!in_ground && !in_enemy) 
+        {
             gameObject.transform.position += velocity ;
             velocity += acceleration;
         }
 
-        if(timer_on) {
+        if(timer_on) 
+        {
             timer ++;
             if(timer > MAX_TIME) {Destroy(gameObject);}
         }
     }
 
-    void OnTriggerEnter(Collider other) {
-        Debug.Log("Collision occured with layer " + other.gameObject.layer.ToString());
+    void OnTriggerEnter(Collider other) 
+    {
+        if(other.gameObject.layer != 7) { Debug.Log("Collision occured with layer " + other.gameObject.layer.ToString());}
 
-        if(other.gameObject.layer == LayerMask.NameToLayer("Default")) {   
+        if(other.gameObject.layer == LayerMask.NameToLayer("Default")) 
+        {   
             Debug.Log("Collision with default layer");
             in_enemy = true;
         }
 
-        if(other.gameObject.layer == LayerMask.NameToLayer("Ground")) {   
+        if(other.gameObject.layer == LayerMask.NameToLayer("Ground")) 
+        {   
             Debug.Log("Collision with ground layer");
             in_ground = true;
         }

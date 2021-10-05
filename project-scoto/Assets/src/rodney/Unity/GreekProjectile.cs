@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GreekProjectile : MonoBehaviour
 {
-    float velocity_scalar = .2F;
+    float velocity_scalar = .4F;
     public bool destroy = true;
     int MAX_TIME = 180;
 
@@ -15,21 +15,22 @@ public class GreekProjectile : MonoBehaviour
 
     int timer = 0;
 
-    void Awake() {
-        velocity = gameObject.transform.rotation*Quaternion.Euler(80,0,0) * Vector3.up * velocity_scalar;
-    }
+    void Awake() { velocity = gameObject.transform.rotation*Quaternion.Euler(80,0,0) * Vector3.up * velocity_scalar; }
 
-    void FixedUpdate() {
+    void FixedUpdate() 
+    {
         gameObject.transform.position += velocity ;
         velocity += acceleration;
         
-        if(destroy) {
+        if(destroy) 
+        {
             timer ++;
             if(timer > MAX_TIME) {Instantiate(FireExplosion, gameObject.transform.position, gameObject.transform.rotation); Destroy(gameObject);}
         }
     }
 
-    void OnCollisionEnter(Collision other) {
+    void OnCollisionEnter(Collision other) 
+    {
         Debug.Log("Grenade collision occured");
     }
 }
