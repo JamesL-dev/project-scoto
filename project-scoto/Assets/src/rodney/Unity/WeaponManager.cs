@@ -9,7 +9,7 @@ public class WeaponManager : MonoBehaviour
     int CurrentWeapon = 0, timer = 0, previous_index = 0, InvSize = 4;
     public int FireAmount = 0;
     
-    bool FiringWeapons = false, ShowWeapons = true, SwapShowWeapons = false;
+    bool FiringWeapons = false, ShowWeapons = true, SwapShowWeapons = false, error = false;
 
     private WeaponInputActions weapon_input_actions;
     private InputAction FireWeapon, ChangeWeapon, one, two, three, four;
@@ -54,20 +54,42 @@ public class WeaponManager : MonoBehaviour
                 { 
                     CurrentWeapon ++;
                     if (CurrentWeapon >= InvSize) {CurrentWeapon = 0;}
+                    error = false;
                     while(!weapon[CurrentWeapon].isFound())
                     {
                         CurrentWeapon ++;
-                        if (CurrentWeapon >= InvSize) {CurrentWeapon = 0;}
+                        if (CurrentWeapon >= InvSize) 
+                        {
+                            CurrentWeapon = 0; 
+                            if(error) 
+                            {
+                                Debug.LogError("No weapon in inventory is set to discovered, this can't happen. Setting weapon[0] to discovered.");
+                                weapon[0].setDiscovered();
+                                break;
+                            }
+                            error = true;
+                        }
                     }
                 }
                 if(ChangeWeaponVal > 0) 
                 {
                     CurrentWeapon --;
                     if (CurrentWeapon < 0) {CurrentWeapon = InvSize-1;}
+                    error = false;
                     while(!weapon[CurrentWeapon].isFound())
                     {
                         CurrentWeapon --;
-                        if (CurrentWeapon < 0) {CurrentWeapon = InvSize-1;}
+                        if (CurrentWeapon < 0) 
+                        {
+                            CurrentWeapon = InvSize-1;
+                            if(error)
+                            {
+                                Debug.LogError("No weapon in inventory is set to discovered, this can't happen. Setting weapon[0] to discovered.");
+                                weapon[0].setDiscovered();
+                                break;
+                            } 
+                            error = true;                      
+                        }
                     }
                 }
 
@@ -97,8 +119,25 @@ public class WeaponManager : MonoBehaviour
                         CurrentWeapon = previous_index;
                     }
                 }
-            }
 
+                // ERROR CHECK
+                error = false;
+                while(!weapon[CurrentWeapon].isFound())
+                    {
+                        CurrentWeapon ++;
+                        if (CurrentWeapon >= InvSize) 
+                        {
+                            CurrentWeapon = 0; 
+                            if(error) 
+                            {
+                                Debug.LogError("No weapon in inventory is set to discovered, this can't happen. Setting weapon[0] to discovered.");
+                                weapon[0].setDiscovered();
+                                break;
+                            }
+                            error = true;
+                        }
+                    }
+            }
         } 
         else 
         { 
