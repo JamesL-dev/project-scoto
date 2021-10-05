@@ -6,6 +6,7 @@ public class GreekFire : Weapon
 {
     void Start()
     {
-        MAX_TIME = 10;  
+        MAX_TIME = 10;
+        discovered = true;
     }
 }

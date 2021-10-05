@@ -7,6 +7,7 @@ public class Bow : Weapon
     void Start() 
     {
         MAX_TIME = 10; 
+        discovered = true;
     }
 
     public override void Fire(Vector3 position, Quaternion rotation) 
