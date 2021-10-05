@@ -16,6 +16,7 @@ TagManager:
   - UI
   - Ground
   - Player
+  - Enemy
   - FireLayer
   - 
   - 

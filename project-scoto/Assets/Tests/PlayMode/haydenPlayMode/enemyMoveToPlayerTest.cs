@@ -11,7 +11,7 @@ public class EnemyMoveToPlayerTest
     public IEnumerator EnemyCloseToPlayer()
     {
         SceneManager.LoadScene("enemyMovementTestScene");
-        yield return new WaitForSeconds(5); // wait for scene to load
+        yield return new WaitForSeconds(1.0f); // wait for scene to load
 
         GameObject player = GameObject.Find("Player");
         GameObject enemy = GameObject.Find("HeavyEnemy(Clone)");
