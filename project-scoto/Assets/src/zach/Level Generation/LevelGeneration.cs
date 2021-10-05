@@ -11,7 +11,7 @@ public class LevelGeneration : MonoBehaviour {
     private float mh_scaling = 0.2f;
 
     private void Start() {
-        // generate_layout(level_num);
+        generate_layout(level_num);
         room = Instantiate(room);
     }
 
@@ -32,6 +32,7 @@ public class LevelGeneration : MonoBehaviour {
             for (int j = 0; j < maze_width; j++) {
                 Room temp_room = Instantiate(room) as Room;
                 temp_room.setup(j, i, 0);
+                temp_room.gameObject.SetActive(false);
                 room_matrix[i].Add(temp_room);
             }
         }
@@ -46,7 +47,6 @@ public class LevelGeneration : MonoBehaviour {
 
         // Procedurally generate layout.
         int loop_count = 0;
-        // DEBUG: Make while loop dynamic (only works on level 1 for now)
         while (!((gen_x == (maze_width - 1) / 2) && (gen_z == maze_height - 1)) && loop_count < 100000) {
             // Check if surrounding room locations are out of bounds or room already exists.
             bool[] blocked = new bool[4];
@@ -60,8 +60,8 @@ public class LevelGeneration : MonoBehaviour {
                 // If at start of path, force stop.
                 if (gen_path.Count == 0) {
                     Debug.LogError("ERROR: Maze is full before ending is reached.");
-                    // UnityEditor.EditorApplication.isPlaying = false;
                     Application.Quit();
+                    break;
                 }
 
                 // Backtrack to previous location in path.
@@ -85,22 +85,22 @@ public class LevelGeneration : MonoBehaviour {
 
             // Go to new location.
             if (direction == 0) {
-                // North (positive z)
+                // North
                  gen_z += 1;
             } else if (direction == 1) {
-                // East (positive x)
+                // East
                 gen_x += 1;
             } else if (direction == 2) {
-                // South (negative z)
+                // South
                 gen_z -= 1;
             } else if (direction == 3) {
-                // West (negative x)
+                // West
                 gen_x -= 1;
             } else {
                 // Bad value.
                 Debug.LogError("ERROR: Invalid direction in generate_layout().");
-                // UnityEditor.EditorApplication.isPlaying = false;
                 Application.Quit();
+                break;
             }
 
             // Create a room at location and add it to generation path.
@@ -113,24 +113,8 @@ public class LevelGeneration : MonoBehaviour {
         if (loop_count >= 100000) {
             // Force stop.
             Debug.LogError("ERROR: Infinite loop detected in generate_layout().");
-            // UnityEditor.EditorApplication.isPlaying = false;
             Application.Quit();
         }
-
-        // DEBUG: Print vizualization of current layout.
-        string matrix = "";
-        for (int i = 0; i < maze_height; i++) {
-            string row = "";
-            for (int j = 0; j < maze_width; j++) {
-                if (room_matrix[j][i].get_type() != 0) {
-                    row += "[x] ";
-                } else {
-                    row += "[ ] ";
-                }
-            }
-            matrix = row + "\n" + matrix;
-        }
-        Debug.Log(matrix);
     }
 
     private Vector3Int create_room(int x, int z) {
