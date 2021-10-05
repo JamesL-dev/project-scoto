@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GreekFire : WeaponSuperclass
+public class GreekFire : Weapon
 {
     void Start()
     {
-        MAX_TIME = 5;  
+        MAX_TIME = 10;  
     }
 }

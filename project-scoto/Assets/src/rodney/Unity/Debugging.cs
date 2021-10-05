@@ -10,8 +10,9 @@ public class Debugging : MonoBehaviour
     private WeaponInputActions weapon_input_actions;
     private InputAction DEBUGGING;
 
-    void Awake(){ 
-        weapon_input_actions = new WeaponInputActions(); //
+    void Awake()
+    { 
+        weapon_input_actions = new WeaponInputActions();
         DEBUGGING = weapon_input_actions.Player.DEBUGGING;
     }
 
@@ -19,7 +20,8 @@ public class Debugging : MonoBehaviour
     {
         if(timer > 0) {timer --;}
 
-        if(DEBUGGING.ReadValue<float>() != 0 && timer == 0) {
+        if(DEBUGGING.ReadValue<float>() != 0 && timer == 0) 
+        {
             /* This line is what allows you to turn the inventory on and off. The first part gives access to the function EnableInventory.
             The second part, EnableInventory(bool var), turns the inventory ON if var is true (and if the inventory is currently off) and it turns the
             inventory OFF if var is false (and the inventory is currently on).
@@ -32,11 +34,7 @@ public class Debugging : MonoBehaviour
         }
     }
 
-    private void OnEnable() {
-        DEBUGGING.Enable();
-    }
+    private void OnEnable() { DEBUGGING.Enable(); }
 
-    private void OnDisable() {
-        DEBUGGING.Disable();
-    }
+    private void OnDisable() { DEBUGGING.Disable(); }
 }
