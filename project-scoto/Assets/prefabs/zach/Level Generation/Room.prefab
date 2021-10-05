@@ -105,8 +105,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2704893925004477637}
-  - component: {fileID: 4815789319388177477}
   - component: {fileID: 8763259673824862222}
+  - component: {fileID: 8221912916405124795}
   m_Layer: 6
   m_Name: Room
   m_TagString: Room
@@ -135,20 +135,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4815789319388177477
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2704893925004477638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43a88ed557d7e6042b5581cbed52596f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 9173819974394987436, guid: 6b6903acb9a055549acc10cb76804bce, type: 3}
-  pickup: {fileID: 3409597266733467619, guid: 0eeead4cf15ad7c4688b1558621da7ef, type: 3}
 --- !u!114 &8763259673824862222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,6 +165,20 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 9b713e4caaa21cd479dfd1c7488567c3, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &8221912916405124795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2704893925004477638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 328ab668cef1abc4ab61a54ab4f7f075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 9173819974394987436, guid: 6b6903acb9a055549acc10cb76804bce, type: 3}
+  pickup: {fileID: 3409597266733467619, guid: 0eeead4cf15ad7c4688b1558621da7ef, type: 3}
 --- !u!1 &2704893925063912769
 GameObject:
   m_ObjectHideFlags: 0
