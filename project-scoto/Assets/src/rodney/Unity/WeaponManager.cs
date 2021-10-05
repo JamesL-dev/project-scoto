@@ -10,7 +10,6 @@ public class WeaponManager : MonoBehaviour
     public int FireAmount = 0;
     
     bool FiringWeapons = false, ShowWeapons = true, SwapShowWeapons = false;
-    public bool BowFound = false, TridentFound = false;
 
     private WeaponInputActions weapon_input_actions;
     private InputAction FireWeapon, ChangeWeapon, one, two, three, four;
@@ -32,26 +31,6 @@ public class WeaponManager : MonoBehaviour
         for(int i = 1; i < InvSize; i++) { weapon[i].setActive(false); }
     }
 
-    private void OnEnable() 
-    {
-        FireWeapon.Enable();
-        ChangeWeapon.Enable();
-        one.Enable();
-        two.Enable();
-        three.Enable();
-        four.Enable();
-    }
-
-    private void OnDisable() 
-    {
-        FireWeapon.Disable();
-        ChangeWeapon.Disable();
-        one.Disable();
-        two.Disable();
-        three.Disable();
-        four.Disable();
-    }
-
     void FixedUpdate() 
     {
         if(!FiringWeapons && ShowWeapons) 
@@ -66,36 +45,63 @@ public class WeaponManager : MonoBehaviour
                 FiringWeapons = true;
             }
             
-            // CHANGE INVENTORY SLOT (SCROLL)
-            float ChangeWeaponVal = ChangeWeapon.ReadValue<float>();
-            bool WeaponChanged = false;
             previous_index = CurrentWeapon;
-            if(ChangeWeaponVal != 0) {WeaponChanged = true;}
-            if(ChangeWeaponVal < 0) 
-            { 
-                CurrentWeapon ++;
-                if (CurrentWeapon >= InvSize) {CurrentWeapon = 0;}
-            }
-            if(ChangeWeaponVal > 0) 
+            float ChangeWeaponVal;
+            if((ChangeWeaponVal = ChangeWeapon.ReadValue<float>()) != 0)
             {
-                CurrentWeapon --;
-                if (CurrentWeapon < 0) {CurrentWeapon = InvSize-1;}
-            }
+                // CHANGE INVENTORY SLOT BY "SCROLL"
+                if(ChangeWeaponVal < 0) 
+                { 
+                    CurrentWeapon ++;
+                    if (CurrentWeapon >= InvSize) {CurrentWeapon = 0;}
+                    while(!weapon[CurrentWeapon].isFound())
+                    {
+                        CurrentWeapon ++;
+                        if (CurrentWeapon >= InvSize) {CurrentWeapon = 0;}
+                    }
+                }
+                if(ChangeWeaponVal > 0) 
+                {
+                    CurrentWeapon --;
+                    if (CurrentWeapon < 0) {CurrentWeapon = InvSize-1;}
+                    while(!weapon[CurrentWeapon].isFound())
+                    {
+                        CurrentWeapon --;
+                        if (CurrentWeapon < 0) {CurrentWeapon = InvSize-1;}
+                    }
+                }
 
-            // CHANGE INVENTORY SLOT (HOTKEYS)
-            if (one.ReadValue<float>() != 0) {CurrentWeapon = 0; WeaponChanged = true;}
-            if (two.ReadValue<float>() != 0) {CurrentWeapon = 1; WeaponChanged = true;}
-            if (three.ReadValue<float>() != 0) {CurrentWeapon = 2; WeaponChanged = true;}
-            if (four.ReadValue<float>() != 0) {CurrentWeapon = 3; WeaponChanged = true;}
-            
-            // CHANGE DISPLAYED WEAPON / ITEM
-            if(WeaponChanged) 
-            {
+                // SWITCH WHICH MODEL IS ACTIVATED
                 weapon[previous_index].setActive(false);
                 weapon[CurrentWeapon].setActive(true);
             }
+            else
+            {
+                // CHANGE INVENTORY SLOT BY "HOTKEY"
+                ChangeWeaponVal = 0;
+                if (one.ReadValue<float>() != 0) {CurrentWeapon = 0; ChangeWeaponVal = 1;}
+                if (two.ReadValue<float>() != 0) {CurrentWeapon = 1; ChangeWeaponVal = 1;}
+                if (three.ReadValue<float>() != 0) {CurrentWeapon = 2; ChangeWeaponVal = 1;}
+                if (four.ReadValue<float>() != 0) {CurrentWeapon = 3; ChangeWeaponVal = 1;}
 
-        } else { 
+                // SWITCH WHICH MODEL IS ACTIVATED
+                if(ChangeWeaponVal == 1) 
+                {
+                    if(weapon[CurrentWeapon].isFound())
+                    {
+                        weapon[previous_index].setActive(false);
+                        weapon[CurrentWeapon].setActive(true);
+                    }
+                    else
+                    {
+                        CurrentWeapon = previous_index;
+                    }
+                }
+            }
+
+        } 
+        else 
+        { 
             
             // IF NOT ABLE TO FIRE WEAPONS
             if(timer > 0) { timer --; }
@@ -116,4 +122,24 @@ public class WeaponManager : MonoBehaviour
 
     // SWITCH FOR EXTERNAL ENTITY TO NOTIFY SCRIPT THAT THEY WANT TO NOT DISPLAY WEAPONS
     public void EnableInventory(bool flag) { if(flag != ShowWeapons) { SwapShowWeapons = true; } }
+
+    private void OnEnable() 
+    {
+        FireWeapon.Enable();
+        ChangeWeapon.Enable();
+        one.Enable();
+        two.Enable();
+        three.Enable();
+        four.Enable();
+    }
+
+    private void OnDisable() 
+    {
+        FireWeapon.Disable();
+        ChangeWeapon.Disable();
+        one.Disable();
+        two.Disable();
+        three.Disable();
+        four.Disable();
+    }
 }
