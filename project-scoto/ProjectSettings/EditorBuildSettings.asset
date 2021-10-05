@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 4121fa6dba7f4b6428b5f969bb2bfa6d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Tests/PlayMode/haydenPlayMode/enemyMovementTestScene.unity
     guid: be94f6ed21a52bd40b7f7e1b35761cca
   - enabled: 1
