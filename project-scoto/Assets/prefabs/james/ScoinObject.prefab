@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 8722013703775298589}
   - component: {fileID: 2758281111771269627}
   - component: {fileID: 1073136901347572958}
-  - component: {fileID: 6162460864033661474}
   - component: {fileID: 7202661026419312886}
+  - component: {fileID: -1980494828089624588}
   m_Layer: 0
-  m_Name: powerup
+  m_Name: ScoinObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,18 +98,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &6162460864033661474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3409597266733467619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aaba631da4fd824599143eb77a8726a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &7202661026419312886
 Animator:
   serializedVersion: 3
@@ -129,3 +117,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-1980494828089624588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3409597266733467619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1a01675e001c74e8c043b6e5823fa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpName: Scoin
+  expiresImmediately: 1
+  specialEffect: {fileID: 0}
+  soundEffect: {fileID: 0}
+  scoinBonus: 1
