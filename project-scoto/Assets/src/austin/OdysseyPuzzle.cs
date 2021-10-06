@@ -4,30 +4,28 @@ using UnityEngine;
 
 public class OdysseyPuzzle : BasePuzzle
 {
-    private const float fiveMins = 300;
-
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("ChancePuzzle", delay, delay);
+        InvokeRepeating("ChancePuzzle", m_delay, m_delay);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     // Fixed Update is called 50 times per second
     void FixedUpdate()
     {
-        
+
     }
 
     // Initilizes a puzzle if a random chance occurs
     void ChancePuzzle()
     {
-        if (!isActive && frequency <= Random.Range(0.0f, 1.0f))
+        if (!m_isActive && m_frequency != 0.0f && m_frequency <= Random.Range(0.0f, 1.0f))
         {
             Initialize();
         }
@@ -36,6 +34,6 @@ public class OdysseyPuzzle : BasePuzzle
     // Initialize a new puzzle
     void Initialize()
     {
-        isActive = true;
+        m_isActive = true;
     }
 }
