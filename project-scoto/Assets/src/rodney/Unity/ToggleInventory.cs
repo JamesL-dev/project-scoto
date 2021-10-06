@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Debugging : MonoBehaviour
+public class ToggleInventory : MonoBehaviour
 {
     [SerializeField] public int timer = 0;
     [SerializeField] public bool curr_state = true;

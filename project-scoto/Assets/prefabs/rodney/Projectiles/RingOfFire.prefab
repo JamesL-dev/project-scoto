@@ -9643,6 +9643,7 @@ GameObject:
   - component: {fileID: 486202}
   - component: {fileID: 11471502}
   - component: {fileID: 11469812}
+  - component: {fileID: 4062121633517060005}
   m_Layer: 8
   m_Name: RingOfFire
   m_TagString: Untagged
@@ -9682,8 +9683,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioSource: {fileID: 0}
-  StartTime: 1
-  StopTime: 1
+  StartTime: 0
+  StopTime: 0
   Duration: 1e+9
   ForceAmount: 0
   ForceRadius: 0
@@ -9706,6 +9707,20 @@ MonoBehaviour:
   IntensityMaxRange:
     Minimum: 0
     Maximum: 8
+--- !u!114 &4062121633517060005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 168262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16da9563c59efd14b9998a5ebaae1db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TIME1: 200
+  TIME2: 400
 --- !u!1 &195822
 GameObject:
   m_ObjectHideFlags: 0
