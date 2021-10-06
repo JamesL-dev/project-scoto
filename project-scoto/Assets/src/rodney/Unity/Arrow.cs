@@ -54,7 +54,7 @@ public class Arrow : MonoBehaviour
             gameObject.transform.parent = other.transform;
             if(other.gameObject.name == "HeavyEnemy")
             {
-                // DO WORK
+                other.gameObject.GetComponent<HeavyEnemy>().TakeDamage(damage);
             }
         }
 
