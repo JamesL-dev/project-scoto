@@ -7,9 +7,10 @@ using UnityEngine.UI; // FOR DEBUGGING ONLY
 public class WeaponManager : MonoBehaviour 
 {
     int CurrentWeapon = 0, timer = 0, previous_index = 0, InvSize = 4;
-    public int FireAmount = 0;
+    [SerializeField] public int FireAmount = 0;
     
-    bool FiringWeapons = false, ShowWeapons = true, SwapShowWeapons = false, error = false;
+    [SerializeField] bool FiringWeapons = false, ShowWeapons = true;
+    bool SwapShowWeapons = false, error = false;
 
     private WeaponInputActions weapon_input_actions;
     private InputAction FireWeapon, ChangeWeapon, one, two, three, four;
@@ -44,7 +45,6 @@ public class WeaponManager : MonoBehaviour
                 timer = weapon[CurrentWeapon].Time();    
                 FiringWeapons = true;
             }
-            
             previous_index = CurrentWeapon;
             float ChangeWeaponVal;
             if((ChangeWeaponVal = ChangeWeapon.ReadValue<float>()) != 0)
@@ -115,6 +115,14 @@ public class WeaponManager : MonoBehaviour
                         weapon[CurrentWeapon].setActive(true);
                     }
                     else
+                    {
+                        CurrentWeapon = previous_index;
+                    }
+                }
+                else
+                {
+                    // NO USER INPUTTED INVENTORY CHANGE
+                    if(CurrentWeapon >= InvSize || CurrentWeapon < 0)
                     {
                         CurrentWeapon = previous_index;
                     }

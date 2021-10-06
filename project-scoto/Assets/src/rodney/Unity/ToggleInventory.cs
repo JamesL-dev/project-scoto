@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Debugging : MonoBehaviour
+public class ToggleInventory : MonoBehaviour
 {
-    public int timer = 0;
-    public bool curr_state = true;
+    [SerializeField] public int timer = 0;
+    [SerializeField] public bool curr_state = true;
+    
     private WeaponInputActions weapon_input_actions;
     private InputAction DEBUGGING;
 
