@@ -11,8 +11,12 @@ public class LevelGeneration : MonoBehaviour {
     private float mh_scaling = 0.2f;
 
     private void Start() {
+        // DEBUG
+        Room temp_room = Instantiate(room) as Room;
+        bool[] test_room = new bool[4] {true, false, true, true};
+        temp_room.setup(0, 0, test_room, 0);
+
         generate_layout(level_num);
-        room = Instantiate(room);
     }
 
     private void generate_layout(int level) {
@@ -25,55 +29,58 @@ public class LevelGeneration : MonoBehaviour {
         // The width and height are complementary; a wider level is less likely to be taller, and vice versa.
         int maze_width = 3 + 2 * (int)Mathf.Round((-0.5f + size_seed) + (mw_scaling * (level - 1)));
         int maze_height = 3 + (int)Mathf.Round((0.5f - size_seed) + (mh_scaling * (level - 1)));
+        
+        // DEBUG
+        bool[] closed_room = new bool[4];
 
         // Set up empty level layout.
         for (int i = 0; i < maze_height; i++) {
             room_matrix.Add(new List<Room>());
             for (int j = 0; j < maze_width; j++) {
                 Room temp_room = Instantiate(room) as Room;
-                temp_room.setup(j, i, 0);
+                temp_room.setup(j, i, closed_room, 0);
                 temp_room.gameObject.SetActive(false);
                 room_matrix[i].Add(temp_room);
             }
         }
 
         // Declare variables.
-        int gen_x = (maze_width - 1) / 2;
-        int gen_z = 0;
-        List<Vector3Int> gen_path = new List<Vector3Int>();
+        int maze_x = (maze_width - 1) / 2;
+        int maze_z = 0;
+        List<Vector3Int> maze_path = new List<Vector3Int>();
 
         // First, create room right after start room.
-        gen_path.Add(create_room(gen_x, gen_z));
+        maze_path.Add(create_room(maze_x, maze_z, closed_room));
 
         // Procedurally generate layout.
         int loop_count = 0;
-        while (!((gen_x == (maze_width - 1) / 2) && (gen_z == maze_height - 1)) && loop_count < 100000) {
+        while (!((maze_x == (maze_width - 1) / 2) && (maze_z == maze_height - 1)) && loop_count < 100000) {
             // Check if surrounding room locations are out of bounds or room already exists.
             bool[] blocked = new bool[4];
-            blocked[0] = gen_z + 1 >= maze_height || room_matrix[gen_x][gen_z + 1].get_type() != 0;
-            blocked[1] = gen_x + 1 >= maze_width || room_matrix[gen_x + 1][gen_z].get_type() != 0;
-            blocked[2] = gen_z - 1 < 0 || room_matrix[gen_x][gen_z - 1].get_type() != 0;
-            blocked[3] = gen_x - 1 < 0 || room_matrix[gen_x - 1][gen_z].get_type() != 0;
+            blocked[0] = maze_z + 1 >= maze_height || room_matrix[maze_x][maze_z + 1].get_type() != 0;
+            blocked[1] = maze_x + 1 >= maze_width || room_matrix[maze_x + 1][maze_z].get_type() != 0;
+            blocked[2] = maze_z - 1 < 0 || room_matrix[maze_x][maze_z - 1].get_type() != 0;
+            blocked[3] = maze_x - 1 < 0 || room_matrix[maze_x - 1][maze_z].get_type() != 0;
 
             // Test for dead end.
             while (blocked[0] && blocked[1] && blocked[2] && blocked[3]) {
                 // If at start of path, force stop.
-                if (gen_path.Count == 0) {
+                if (maze_path.Count == 0) {
                     Debug.LogError("ERROR: Maze is full before ending is reached.");
                     Application.Quit();
                     break;
                 }
 
                 // Backtrack to previous location in path.
-                gen_x = gen_path[gen_path.Count - 1].x;
-                gen_z = gen_path[gen_path.Count - 1].z;
-                gen_path.RemoveAt(gen_path.Count - 1);
+                maze_x = maze_path[maze_path.Count - 1].x;
+                maze_z = maze_path[maze_path.Count - 1].z;
+                maze_path.RemoveAt(maze_path.Count - 1);
 
                 // Test location again.
-                blocked[0] = gen_z + 1 >= maze_height || room_matrix[gen_x][gen_z + 1].get_type() != 0;
-                blocked[1] = gen_x + 1 >= maze_width || room_matrix[gen_x + 1][gen_z].get_type() != 0;
-                blocked[2] = gen_z - 1 < 0 || room_matrix[gen_x][gen_z - 1].get_type() != 0;
-                blocked[3] = gen_x - 1 < 0 || room_matrix[gen_x - 1][gen_z].get_type() != 0;
+                blocked[0] = maze_z + 1 >= maze_height || room_matrix[maze_x][maze_z + 1].get_type() != 0;
+                blocked[1] = maze_x + 1 >= maze_width || room_matrix[maze_x + 1][maze_z].get_type() != 0;
+                blocked[2] = maze_z - 1 < 0 || room_matrix[maze_x][maze_z - 1].get_type() != 0;
+                blocked[3] = maze_x - 1 < 0 || room_matrix[maze_x - 1][maze_z].get_type() != 0;
             }
 
             // Choose a new location, repeat until an empty one is chosen.
@@ -86,25 +93,30 @@ public class LevelGeneration : MonoBehaviour {
             // Go to new location.
             if (direction == 0) {
                 // North
-                 gen_z += 1;
+                maze_z += 1;
+                bool[] temp_doors = new bool[4] {false, false, true, false};
+                maze_path.Add(create_room(maze_x, maze_z, temp_doors));
             } else if (direction == 1) {
                 // East
-                gen_x += 1;
+                maze_x += 1;
+                bool[] temp_doors = new bool[4] {false, false, false, true};
+                maze_path.Add(create_room(maze_x, maze_z, temp_doors));
             } else if (direction == 2) {
                 // South
-                gen_z -= 1;
+                maze_z -= 1;
+                bool[] temp_doors = new bool[4] {true, false, false, false};
+                maze_path.Add(create_room(maze_x, maze_z, temp_doors));
             } else if (direction == 3) {
                 // West
-                gen_x -= 1;
+                maze_x -= 1;
+                bool[] temp_doors = new bool[4] {false, true, false, false};
+                maze_path.Add(create_room(maze_x, maze_z, temp_doors));
             } else {
                 // Bad value.
                 Debug.LogError("ERROR: Invalid direction in generate_layout().");
                 Application.Quit();
                 break;
             }
-
-            // Create a room at location and add it to generation path.
-            gen_path.Add(create_room(gen_x, gen_z));
 
             loop_count++;
         }
@@ -115,13 +127,28 @@ public class LevelGeneration : MonoBehaviour {
             Debug.LogError("ERROR: Infinite loop detected in generate_layout().");
             Application.Quit();
         }
+
+        // DEBUG: Print visualization of level.
+        string matrix = "";
+        for (int i = 0; i < maze_height; i++) {
+            string row = "";
+            for (int j = 0; j < maze_width; j++) {
+                if (room_matrix[j][i].get_type() != 0) {
+                    row += "[┼] ";
+                } else {
+                    row += "[   ] ";
+                }
+            }
+            matrix = row + "\n" + matrix;
+        }
+        Debug.Log(matrix);
     }
 
-    private Vector3Int create_room(int x, int z) {
-        Vector3Int temp = Vector3Int.zero;
-        temp.x = x;
-        temp.z = z;
-        room_matrix[x][z].setup(x, z, 1);
-        return temp;
+    private Vector3Int create_room(int x, int z, bool[] doors) {
+        Vector3Int temp_pos = Vector3Int.zero;
+        temp_pos.x = x;
+        temp_pos.z = z;
+        room_matrix[x][z].setup(x, z, doors, 1);
+        return temp_pos;
     }
 }
