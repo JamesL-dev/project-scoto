@@ -5,7 +5,7 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     [SerializeField] float velocity_scalar = 4F, acceleration_scalar = 1F, damage = 10F;
-    [SerializeField] int MAX_TIME = 10000, timer = 0;
+    [SerializeField] int MAX_TIME = 400, timer = 0;
 
     bool faster_timer = true, in_ground = false, in_enemy = false, fade_light = false;
 
@@ -44,8 +44,6 @@ public class Arrow : MonoBehaviour
 
     void OnTriggerEnter(Collider other) 
     {
-        if(other.gameObject.layer != LayerMask.NameToLayer("Player")) { Debug.Log("Collision occured with layer " + other.gameObject.layer.ToString());}
-
         if(other.gameObject.layer == LayerMask.NameToLayer("Enemy")) 
         {   
             if(!in_ground) 
