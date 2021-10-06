@@ -4,16 +4,20 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class haydenEditModeTestExample
+public class jamesEditModeTest
 {
     // A Test behaves as an ordinary method
     
-    // [Test]
-    // public void EnemyTypes()
-    // {
-    //     EnemyTypes myEnemyTypes = new EnemyTypes();
-    //     Assert.AreEqual("LIGHT_ENEMY", myEnemyTypes.lightEnemyType);
-    //     Assert.AreEqual("HEAVY_ENEMY", myEnemyTypes.heavyEnemyType);
-    // }
+    [Test]
+    public void pickupTest1()
+    {
+
+    }
+
+    [Test]
+    public void pickupTest2()
+    {
+
+    }
 
 }
