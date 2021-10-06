@@ -2,7 +2,7 @@
 ## Company Name: ScoSoft
 ## Game Name: Scoto
 
-## Gantt Chart: [Gantt Chart](https://drive.google.com/drive/folders/1nwNhnjqR3Bz005b1cVQ_VZfjXXNCWSZI)
+## Gantt Chart: [Gantt Chart](https://drive.google.com/drive/folders/1nwNhnjqR3Bz005b1cVQ_VZfjXXNCWSZI?usp=sharing)
 
 # Team Leads:
 #1 IT Manager: James
