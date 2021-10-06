@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class GreekProjectile : MonoBehaviour
 {
-    float velocity_scalar = .4F;
+    [SerializeField] float velocity_scalar = .4F;
     public bool destroy = true;
-    int MAX_TIME = 180;
+    int MAX_TIME = 15;
 
     Vector3 acceleration = new Vector3(0.0F,-0.001F,0.0F);
     Vector3 velocity = new Vector3(0,0,0);
 
-    public GameObject FireExplosion;
+    public GameObject Explosion, Fire;
 
     int timer = 0;
 
@@ -25,7 +25,13 @@ public class GreekProjectile : MonoBehaviour
         if(destroy) 
         {
             timer ++;
-            if(timer > MAX_TIME) {Instantiate(FireExplosion, gameObject.transform.position, gameObject.transform.rotation); Destroy(gameObject);}
+            if(timer > MAX_TIME) 
+            {
+                Instantiate(Explosion, gameObject.transform.position, gameObject.transform.rotation); 
+                Instantiate(Fire, gameObject.transform.position, gameObject.transform.rotation); 
+                
+                Destroy(gameObject);
+            }
         }
     }
 

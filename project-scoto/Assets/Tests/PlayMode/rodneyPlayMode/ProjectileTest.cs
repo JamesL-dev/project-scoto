@@ -5,10 +5,10 @@ using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEditor;
 
-public class EnemyHealthTest
+public class ProjectileTest
 {
     // private GameObject heavyEnemyPrefab = AssetDatabase.LoadAssetAtPath<GameObject>
-    //                                      ("Assets/prefabs/hayden/HeavyEnemy.prefab");
+    //                                      ("Assets/prefabs/rodney/HeavyEnemy.prefab");
     
     // [UnityTest]
     // public IEnumerator EnemyBelow0Health()

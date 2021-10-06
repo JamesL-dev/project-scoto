@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    float velocity_scalar = .2F;
-    bool timer_on = true, in_ground = false, in_enemy = false;
-    int MAX_TIME = 180;
+    [SerializeField] float velocity_scalar = 4F, acceleration_scalar = 1F, damage = 10F;
+    [SerializeField] int MAX_TIME = 10000, timer = 0;
 
-    Vector3 acceleration = new Vector3(0.0F,-0.0001F,0.0F);
+    bool faster_timer = true, in_ground = false, in_enemy = false;
+
+    Vector3 acceleration = new Vector3(0.0F,-0.001F,0.0F);
     Vector3 velocity = new Vector3(0,0,0);
-
-    int timer = 0;
-
 
     void Awake() 
     {
         velocity = -(gameObject.transform.rotation * Vector3.up * velocity_scalar);
+        acceleration *= acceleration_scalar;
+        Light lightComp = gameObject.AddComponent<Light>();
+        lightComp.color = Color.white;
+        lightComp.range = 20;
+        lightComp.intensity = .25F;
     }
 
     void FixedUpdate() 
@@ -27,27 +30,25 @@ public class Arrow : MonoBehaviour
             velocity += acceleration;
         }
 
-        if(timer_on) 
-        {
-            timer ++;
-            if(timer > MAX_TIME) {Destroy(gameObject);}
-        }
+        timer ++;
+        if(faster_timer) { timer ++; }
+        if(timer > MAX_TIME) {Destroy(gameObject);}
     }
 
     void OnTriggerEnter(Collider other) 
     {
         if(other.gameObject.layer != 7) { Debug.Log("Collision occured with layer " + other.gameObject.layer.ToString());}
 
-        if(other.gameObject.layer == LayerMask.NameToLayer("Default")) 
+        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy")) 
         {   
-            Debug.Log("Collision with default layer");
-            in_enemy = true;
+            if(!in_ground) {in_enemy = faster_timer = true; }
+            gameObject.transform.parent = other.transform;
         }
 
         if(other.gameObject.layer == LayerMask.NameToLayer("Ground")) 
         {   
             Debug.Log("Collision with ground layer");
-            in_ground = true;
+            if(!in_enemy) {in_ground = faster_timer = true;}
         }
     }
 }

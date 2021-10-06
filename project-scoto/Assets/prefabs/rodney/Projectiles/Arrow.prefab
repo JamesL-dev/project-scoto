@@ -45,6 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f111e45b73c644e8ec460b459b4d9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velocity_scalar: 0.5
+  acceleration_scalar: 1
+  damage: 10
+  MAX_TIME: 10000
+  timer: 0
+  particle: {fileID: 2547746284053728566, guid: e511b625c7d108c4c98bd98dfe292bd6, type: 3}
 --- !u!65 &-5908177630348835843
 BoxCollider:
   m_ObjectHideFlags: 0

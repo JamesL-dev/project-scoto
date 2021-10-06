@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    protected int Damage = 0, MAX_TIME = 15;
+    protected int MAX_TIME = 15;
+    [SerializeField] protected float Damage = 0;
     protected bool IsActive = false;
-    
-    [SerializeField]
-    protected bool discovered;
+    [SerializeField] protected bool discovered;
 
     public GameObject weapon, projectile;
 

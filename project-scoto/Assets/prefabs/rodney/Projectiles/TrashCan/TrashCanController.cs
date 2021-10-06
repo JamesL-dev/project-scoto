@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Debug : MonoBehaviour
+public class TrashCanController : MonoBehaviour
 {
     int timer = 0;
 
