@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class EnemySpawnerStressTest
 {
+    float fps = 0;
+
     [UnityTest]
     public IEnumerator EnemySpawnerStress()
     {
@@ -23,17 +25,22 @@ public class EnemySpawnerStressTest
 
         while (true)
         {
+            fps = 1.0f / Time.deltaTime;
             GameObject newEnemy = GameObject.Instantiate(enemy, enemy.transform.position + new Vector3(0.0f, 0f, 0.0f), enemy.transform.rotation);
             numOfEnemies++;
-            enemyTracker.text = "Num: " + numOfEnemies;
-            yield return new WaitForSeconds(0.05f);
+            enemyTracker.text = "Num: " + numOfEnemies + " FPS: " + fps;
             
             // check if it breaks
 
-            if (numOfEnemies >= 300)
+            if (fps < 15)
             {
+                Debug.Log("Number of enemies when fps dipped below 15: " + numOfEnemies);
                 break;
+
             }
+
+            yield return null; // wait a frame
+
         }
 
         Assert.IsTrue(numOfEnemies >= 300);
