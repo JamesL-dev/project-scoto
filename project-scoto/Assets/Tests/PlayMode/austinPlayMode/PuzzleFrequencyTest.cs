@@ -16,7 +16,24 @@ public class PuzzleFrequencyTest
 
         puzzle.SetFrequency(2.0f);
         yield return null;
+        Debug.Log(puzzle.GetFrequency());
         Assert.AreEqual(1.0f, puzzle.GetFrequency());
+        yield return null;
+
+        puzzle.SetFrequency(1.1f);
+        yield return null;
+        Debug.Log(puzzle.GetFrequency());
+        Assert.AreEqual(1.0f, puzzle.GetFrequency());
+        yield return null;
+
+        puzzle.SetFrequency(1.0f);
+        yield return null;
+        Assert.AreEqual(1.0f, puzzle.GetFrequency());
+        yield return null;
+
+        puzzle.SetFrequency(0.9f);
+        yield return null;
+        Assert.AreEqual(0.9f, puzzle.GetFrequency());
         yield return null;
     }
 
@@ -29,27 +46,24 @@ public class PuzzleFrequencyTest
 
         puzzle.SetFrequency(-1.0f);
         yield return null;
+        Debug.Log(puzzle.GetFrequency());
         Assert.AreEqual(0.0f, puzzle.GetFrequency());
         yield return null;
-    }
 
-    [UnityTest]
-    public IEnumerator FrequencyBorders()
-    {
-        GameObject puzzleGameObj = new GameObject();
-        puzzleGameObj.AddComponent<BasePuzzle>();
-        BasePuzzle puzzle = puzzleGameObj.GetComponent<BasePuzzle>();
+        puzzle.SetFrequency(-0.1f);
+        yield return null;
+        Debug.Log(puzzle.GetFrequency());
+        Assert.AreEqual(0.0f, puzzle.GetFrequency());
+        yield return null;
 
         puzzle.SetFrequency(0.0f);
         yield return null;
-        Debug.Log(puzzle.GetFrequency());
         Assert.AreEqual(0.0f, puzzle.GetFrequency());
         yield return null;
 
-        puzzle.SetFrequency(1.0f);
+        puzzle.SetFrequency(0.1f);
         yield return null;
-        Debug.Log(puzzle.GetFrequency());
-        Assert.AreEqual(1.0f, puzzle.GetFrequency());
+        Assert.AreEqual(0.1f, puzzle.GetFrequency());
         yield return null;
     }
 }
