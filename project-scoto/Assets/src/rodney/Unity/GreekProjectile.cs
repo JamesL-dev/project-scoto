@@ -6,7 +6,7 @@ public class GreekProjectile : MonoBehaviour
 {
     [SerializeField] float velocity_scalar = .4F;
     public bool destroy = true;
-    int MAX_TIME = 15;
+    int MAX_TIME = 45;
 
     Vector3 acceleration = new Vector3(0.0F,-0.001F,0.0F);
     Vector3 velocity = new Vector3(0,0,0);
