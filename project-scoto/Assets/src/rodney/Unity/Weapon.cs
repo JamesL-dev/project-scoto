@@ -7,22 +7,29 @@ public class Weapon : MonoBehaviour
     protected int MAX_TIME = 15;
     [SerializeField] protected float Damage = 0;
     protected bool IsActive = false;
-    [SerializeField] protected bool discovered;
+    protected bool discovered = false;
 
     public GameObject weapon, projectile;
 
-    public void setActive(bool yes) { weapon.SetActive(yes); IsActive = yes; }
-
+    public bool isDiscovered() { return discovered; }
     public bool isActive() { return IsActive; }
     public bool isFound() { return discovered; }
     public int Time() { return MAX_TIME; }
 
-    public virtual void Fire(Vector3 position, Quaternion rotation) { Instantiate(projectile, position, rotation); }
-
     public void setDiscovered() 
-    {
-        if(discovered) { Debug.LogError("The setDiscovered() subroutine was called on an object with weapon superclass, but it is already discoered. No change will occur."); }
-        discovered = true;
-        return;
+    { 
+        if(discovered) { Debug.LogError("setDiscovered() called on a weapon already discovered."); } 
+        discovered = true; 
+    }
+    
+    public void setActive(bool yes) 
+    { 
+        weapon.SetActive(yes); 
+        IsActive = yes; 
+    }
+
+    public virtual void Fire(Vector3 position, Quaternion rotation) 
+    { 
+        Instantiate(projectile, position, rotation); 
     }
 }
