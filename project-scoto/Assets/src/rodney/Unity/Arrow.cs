@@ -60,7 +60,6 @@ public class Arrow : MonoBehaviour
 
         if(other.gameObject.layer == LayerMask.NameToLayer("Ground")) 
         {   
-            Debug.Log("Collision with ground layer");
             if(!in_enemy) 
             {   
                 in_ground = faster_timer = true;

@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 33965599697136672}
   - component: {fileID: 23022011092513436}
   - component: {fileID: 7453885477446329778}
-  - component: {fileID: 232105710275672067}
+  - component: {fileID: -2038671500050597952}
+  - component: {fileID: -6915297390240826607}
   m_Layer: 0
   m_Name: Grenade
   m_TagString: Untagged
@@ -99,16 +100,32 @@ MonoBehaviour:
   destroy: 1
   Explosion: {fileID: 131164, guid: 3c5f4e32698bdb04eaed647f60310510, type: 3}
   Fire: {fileID: 168262, guid: 062893e7007e39441aea009115b6cefa, type: 3}
---- !u!135 &232105710275672067
+--- !u!135 &-2038671500050597952
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415556611663978}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 9bcac437c66d3fd409cacb130de18c00, type: 2}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.056450196
   m_Center: {x: -0.0009902306, y: 0.056450196, z: 0.00051543314}
+--- !u!54 &-6915297390240826607
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415556611663978}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
