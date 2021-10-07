@@ -46,11 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f111e45b73c644e8ec460b459b4d9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity_scalar: 0.5
+  velocity_scalar: 1
   acceleration_scalar: 1
   damage: 10
-  MAX_TIME: 400
-  timer: 0
+  MAX_TIME: 120
 --- !u!65 &-5908177630348835843
 BoxCollider:
   m_ObjectHideFlags: 0

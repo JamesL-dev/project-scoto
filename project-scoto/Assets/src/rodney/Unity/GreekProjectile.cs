@@ -35,9 +35,4 @@ public class GreekProjectile : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    void OnTriggerEnter(Collider other) 
-    {
-        Debug.Log("Grenade collision occured");
-    }
 }
