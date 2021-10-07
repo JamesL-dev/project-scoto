@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour {
     // Variables
-    public float jump_force, move_speed, gravity, friction, sprint_multiplier, air_control_multiplier;
+    public float jump_force, move_speed, gravity, friction, sprint_multiplier;
     public Vector2 mouse_sens;
     private Vector3 velocity;
     private float x_rotation = 0f;

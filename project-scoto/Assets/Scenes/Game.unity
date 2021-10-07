@@ -543,6 +543,7 @@ GameObject:
   - component: {fileID: 685583357}
   - component: {fileID: 685583359}
   - component: {fileID: 685583358}
+  - component: {fileID: 685583360}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -583,7 +584,6 @@ MonoBehaviour:
   gravity: -0.02
   friction: 0.8
   sprint_multiplier: 2
-  air_control_multiplier: 0.5
   mouse_sens: {x: 0.4, y: 0.4}
   ground_mask:
     serializedVersion: 2
@@ -607,6 +607,20 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &685583360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685583356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3f7348ee6eab854f88e267b25e3fe8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  battery: 100
 --- !u!1 &789693167
 GameObject:
   m_ObjectHideFlags: 0
