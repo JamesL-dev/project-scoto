@@ -5,7 +5,8 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     [SerializeField] float velocity_scalar = 4F, acceleration_scalar = 1F, damage = 10F;
-    [SerializeField] int MAX_TIME = 400, timer = 0;
+    int timer = 0;
+    public static int MAX_TIME = 90;
 
     bool faster_timer = true, in_ground = false, in_enemy = false, fade_light = false;
 

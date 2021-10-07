@@ -12,16 +12,18 @@ public class RodneyStressTest : MonoBehaviour
     public IEnumerator ArrowStressTest()
     {   
         SceneManager.LoadScene("RodneyStressTest");
-        yield return new WaitForSeconds(8);
+        yield return new WaitForSeconds(5);
 
-        GameObject player = GameObject.FindWithTag("Player"); 
+        GameObject player = GameObject.Find("Player"); 
         GameObject main_camera = GameObject.FindWithTag("MainCamera");
-        GameObject projectile = GameObject.Find("Arrow");
+        Arrow projectile = AssetDatabase.LoadAssetAtPath<Arrow>("Assets/prefabs/rodney/Projectiles/Arrow.prefab");
         Bow bow = GameObject.Find("BowContainer").GetComponent<Bow>();
-        int fire_count = 1000, shots_per_frame = 10;
+        player.transform.LookAt(GameObject.Find("HeavyEnemy(Clone)").transform);
+        int fire_count = 60000, shots_per_frame = 60;
+        Arrow.MAX_TIME = 10000;
 
-        player.transform.LookAt(GameObject.Find("HeavyEnemy").transform);
         yield return new WaitForSeconds(.5F);
+
 
         Quaternion rotation = main_camera.transform.rotation * Quaternion.Euler(-90,0,0);
         for(int i = 0; i < fire_count/shots_per_frame; i++) 

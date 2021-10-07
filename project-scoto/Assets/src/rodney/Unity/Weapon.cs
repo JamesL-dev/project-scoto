@@ -18,13 +18,13 @@ public class Weapon : MonoBehaviour
 
     public void Found() 
     { 
-        if(discovered) { Debug.LogError("Found() called on a weapon already discovered."); } 
+        if(discovered) { Debug.LogWarning("Found() called on a weapon already discovered."); } 
         discovered = true; 
     }
 
     public void NotFound()
     {
-        Debug.LogError("NotFound() called on a weapon. Use for tests and debugging only!");
+        Debug.LogWarning("Function NotFound() only to be used for testing & debugging.");
         discovered = false;
     }
     

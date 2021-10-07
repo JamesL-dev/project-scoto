@@ -12,33 +12,50 @@ public class RodneyBoundaryTest : MonoBehaviour
     public IEnumerator NoDiscoveredWeapons()
     {   
         SceneManager.LoadScene("Game");
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
 
-        Inv_Flashlight flashlight = GameObject.Find("FlashlighContainer").GetComponent<Inv_Flashlight>();
+        Inv_Flashlight flashlight = GameObject.Find("FlashlightContainer").GetComponent<Inv_Flashlight>();
         flashlight.NotFound();
         GameObject.Find("TridentContainer").GetComponent<Trident>().NotFound();
         GameObject.Find("BowContainer").GetComponent<Bow>().NotFound();
         GameObject.Find("GreekFireContainer").GetComponent<GreekFire>().NotFound();
 
-        yield return null;
-        
+        yield return new WaitForSeconds(1);
+
         Assert.IsTrue(flashlight.isFound());
+        yield return null;
     }
 
     [UnityTest]
     public IEnumerator InvBounds()
     {   
         SceneManager.LoadScene("Game");
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
 
-        WeaponManager object = GameObject.Find("Inventory").GetComponent<WeaponManager>();
+        WeaponManager obj_ = GameObject.Find("Inventory").GetComponent<WeaponManager>();
         
-        object.CurrentWeapon = -1;
+        int previous_weapon = obj_.CurrentWeapon();
         yield return null;
-        Assert.AreEqual(object.CurrentWeapon, object.InvSize - 1);
+        obj_.SetCurrentWeapon(-1);
+        yield return new WaitForSeconds(.25F);
+        Assert.AreEqual(obj_.CurrentWeapon(), previous_weapon);
 
-        object.CurrentWeapon = InvSize;
+        previous_weapon = obj_.CurrentWeapon();
         yield return null;
-        Assert.AreEqual(object.CurrentWeapon, 0);
+        obj_.SetCurrentWeapon(-1000);
+        yield return new WaitForSeconds(.25F);
+        Assert.AreEqual(obj_.CurrentWeapon(), previous_weapon);
+
+        previous_weapon = obj_.CurrentWeapon();
+        yield return null;
+        obj_.SetCurrentWeapon(WeaponManager.InvSize);
+        yield return new WaitForSeconds(.25F);
+        Assert.AreEqual(obj_.CurrentWeapon(), previous_weapon);
+
+        previous_weapon = obj_.CurrentWeapon();
+        yield return null;
+        obj_.SetCurrentWeapon(WeaponManager.InvSize + 1000);
+        yield return new WaitForSeconds(.25F);
+        Assert.AreEqual(obj_.CurrentWeapon(), previous_weapon);
     }
 }
