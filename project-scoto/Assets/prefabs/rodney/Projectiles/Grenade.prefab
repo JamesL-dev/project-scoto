@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9a32fa1f729dd2489ee57bfd94dd33d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity_scalar: 15
+  create_fire_at_explosion: 1
   Explosion: {fileID: 131164, guid: 3c5f4e32698bdb04eaed647f60310510, type: 3}
   Fire: {fileID: 168262, guid: 062893e7007e39441aea009115b6cefa, type: 3}
 --- !u!135 &-2038671500050597952
@@ -106,7 +106,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415556611663978}
-  m_Material: {fileID: 13400000, guid: 9bcac437c66d3fd409cacb130de18c00, type: 2}
+  m_Material: {fileID: 13400000, guid: 7f55748c8e578ab4d8ea04ab83503d17, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

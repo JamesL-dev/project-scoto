@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class GreekProjectile : MonoBehaviour
 {
-    float velocity_scalar = 15F;
+    float velocity_scalar = 20F;
     int MAX_TIME = 45, timer = 0;
     
     public bool create_fire_at_explosion = true;
-    public GameObject Explosion, Fire, Fire_small;
+    public GameObject Explosion, Fire;
+    private GameObject Fire_small;
 
     void Awake() 
     { 
@@ -33,10 +34,5 @@ public class GreekProjectile : MonoBehaviour
             }
             Destroy(gameObject);
         }
-    }
-
-    void OnTriggerEnter(Collider other) 
-    {
-        Debug.Log("Grenade collision occured");
     }
 }

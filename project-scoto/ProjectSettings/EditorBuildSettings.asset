@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Tests/PlayMode/haydenPlayMode/enemySpawnerStressScene.unity
     guid: 9bc682f0ef922644e90f02cbeb72eae1
   - enabled: 1
+    path: Assets/Tests/PlayMode/rodneyPlayMode/RodneyStressTest.unity
+    guid: 01d0e80bd59820040a5072c64651f23f
+  - enabled: 1
     path: Assets/Tests/PlayMode/jamesPlayMode/jamesTestScene.unity
     guid: b55e3d2fdcf04d84e81c85a3215d0db0
   m_configObjects:

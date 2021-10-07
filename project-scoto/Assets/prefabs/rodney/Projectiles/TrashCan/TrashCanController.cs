@@ -9,6 +9,6 @@ public class TrashCanController : MonoBehaviour
     void FixedUpdate()
     {
         timer ++;
-        if (timer > 120) {Destroy(gameObject);}
+        if (timer > 60) {Destroy(gameObject);}
     }
 }

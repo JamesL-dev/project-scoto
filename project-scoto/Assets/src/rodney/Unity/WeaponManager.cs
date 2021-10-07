@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI; // FOR DEBUGGING ONLY
 
 public class WeaponManager : MonoBehaviour 
 {
-    int CurrentWeapon = 0, timer = 0, previous_index = 0, InvSize = 4;
+    public const int InvSize = 4, initWeapon = 0;
+    int CurrWeapon = initWeapon, previous_index = initWeapon, ChangeCurrWeapon = -1, timer = 0;
     [SerializeField] public int FireAmount = 0;
     
     [SerializeField] bool FiringWeapons = false, ShowWeapons = true;
-    bool SwapShowWeapons = false, error = false;
+    bool ChangeShowWeapons = false;
 
     private WeaponInputActions weapon_input_actions;
     private InputAction FireWeapon, ChangeWeapon, one, two, three, four;
 
-    public Weapon[] weapon = new Weapon[4];
+    public Weapon[] weapon = new Weapon[InvSize];
 
     private void Awake() 
     {
@@ -34,141 +34,103 @@ public class WeaponManager : MonoBehaviour
 
     void FixedUpdate() 
     {
+        // ERROR HANDLING
+        // IF ALL WEAPONS ON NOT DISCOVERED, SET weapon[initWeapon] to discovered
+        bool flag = false;
+        for(int i = 0; i < InvSize; i++) { if(weapon[i].isFound()) {flag = true; break;} }
+        if(!flag) {Debug.LogWarning("No weapon in inventory is set to discovered, this can't happen. Setting weapon[initWeapon] to discovered."); weapon[initWeapon].Found();}
+        // IF CURRENT WEAPON OUT OF BOUNDS, SET TO PREVIOUS VALUE 
+        if(CurrWeapon >= InvSize || CurrWeapon < 0) { CurrWeapon = previous_index; }
+        
+
         if(!FiringWeapons && ShowWeapons) 
         {
-
             // IF ABLE TO FIRE WEAPONS 
             if(FireWeapon.ReadValue<float>() != 0) 
             {
                 GameObject Object = GameObject.FindGameObjectWithTag("MainCamera");
-                weapon[CurrentWeapon].Fire(Object.transform.position, Object.transform.rotation);
-                timer = weapon[CurrentWeapon].Time();    
+                weapon[CurrWeapon].Fire(Object.transform.position, Object.transform.rotation);
+                timer = weapon[CurrWeapon].Time();    
                 FiringWeapons = true;
             }
-            previous_index = CurrentWeapon;
+            previous_index = CurrWeapon;
             float ChangeWeaponVal;
+
             if((ChangeWeaponVal = ChangeWeapon.ReadValue<float>()) != 0)
             {
                 // CHANGE INVENTORY SLOT BY "SCROLL"
                 if(ChangeWeaponVal < 0) 
                 { 
-                    CurrentWeapon ++;
-                    if (CurrentWeapon >= InvSize) {CurrentWeapon = 0;}
-                    error = false;
-                    while(!weapon[CurrentWeapon].isFound())
-                    {
-                        CurrentWeapon ++;
-                        if (CurrentWeapon >= InvSize) 
-                        {
-                            CurrentWeapon = 0; 
-                            if(error) 
-                            {
-                                Debug.LogError("No weapon in inventory is set to discovered, this can't happen. Setting weapon[0] to discovered.");
-                                weapon[0].setDiscovered();
-                                break;
-                            }
-                            error = true;
-                        }
-                    }
+                    CurrWeapon ++;
+                    if (CurrWeapon >= InvSize) {CurrWeapon = 0;}
                 }
                 if(ChangeWeaponVal > 0) 
                 {
-                    CurrentWeapon --;
-                    if (CurrentWeapon < 0) {CurrentWeapon = InvSize-1;}
-                    error = false;
-                    while(!weapon[CurrentWeapon].isFound())
-                    {
-                        CurrentWeapon --;
-                        if (CurrentWeapon < 0) 
-                        {
-                            CurrentWeapon = InvSize-1;
-                            if(error)
-                            {
-                                Debug.LogError("No weapon in inventory is set to discovered, this can't happen. Setting weapon[0] to discovered.");
-                                weapon[0].setDiscovered();
-                                break;
-                            } 
-                            error = true;                      
-                        }
-                    }
+                    CurrWeapon --;
+                    if (CurrWeapon < 0) {CurrWeapon = InvSize-1;}
                 }
-
                 // SWITCH WHICH MODEL IS ACTIVATED
                 weapon[previous_index].setActive(false);
-                weapon[CurrentWeapon].setActive(true);
+                weapon[CurrWeapon].setActive(true);
             }
             else
             {
                 // CHANGE INVENTORY SLOT BY "HOTKEY"
                 ChangeWeaponVal = 0;
-                if (one.ReadValue<float>() != 0) {CurrentWeapon = 0; ChangeWeaponVal = 1;}
-                if (two.ReadValue<float>() != 0) {CurrentWeapon = 1; ChangeWeaponVal = 1;}
-                if (three.ReadValue<float>() != 0) {CurrentWeapon = 2; ChangeWeaponVal = 1;}
-                if (four.ReadValue<float>() != 0) {CurrentWeapon = 3; ChangeWeaponVal = 1;}
-
+                if (one.ReadValue<float>() != 0) {CurrWeapon = 0; ChangeWeaponVal = 1;}
+                if (two.ReadValue<float>() != 0) {CurrWeapon = 1; ChangeWeaponVal = 1;}
+                if (three.ReadValue<float>() != 0) {CurrWeapon = 2; ChangeWeaponVal = 1;}
+                if (four.ReadValue<float>() != 0) {CurrWeapon = 3; ChangeWeaponVal = 1;}
                 // SWITCH WHICH MODEL IS ACTIVATED
                 if(ChangeWeaponVal == 1) 
                 {
-                    if(weapon[CurrentWeapon].isFound())
+                    if(weapon[CurrWeapon].isFound() && CurrWeapon != previous_index)
                     {
                         weapon[previous_index].setActive(false);
-                        weapon[CurrentWeapon].setActive(true);
+                        weapon[CurrWeapon].setActive(true);
                     }
                     else
                     {
-                        CurrentWeapon = previous_index;
+                        CurrWeapon = previous_index;
                     }
                 }
-                else
-                {
-                    // NO USER INPUTTED INVENTORY CHANGE
-                    if(CurrentWeapon >= InvSize || CurrentWeapon < 0)
-                    {
-                        CurrentWeapon = previous_index;
-                    }
-                }
-
-                // ERROR CHECK
-                error = false;
-                while(!weapon[CurrentWeapon].isFound())
-                    {
-                        CurrentWeapon ++;
-                        if (CurrentWeapon >= InvSize) 
-                        {
-                            CurrentWeapon = 0; 
-                            if(error) 
-                            {
-                                Debug.LogError("No weapon in inventory is set to discovered, this can't happen. Setting weapon[0] to discovered.");
-                                weapon[0].setDiscovered();
-                                break;
-                            }
-                            error = true;
-                        }
-                    }
             }
         } 
         else 
         { 
-            
             // IF NOT ABLE TO FIRE WEAPONS
             if(timer > 0) { timer --; }
             if(timer == 0) { FiringWeapons = false; }
-
         }
 
 
         // IF EXTERNAL ENTITY WANTS TO NOT DISPLAY WEAPONS
-        if(SwapShowWeapons) 
+        if(ChangeShowWeapons) 
         {
-            if(ShowWeapons) { weapon[CurrentWeapon].setActive(false); } 
-            else { weapon[CurrentWeapon].setActive(true); }
+            if(ShowWeapons) { weapon[CurrWeapon].setActive(false); } 
+            else { weapon[CurrWeapon].setActive(true); }
             ShowWeapons = !ShowWeapons;
-            SwapShowWeapons = false;
+            ChangeShowWeapons = false;
+        }
+
+        // IF EXTERNAL ENTITY WANTS TO CHANGE CURRENT WEAPON
+        if(ChangeCurrWeapon != -1)
+        {
+            CurrWeapon = ChangeCurrWeapon;
+            ChangeCurrWeapon = -1;
         }
     }
 
+
     // SWITCH FOR EXTERNAL ENTITY TO NOTIFY SCRIPT THAT THEY WANT TO NOT DISPLAY WEAPONS
-    public void EnableInventory(bool flag) { if(flag != ShowWeapons) { SwapShowWeapons = true; } }
+    public void EnableInventory(bool flag) { if(flag != ShowWeapons) { ChangeShowWeapons = true; } }
+
+    public void SetCurrentWeapon(int x)
+    { 
+        Debug.LogWarning("Function SetCurrentWeapon() only to be used for testing & debugging."); 
+        if(x == -1) {Debug.LogWarning("SetCurrentWeapon() will not change CurrentWeapon because it was given \"-1\"");}
+        ChangeCurrWeapon = x; 
+    }
 
     private void OnEnable() 
     {
@@ -189,4 +151,6 @@ public class WeaponManager : MonoBehaviour
         three.Disable();
         four.Disable();
     }
+
+    public int CurrentWeapon() { return CurrWeapon;}
 }
