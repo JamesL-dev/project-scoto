@@ -11,12 +11,39 @@ public class LevelGeneration : MonoBehaviour {
     private float mh_scaling = 0.2f;
 
     private void Start() {
-        // DEBUG
-        Room temp_room = Instantiate(room) as Room;
-        bool[] test_room = new bool[4] {true, false, true, true};
-        temp_room.setup(0, 0, test_room, 0);
+        // Make start room.
+        Room start_room = Instantiate(room) as Room;
+        bool[] start_room_doors = new bool[4] {true, false, false, false};
+        start_room.set_values(0, 0, start_room_doors, 1);
+        start_room.start_room_setup();
 
+        // Procedurally generate level layout.
         generate_layout(level_num);
+
+        // DEBUG: Print visualization of level.
+        List<string> print_matrix = new List<string>();
+        for (int z = 0; z < room_matrix[0].Count; z++) {
+            print_matrix.Add("");
+        }
+        for (int x = 0; x < room_matrix.Count; x++) {
+            for (int z = 0; z < room_matrix[x].Count; z++) {
+                print_matrix[z] += draw_doors(x, z);
+            }
+        }
+        string message = "";
+        for (int z = 0; z < room_matrix[0].Count; z++) {
+            message = print_matrix[z] + "\n" + message;
+        }
+        Debug.Log(message);
+        
+        // Add walls to rooms.
+        for (int x = 0; x < room_matrix.Count; x++) {
+            for (int z = 0; z < room_matrix[x].Count; z++) {
+                if (room_matrix[x][z] != null) {
+                    room_matrix[x][z].setup(room_matrix.Count, room_matrix[x].Count);
+                }
+            }
+        }
     }
 
     private void generate_layout(int level) {
@@ -30,17 +57,11 @@ public class LevelGeneration : MonoBehaviour {
         int maze_width = 3 + 2 * (int)Mathf.Round((-0.5f + size_seed) + (mw_scaling * (level - 1)));
         int maze_height = 3 + (int)Mathf.Round((0.5f - size_seed) + (mh_scaling * (level - 1)));
         
-        // DEBUG
-        bool[] closed_room = new bool[4];
-
         // Set up empty level layout.
-        for (int i = 0; i < maze_height; i++) {
+        for (int x = 0; x < maze_width; x++) {
             room_matrix.Add(new List<Room>());
-            for (int j = 0; j < maze_width; j++) {
-                Room temp_room = Instantiate(room) as Room;
-                temp_room.setup(j, i, closed_room, 0);
-                temp_room.gameObject.SetActive(false);
-                room_matrix[i].Add(temp_room);
+            for (int z = 0; z < maze_height; z++) {
+                room_matrix[x].Add(null);
             }
         }
 
@@ -50,17 +71,20 @@ public class LevelGeneration : MonoBehaviour {
         List<Vector3Int> maze_path = new List<Vector3Int>();
 
         // First, create room right after start room.
-        maze_path.Add(create_room(maze_x, maze_z, closed_room));
+        maze_path.Add(create_room(maze_x, maze_z));
+        bool[] temp_doors = room_matrix[maze_x][maze_z].get_doors();
+        temp_doors[2] = true;
+        room_matrix[maze_x][maze_z].set_doors(temp_doors);
 
         // Procedurally generate layout.
         int loop_count = 0;
         while (!((maze_x == (maze_width - 1) / 2) && (maze_z == maze_height - 1)) && loop_count < 100000) {
             // Check if surrounding room locations are out of bounds or room already exists.
             bool[] blocked = new bool[4];
-            blocked[0] = maze_z + 1 >= maze_height || room_matrix[maze_x][maze_z + 1].get_type() != 0;
-            blocked[1] = maze_x + 1 >= maze_width || room_matrix[maze_x + 1][maze_z].get_type() != 0;
-            blocked[2] = maze_z - 1 < 0 || room_matrix[maze_x][maze_z - 1].get_type() != 0;
-            blocked[3] = maze_x - 1 < 0 || room_matrix[maze_x - 1][maze_z].get_type() != 0;
+            blocked[0] = (maze_z + 1 >= maze_height) || (room_matrix[maze_x][maze_z + 1] != null);
+            blocked[1] = (maze_x + 1 >= maze_width) || (room_matrix[maze_x + 1][maze_z] != null);
+            blocked[2] = (maze_z - 1 < 0) || (room_matrix[maze_x][maze_z - 1] != null);
+            blocked[3] = (maze_x - 1 < 0) || (room_matrix[maze_x - 1][maze_z] != null);
 
             // Test for dead end.
             while (blocked[0] && blocked[1] && blocked[2] && blocked[3]) {
@@ -68,7 +92,6 @@ public class LevelGeneration : MonoBehaviour {
                 if (maze_path.Count == 0) {
                     Debug.LogError("ERROR: Maze is full before ending is reached.");
                     Application.Quit();
-                    break;
                 }
 
                 // Backtrack to previous location in path.
@@ -76,11 +99,11 @@ public class LevelGeneration : MonoBehaviour {
                 maze_z = maze_path[maze_path.Count - 1].z;
                 maze_path.RemoveAt(maze_path.Count - 1);
 
-                // Test location again.
-                blocked[0] = maze_z + 1 >= maze_height || room_matrix[maze_x][maze_z + 1].get_type() != 0;
-                blocked[1] = maze_x + 1 >= maze_width || room_matrix[maze_x + 1][maze_z].get_type() != 0;
-                blocked[2] = maze_z - 1 < 0 || room_matrix[maze_x][maze_z - 1].get_type() != 0;
-                blocked[3] = maze_x - 1 < 0 || room_matrix[maze_x - 1][maze_z].get_type() != 0;
+                // Test surrounding locations again.
+                blocked[0] = (maze_z + 1 >= maze_height) || (room_matrix[maze_x][maze_z + 1] != null);
+                blocked[1] = (maze_x + 1 >= maze_width) || (room_matrix[maze_x + 1][maze_z] != null);
+                blocked[2] = (maze_z - 1 < 0) || (room_matrix[maze_x][maze_z - 1] != null);
+                blocked[3] = (maze_x - 1 < 0) || (room_matrix[maze_x - 1][maze_z] != null);
             }
 
             // Choose a new location, repeat until an empty one is chosen.
@@ -90,33 +113,35 @@ public class LevelGeneration : MonoBehaviour {
                 loop_count++;
             }
 
-            // Go to new location.
+            // Add door in old room.
+            temp_doors = room_matrix[maze_x][maze_z].get_doors();
+            temp_doors[direction] = true;
+            room_matrix[maze_x][maze_z].set_doors(temp_doors);
+
+            // Go to new room location and create a room.
             if (direction == 0) {
                 // North
                 maze_z += 1;
-                bool[] temp_doors = new bool[4] {false, false, true, false};
-                maze_path.Add(create_room(maze_x, maze_z, temp_doors));
             } else if (direction == 1) {
                 // East
                 maze_x += 1;
-                bool[] temp_doors = new bool[4] {false, false, false, true};
-                maze_path.Add(create_room(maze_x, maze_z, temp_doors));
             } else if (direction == 2) {
                 // South
                 maze_z -= 1;
-                bool[] temp_doors = new bool[4] {true, false, false, false};
-                maze_path.Add(create_room(maze_x, maze_z, temp_doors));
             } else if (direction == 3) {
                 // West
                 maze_x -= 1;
-                bool[] temp_doors = new bool[4] {false, true, false, false};
-                maze_path.Add(create_room(maze_x, maze_z, temp_doors));
             } else {
                 // Bad value.
                 Debug.LogError("ERROR: Invalid direction in generate_layout().");
                 Application.Quit();
-                break;
             }
+            maze_path.Add(create_room(maze_x, maze_z));
+
+            // Add door in new room.
+            temp_doors = room_matrix[maze_x][maze_z].get_doors();
+            temp_doors[(direction + 2) % 4] = true;
+            room_matrix[maze_x][maze_z].set_doors(temp_doors);
 
             loop_count++;
         }
@@ -128,27 +153,67 @@ public class LevelGeneration : MonoBehaviour {
             Application.Quit();
         }
 
-        // DEBUG: Print visualization of level.
-        string matrix = "";
-        for (int i = 0; i < maze_height; i++) {
-            string row = "";
-            for (int j = 0; j < maze_width; j++) {
-                if (room_matrix[j][i].get_type() != 0) {
-                    row += "[┼] ";
-                } else {
-                    row += "[   ] ";
-                }
-            }
-            matrix = row + "\n" + matrix;
-        }
-        Debug.Log(matrix);
+        // Finally, add door to end room in the last room.
+        temp_doors = room_matrix[maze_x][maze_z].get_doors();
+        temp_doors[0] = true;
+        room_matrix[maze_x][maze_z].set_doors(temp_doors);
     }
 
-    private Vector3Int create_room(int x, int z, bool[] doors) {
+    private Vector3Int create_room(int x, int z) {
+        // Create room at position.
+        Room temp_room = Instantiate(room) as Room;
+        temp_room.set_position(x, z);
+        temp_room.set_type(1);
+        room_matrix[x][z] = temp_room;
+
+        // Retun room position.
         Vector3Int temp_pos = Vector3Int.zero;
         temp_pos.x = x;
         temp_pos.z = z;
-        room_matrix[x][z].setup(x, z, doors, 1);
         return temp_pos;
+    }
+
+    // DEBUG
+    private string draw_doors(int x, int z) {
+        if (room_matrix[x][z] != null) {
+            bool[] doors = room_matrix[x][z].get_doors();
+            if (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == false) {
+                return "e";
+            } else if (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == true) {
+                return "[o] ";
+            } else if (doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == false) {
+                return "[o] ";
+            } else if (doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == true) {
+                return "[┐] ";
+            } else if (doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == false) {
+                return "[o] ";
+            } else if (doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == true) {
+                return "[─] ";
+            } else if (doors[0] == false && doors[1] == true && doors[2] == true && doors[3] == false) {
+                return "[┌] ";
+            } else if (doors[0] == false && doors[1] == true && doors[2] == true && doors[3] == true) {
+                return "[┬] ";
+            } else if (doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == false) {
+                return "[o] ";
+            } else if (doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == true) {
+                return "[┘] ";
+            } else if (doors[0] == true && doors[1] == false && doors[2] == true && doors[3] == false) {
+                return "[│] ";
+            } else if (doors[0] == true && doors[1] == false && doors[2] == true && doors[3] == true) {
+                return "[┤] ";
+            } else if (doors[0] == true && doors[1] == true && doors[2] == false && doors[3] == false) {
+                return "[└] ";
+            } else if (doors[0] == true && doors[1] == true && doors[2] == false && doors[3] == true) {
+                return "[┴] ";
+            } else if (doors[0] == true && doors[1] == true && doors[2] == true && doors[3] == false) {
+                return "[├] ";
+            } else if (doors[0] == true && doors[1] == true && doors[2] == true && doors[3] == true) {
+                return "[┼] ";
+            } else {
+                return "e";
+            }
+        } else {
+            return "[  ] ";
+        }
     }
 }
