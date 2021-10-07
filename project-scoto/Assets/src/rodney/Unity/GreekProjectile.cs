@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GreekProjectile : MonoBehaviour
 {
-    [SerializeField] float velocity_scalar = 20F;
+    float velocity_scalar = 15F;
     int MAX_TIME = 45, timer = 0;
     
     public bool create_fire_at_explosion = true;
