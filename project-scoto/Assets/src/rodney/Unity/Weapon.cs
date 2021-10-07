@@ -16,10 +16,16 @@ public class Weapon : MonoBehaviour
     public bool isFound() { return discovered; }
     public int Time() { return MAX_TIME; }
 
-    public void setDiscovered() 
+    public void Found() 
     { 
-        if(discovered) { Debug.LogError("setDiscovered() called on a weapon already discovered."); } 
+        if(discovered) { Debug.LogError("Found() called on a weapon already discovered."); } 
         discovered = true; 
+    }
+
+    public void NotFound()
+    {
+        Debug.LogError("NotFound() called on a weapon. Use for tests and debugging only!");
+        discovered = false;
     }
     
     public void setActive(bool yes) 

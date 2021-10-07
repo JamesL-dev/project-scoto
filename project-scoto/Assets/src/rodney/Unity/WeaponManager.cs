@@ -64,7 +64,7 @@ public class WeaponManager : MonoBehaviour
                             if(error) 
                             {
                                 Debug.LogError("No weapon in inventory is set to discovered, this can't happen. Setting weapon[0] to discovered.");
-                                weapon[0].setDiscovered();
+                                weapon[0].Found();
                                 break;
                             }
                             error = true;
@@ -85,7 +85,7 @@ public class WeaponManager : MonoBehaviour
                             if(error)
                             {
                                 Debug.LogError("No weapon in inventory is set to discovered, this can't happen. Setting weapon[0] to discovered.");
-                                weapon[0].setDiscovered();
+                                weapon[0].Found();
                                 break;
                             } 
                             error = true;                      
@@ -139,7 +139,7 @@ public class WeaponManager : MonoBehaviour
                             if(error) 
                             {
                                 Debug.LogError("No weapon in inventory is set to discovered, this can't happen. Setting weapon[0] to discovered.");
-                                weapon[0].setDiscovered();
+                                weapon[0].Found();
                                 break;
                             }
                             error = true;

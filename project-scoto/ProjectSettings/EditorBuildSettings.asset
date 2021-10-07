@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Tests/PlayMode/haydenPlayMode/enemySpawnerStressScene.unity
     guid: 9bc682f0ef922644e90f02cbeb72eae1
+  - enabled: 1
+    path: Assets/Tests/PlayMode/rodneyPlayMode/RodneyStressTest.unity
+    guid: 01d0e80bd59820040a5072c64651f23f
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5014deb25feeaa9429613361155004f4, type: 2}
