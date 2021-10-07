@@ -25,7 +25,6 @@ public class RodneyStressTest
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         yield return new WaitForSeconds(5);
         player.transform.LookAt(GameObject.Find("HeavyEnemy").transform);
-        //player.transform.rotation = new Quaternion(0, player.transform.rotation.eulerAngles.y - 180F, 0, 1);
         yield return new WaitForSeconds(1);
         for(int i = 0; i < fire_count/shots_per_frame; i++) 
         {
