@@ -5,10 +5,13 @@ using UnityEngine;
 public class LevelGeneration : MonoBehaviour {
     public GameObject player;
     public Room room;
-    public int level_num;
+    public static int level_num;
     public List<List<Room>> room_matrix = new List<List<Room>>();
     private float mw_scaling = 0.1f;
     private float mh_scaling = 0.2f;
+
+    // For testing
+    public int room_count = 0;
 
     private void Start() {
         // Make start room.
@@ -16,25 +19,26 @@ public class LevelGeneration : MonoBehaviour {
         bool[] start_room_doors = new bool[4] {true, false, false, false};
         start_room.set_values(0, 0, start_room_doors, 1);
         start_room.start_room_setup();
+        room_count++;
 
         // Procedurally generate level layout.
         generate_layout(level_num);
 
-        // DEBUG: Print visualization of level.
-        List<string> print_matrix = new List<string>();
-        for (int z = 0; z < room_matrix[0].Count; z++) {
-            print_matrix.Add("");
-        }
-        for (int x = 0; x < room_matrix.Count; x++) {
-            for (int z = 0; z < room_matrix[x].Count; z++) {
-                print_matrix[z] += draw_doors(x, z);
-            }
-        }
-        string message = "";
-        for (int z = 0; z < room_matrix[0].Count; z++) {
-            message = print_matrix[z] + "\n" + message;
-        }
-        Debug.Log(message);
+        // // DEBUG: Print visualization of level.
+        // List<string> print_matrix = new List<string>();
+        // for (int z = 0; z < room_matrix[0].Count; z++) {
+        //     print_matrix.Add("");
+        // }
+        // for (int x = 0; x < room_matrix.Count; x++) {
+        //     for (int z = 0; z < room_matrix[x].Count; z++) {
+        //         print_matrix[z] += draw_doors(x, z);
+        //     }
+        // }
+        // string message = "";
+        // for (int z = 0; z < room_matrix[0].Count; z++) {
+        //     message = print_matrix[z] + "\n" + message;
+        // }
+        // Debug.Log(message);
         
         // Add walls to rooms.
         for (int x = 0; x < room_matrix.Count; x++) {
@@ -46,7 +50,7 @@ public class LevelGeneration : MonoBehaviour {
         }
     }
 
-    private void generate_layout(int level) {
+    public void generate_layout(int level) {
         // Choose the width-height variance.
         float size_seed = Random.value;
 
@@ -54,8 +58,8 @@ public class LevelGeneration : MonoBehaviour {
         // Both width and height start as round(random value between 2.5 and 3.5).
         // As the level number increases, the range of width and height increase by 0.2, but width must be odd.
         // The width and height are complementary; a wider level is less likely to be taller, and vice versa.
-        int maze_width = 3 + 2 * (int)Mathf.Round((-0.5f + size_seed) + (mw_scaling * (level - 1)));
-        int maze_height = 3 + (int)Mathf.Round((0.5f - size_seed) + (mh_scaling * (level - 1)));
+        int maze_width = 3 + 2 * Mathf.RoundToInt((-0.5f + size_seed) + (mw_scaling * (level - 1)));
+        int maze_height = 3 + Mathf.RoundToInt((0.5f - size_seed) + (mh_scaling * (level - 1)));
         
         // Set up empty level layout.
         for (int x = 0; x < maze_width; x++) {
@@ -165,6 +169,9 @@ public class LevelGeneration : MonoBehaviour {
         temp_room.set_position(x, z);
         temp_room.set_type(1);
         room_matrix[x][z] = temp_room;
+
+        // Increase room counter.
+        room_count++;
 
         // Retun room position.
         Vector3Int temp_pos = Vector3Int.zero;
