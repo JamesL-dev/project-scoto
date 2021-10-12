@@ -114,6 +114,7 @@ public class BaseEnemy : MonoBehaviour
     private void Die()
     {
         // DestroyImmediate(gameObject, true);
+        Debug.Log("ASDF");
     }
 
     private void ResetAttack()
