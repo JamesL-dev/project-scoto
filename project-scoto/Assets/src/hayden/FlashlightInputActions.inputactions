@@ -1,0 +1,52 @@
+{
+    "name": "FlashlightInputActions",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "8678eb30-e476-477c-a1fb-119f5e5734af",
+            "actions": [
+                {
+                    "name": "ToggleFlashlight",
+                    "type": "Button",
+                    "id": "26a86898-46d0-4171-a0b1-d9e967c5d97a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ToggleFocus",
+                    "type": "Button",
+                    "id": "99a98d67-6474-4a14-8c0f-7f8831e6572f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "46dc9698-e679-4dbd-bddf-55a6188637bf",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleFlashlight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ecb19792-29c9-43cb-a2e4-b5ac3a17f268",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleFocus",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
