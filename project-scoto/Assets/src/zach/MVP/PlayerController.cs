@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
     public Vector2 mouse_sens;
     public Vector2 movement_value, mouse_value;
     public float jump_value, sprinting_value;
+    public bool demo_mode = false;
     private Vector3 velocity;
     private float x_rotation = 0f;
     
@@ -46,11 +47,13 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Update() {
-        // Get inputs.
-        movement_value = movement.ReadValue<Vector2>();
-        jump_value = jumping.ReadValue<float>();
-        mouse_value = mouse.ReadValue<Vector2>();
-        sprinting_value = sprinting.ReadValue<float>();
+        if (demo_mode == false) {
+            // Get inputs.
+            movement_value = movement.ReadValue<Vector2>();
+            jump_value = jumping.ReadValue<float>();
+            mouse_value = mouse.ReadValue<Vector2>();
+            sprinting_value = sprinting.ReadValue<float>();
+        }
 
         // Rotate from mouse.
         transform.Rotate(Vector3.up, mouse_value.x * mouse_sens.x);
