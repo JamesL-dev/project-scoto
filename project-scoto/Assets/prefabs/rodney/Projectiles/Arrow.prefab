@@ -46,8 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f111e45b73c644e8ec460b459b4d9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity_scalar: 1
-  acceleration_scalar: 1
   damage: 10
   MAX_TIME: 180
 --- !u!65 &-5908177630348835843
@@ -78,7 +76,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1 &4445846166995065023
 GameObject:
   m_ObjectHideFlags: 0

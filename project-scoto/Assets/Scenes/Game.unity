@@ -1385,7 +1385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 685583356}
   room: {fileID: 8221912916405124795, guid: 27340ba6f91c86e4db4a282f553a17cf, type: 3}
-  level_num: 1
+  room_count: 0
 --- !u!1 &1747505993
 GameObject:
   m_ObjectHideFlags: 0

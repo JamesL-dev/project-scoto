@@ -13,6 +13,6 @@ public class Bow : Weapon
     public override void Fire(Vector3 position, Quaternion rotation) 
     {
         rotation *= Quaternion.Euler(-90,0,0);
-        Instantiate(projectile, position - rotation*Vector3.up*1.0F, rotation);
+        Instantiate(projectile, position - rotation*Vector3.up*.75F, rotation);
     }
 }
