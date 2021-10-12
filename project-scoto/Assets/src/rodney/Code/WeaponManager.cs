@@ -108,7 +108,7 @@ public class WeaponManager : MonoBehaviour
         // IF ANY PLAYER INPUT RECIEVED, RESET DEMO MODE TIMER
         if(AnyPlayerInput) {Demo.ResetTimer(); AnyPlayerInput = false;}
 
-        // IF EXTERNAL ENTITY WANTS TO NOT DISPLAY WEAPONS
+        // IF EXTERNAL ENTITY WANTS TO NOT DISPLAY WEAPONS 
         if(ChangeShowWeapons) 
         {
             if(ShowWeapons) { weapon[CurrWeapon].setActive(false); } 
