@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class WeaponManager : MonoBehaviour 
 {
-    public const int InvSize = 4, initWeapon = 0;
+    public const int InvSize = 3, initWeapon = 0;
     int CurrWeapon = initWeapon, previous_index = initWeapon, ChangeCurrWeapon = -1, timer = 0;
     [SerializeField] public int FireAmount = 0;
     
