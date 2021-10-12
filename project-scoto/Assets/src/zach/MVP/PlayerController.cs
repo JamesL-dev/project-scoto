@@ -7,9 +7,8 @@ public class PlayerController : MonoBehaviour {
     // Variables
     public float jump_force, move_speed, gravity, friction, sprint_multiplier;
     public Vector2 mouse_sens;
-    public Vector2 movement_value, mouse_value;
-    public float jump_value, sprinting_value;
-    public bool demo_mode = false;
+    private Vector2 movement_value, mouse_value;
+    private float jump_value, sprinting_value;
     private Vector3 velocity;
     private float x_rotation = 0f;
     
@@ -47,12 +46,15 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Update() {
-        if (demo_mode == false) {
-            // Get inputs.
-            movement_value = movement.ReadValue<Vector2>();
-            jump_value = jumping.ReadValue<float>();
-            mouse_value = mouse.ReadValue<Vector2>();
-            sprinting_value = sprinting.ReadValue<float>();
+        // Get inputs.
+        movement_value = movement.ReadValue<Vector2>();
+        jump_value = jumping.ReadValue<float>();
+        mouse_value = mouse.ReadValue<Vector2>();
+        sprinting_value = sprinting.ReadValue<float>();
+
+        // Check for no inputs.
+        if (movement_value.x != 0f || movement_value.y != 0f || jump_value != 0f || mouse_value.x != 0f || mouse_value.y != 0f || sprinting_value != 0f) {
+            Demo.ResetTimer();
         }
 
         // Rotate from mouse.
@@ -82,9 +84,14 @@ public class PlayerController : MonoBehaviour {
             }
 
             // If jump is pressed, jump.
-            if (jump_value > 0) {
+            if (jump_value > 0 || Demo.Jump()) {
                 velocity.y = jump_force;
             }
+        }
+
+        // If demo is on, override movement values.
+        if (Demo.On()) {
+            movement_value = Demo.Move();
         }
 
         // Do horizontal movement and move player.
@@ -96,7 +103,7 @@ public class PlayerController : MonoBehaviour {
         // Calculate horizontal movement relative to the player.
         Vector3 player_move = Vector3.zero;
         player_move.x = movement_value.x * move_speed;
-        if (sprinting_value > 0 && movement_value.y > 0) {
+        if ((sprinting_value > 0 || Demo.Sprint()) && movement_value.y > 0) {
             player_move.z = movement_value.y * move_speed * sprint_multiplier;
         } else {
             player_move.z = movement_value.y * move_speed;
