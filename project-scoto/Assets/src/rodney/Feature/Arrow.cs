@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    [SerializeField] public float velocity_scalar = 4F, acceleration_scalar = 1F, damage = 10F, MAX_TIME = 60F;
+    [SerializeField] public float damage = 10F, MAX_TIME = 60F;
+    float velocity_scalar = 1F, acceleration_scalar = 1F;
     int timer = 0;
 
     bool in_air = true;
@@ -67,5 +68,18 @@ public class Arrow : MonoBehaviour
                 gameObject.transform.position += .5F*velocity ;
             }
         }
+    }
+
+    static bool test_called = false;
+    float velocity_scalar_2 = 3F;
+    public void Test()
+    {
+        if(!test_called) 
+        {
+            Debug.LogWarning("Function Arrow.Test() only to be used for testing & debugging.");
+            test_called = true;
+        }
+        velocity *= velocity_scalar_2/velocity_scalar;
+        MAX_TIME = 1000000;
     }
 }

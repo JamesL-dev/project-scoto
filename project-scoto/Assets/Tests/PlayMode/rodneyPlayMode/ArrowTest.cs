@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ArrowTest : MonoBehaviour
 {
-    int timer = 0, MAX_TIME = 180;
+    int timer = 0, MAX_TIME = 60;
     void FixedUpdate()
     {
         timer ++;
