@@ -7,10 +7,10 @@ public class PlayerController : MonoBehaviour {
     // Variables
     public float jump_force, move_speed, gravity, friction, sprint_multiplier;
     public Vector2 mouse_sens;
+    public Vector2 movement_value, mouse_value;
+    public float jump_value, sprinting_value;
     private Vector3 velocity;
     private float x_rotation = 0f;
-    private Vector2 movement_value, mouse_value;
-    private float jump_value, sprinting_value;
     
     // Classes
     public LayerMask ground_mask;
