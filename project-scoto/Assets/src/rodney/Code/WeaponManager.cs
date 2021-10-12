@@ -10,7 +10,7 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] public int FireAmount = 0;
     
     [SerializeField] bool FiringWeapons = false, ShowWeapons = true;
-    bool ChangeShowWeapons = false, AnyPlayerInput = false;
+    bool ChangeShowWeapons = false;
 
     private WeaponInputActions weapon_input_actions;
     private InputAction FireWeapon, ChangeWeapon, one, two, three, four;
@@ -51,14 +51,15 @@ public class WeaponManager : MonoBehaviour
                 GameObject Object = GameObject.FindGameObjectWithTag("MainCamera");
                 weapon[CurrWeapon].Fire(Object.transform.position, Object.transform.rotation);
                 timer = weapon[CurrWeapon].Time();    
-                FiringWeapons = AnyPlayerInput = true;
+                FiringWeapons = true;
+                Demo.ResetTimer();
             }
             previous_index = CurrWeapon;
             float ChangeWeaponVal;
 
             if((ChangeWeaponVal = ChangeWeapon.ReadValue<float>()) != 0)
             {
-                AnyPlayerInput = true;
+                Demo.ResetTimer();
                 // CHANGE INVENTORY SLOT BY "SCROLL"
                 if(ChangeWeaponVal < 0) 
                 { 
@@ -85,7 +86,7 @@ public class WeaponManager : MonoBehaviour
                 // SWITCH WHICH MODEL IS ACTIVATED
                 if(ChangeWeaponVal == 1) 
                 {
-                    AnyPlayerInput = true;
+                    Demo.ResetTimer();
                     if(weapon[CurrWeapon].isFound() && CurrWeapon != previous_index)
                     {
                         weapon[previous_index].setActive(false);
@@ -104,9 +105,6 @@ public class WeaponManager : MonoBehaviour
             if(timer > 0) { timer --; }
             if(timer == 0) { FiringWeapons = false; }
         }
-
-        // IF ANY PLAYER INPUT RECIEVED, RESET DEMO MODE TIMER
-        if(AnyPlayerInput) {Demo.ResetTimer(); AnyPlayerInput = false;}
 
         // IF EXTERNAL ENTITY WANTS TO NOT DISPLAY WEAPONS 
         if(ChangeShowWeapons) 

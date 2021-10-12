@@ -5,24 +5,25 @@ using UnityEngine;
 public class Demo : MonoBehaviour 
 {
     private static bool jump, sprint, IsSuccessMode;
-    private static int Counter;
-    private static int SlackTime;
+    private static int Counter, SlackTime;
             
+    public static bool On() { if (Demo.Counter >= Demo.SlackTime) return true; return false; }
+
+    public static float Jump() { if(Demo.jump) return 1F; return 0F; }
+
+    public static float Sprint() { if(Demo.sprint) return 1F; return 0F; }
+
+    public static Vector2 Move()
+    {
+        return Vector2.zero;
+    }
+
+
+    public static void ResetTimer() { if(On()) Debug.Log("Demo Mode Turned Off."); Demo.Counter = 0; }
+
     public static void SwapSuccessMode() {Demo.IsSuccessMode = !Demo.IsSuccessMode; }
 
     public static int MaxSeconds() { return Demo.SlackTime/60; }
-
-    public static bool On() { if (Demo.Counter >= Demo.SlackTime) return true; return false; }
-
-    public static bool Jump() { if(Demo.On() && Demo.jump) return true; return false; }
-
-    public static bool Sprint() { if(Demo.On() && Demo.sprint) return true; return false; }
-
-    public static void ResetTimer() 
-    { 
-        if(On()) {Debug.Log ("Demo Mode Turned Off.");}
-        Demo.Counter = 0;
-    }
 
     public static void ChangeSlackTime(int x) 
     {
@@ -47,10 +48,6 @@ public class Demo : MonoBehaviour
         }
     }
 
-    public static Vector2 Move()
-    {
-        return Vector2.zero;
-    }
 
     void Awake()
     {
