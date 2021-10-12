@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -704,6 +704,7 @@ GameObject:
   - component: {fileID: 685583359}
   - component: {fileID: 685583358}
   - component: {fileID: 685583360}
+  - component: {fileID: 685583361}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -745,6 +746,11 @@ MonoBehaviour:
   friction: 0.8
   sprint_multiplier: 2
   mouse_sens: {x: 0.4, y: 0.4}
+  movement_value: {x: 0, y: 0}
+  mouse_value: {x: 0, y: 0}
+  jump_value: 0
+  sprinting_value: 0
+  demo_mode: 0
   ground_mask:
     serializedVersion: 2
     m_Bits: 64
@@ -781,6 +787,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   battery: 100
+--- !u!114 &685583361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685583356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52eb1560bf9dfab40958e1a6e71bb159, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jump: 0
+  sprint: 0
+  IsSuccessMode: 0
+  Counter: 0
+  SlackTime: 0
 --- !u!1 &789693167
 GameObject:
   m_ObjectHideFlags: 0
