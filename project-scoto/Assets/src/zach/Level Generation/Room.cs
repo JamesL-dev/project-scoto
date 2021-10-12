@@ -5,15 +5,15 @@ using UnityEngine;
 public class Room : MonoBehaviour {
     public GameObject enemy, pickup, wall, wall_door;
     public GameObject[] wall_list = new GameObject[4];
-    private bool[] door_list = new bool[] {false, false, false, false};
-    private int x_pos = 0, z_pos = 0, type = 0;
-    private Vector3[] wall_positions = new Vector3[4], wall_rotations = new Vector3[4];
+    protected bool[] door_list = new bool[] {false, false, false, false};
+    protected int x_pos = 0, z_pos = 0, type = 0;
+    protected Vector3[] wall_positions = new Vector3[4], wall_rotations = new Vector3[4];
 
-    private void Awake() {
+    protected void Awake() {
         // Set starting values for position and rotation arrays.
         set_transform_arrays();
 
-        // Create test enemy and pickup GameObjects.
+        // DEBUG: Create test enemy and pickup GameObjects.
         enemy = Instantiate(enemy, this.transform);
         enemy.transform.position += new Vector3(0, 1, 4);
 
@@ -55,7 +55,7 @@ public class Room : MonoBehaviour {
         return type;
     }
 
-    public void setup(int maze_width, int maze_height) {
+    public virtual void setup(int maze_width = 0, int maze_height = 0) {
         // Generate walls.
         for (int i = 0; i < 4; i++) {
             // Create new wall.
@@ -89,29 +89,7 @@ public class Room : MonoBehaviour {
         }
     }
 
-    public void start_room_setup() {
-        // Generate walls.
-        for (int i = 0; i < 4; i++) {
-            // Create new wall.
-            GameObject temp_wall;
-            if (door_list[i]) {
-                temp_wall = Instantiate(wall_door, this.transform);
-                temp_wall.transform.position = wall_positions[i];
-                temp_wall.transform.eulerAngles = wall_rotations[i];
-                temp_wall.tag = wall_door.tag;
-            } else {
-                temp_wall = Instantiate(wall, this.transform);
-                temp_wall.transform.position = wall_positions[i];
-                temp_wall.transform.eulerAngles = wall_rotations[i];
-                temp_wall.tag = wall.tag;
-            }
-
-            // Add wall to array.
-            wall_list[i] = temp_wall;
-        }
-    }
-
-    private void set_transform_arrays() {
+    protected void set_transform_arrays() {
         wall_positions[0] = new Vector3(0, 5, 10);
         wall_positions[1] = new Vector3(10, 5, 0);
         wall_positions[2] = new Vector3(0, 5, -10);
