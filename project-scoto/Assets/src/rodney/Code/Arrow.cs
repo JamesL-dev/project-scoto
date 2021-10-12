@@ -49,10 +49,10 @@ public class Arrow : MonoBehaviour
         {
             bool ignore = false;
 
-            if(other.gameObject.layer == LayerMask.NameToLayer("Enemy")) 
+            if(other.gameObject.tag == "Enemy") 
             {   
                 gameObject.transform.parent = other.transform;
-                if(other.gameObject.name == "HeavyEnemy") { other.gameObject.GetComponent<HeavyEnemy>().TakeDamage(damage); }
+                other.gameObject.GetComponent<BaseEnemy>().TakeDamage(damage);
             } 
             else if(other.gameObject.layer == LayerMask.NameToLayer("Ground")) 
             {   

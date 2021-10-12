@@ -39,11 +39,14 @@ public class Demo : MonoBehaviour
                 SlackTime = 1200; // 20 seconds
                 break;
             case 4:
+                SlackTime = 2400; // 40 seconds
+                break;
+            case 5:
                 SlackTime = 7200; // 2 minutes
                 break;
             default:
-            SlackTime = 300;
-                Debug.LogError("Input to ChangeSlackTime() Out of Bounds. Must be 1 - 4 inclusive.");
+                SlackTime = 300;
+                Debug.LogError("Input to ChangeSlackTime() Out of Bounds. Must be 1 - 5 inclusive.");
                 break;
         }
     }
@@ -54,7 +57,7 @@ public class Demo : MonoBehaviour
         jump = sprint = false;
         IsSuccessMode = true;
         Counter = 0;
-        ChangeSlackTime(2);
+        ChangeSlackTime(3);
         if(SlackTime < 0) {Debug.LogError("Slack Time must be a positive value!");}
     }
 
