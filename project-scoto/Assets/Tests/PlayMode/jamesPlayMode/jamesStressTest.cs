@@ -13,15 +13,9 @@ using UnityEngine.TestTools;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 public class JamesPlayModeTest
-{
-    // [SetUp]
-    // void setupFunction()
-    // {
-    //     SceneManager.LoadScene("Assets/Tests/PlayMode/jamesPlayMode/jamesTestScene.unity");
-    // }
-    
+{  
     [UnityTest]
-    public IEnumerator checkPowerupBounds()
+    public IEnumerator jamesStressTest()
     {
         int ballCount = 1;
         
@@ -32,10 +26,12 @@ public class JamesPlayModeTest
         {
             GameObject.Instantiate(testSphere);
             ballCount++;
+            Rigidbody rb = testSphere.GetComponent<Rigidbody>();
+            Vector3 v3Velocity = rb.velocity;
             yield return new WaitForSeconds(0.000001f);
             if(testSphere.transform.position.y < 0)
             {
-                Debug.Log("Scoin entity out of bounds");
+                Debug.Log("Scoin entity out of bounds; Test Fails at " + ballCount + " scoins and spawner velocity of " + v3Velocity);
                 break;
             }
             if(1.0f / Time.deltaTime <= 15)

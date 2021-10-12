@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scoin : PowerUp
+public class health : PowerUp
 {
-    public int scoinBonus = 1;
+    public int healthBonus = 50;
 
     protected override void PowerUpPayload()
     {
         base.PowerUpPayload();
 
-        // Add 1 scoin to the players scoin count
-        // playerStuff.setScoinAdjustment(addScoin);
+        // add health
+        // playerStuff.setScoinAdjustment(addhealth);
     }
 
     protected override void DestroySelfAfterDelay()
@@ -25,13 +25,5 @@ public class Scoin : PowerUp
     {
         // Spin scoin 
         transform.Rotate(new Vector3(1f, 0f, 0f));
-        if (scoinBonus > 5)
-        {
-            scoinBonus = 5;
-        }
-        if (scoinBonus < 1)
-        {
-            scoinBonus = 1;
-        }
     }
 }

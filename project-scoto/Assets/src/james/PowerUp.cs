@@ -18,7 +18,7 @@ public class PowerUp : MonoBehaviour
     // keep track of what state the powerup is in
     protected enum PowerUpState
     {
-        InAttractMmode, IsCollected, IsExpiring
+        InAttractMode, IsCollected, IsExpiring
     }
 
     protected PowerUpState powerUpState;
@@ -28,7 +28,7 @@ public class PowerUp : MonoBehaviour
     // to spot it. IE: Visual effects, sounds etc.. sparklies.
     protected virtual void Start()
     {
-        powerUpState = PowerUpState.InAttractMmode;
+        powerUpState = PowerUpState.InAttractMode;
     }
 
     // This is used for 3D object interaction
