@@ -14,9 +14,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "ToggleFocus",
+                    "name": "FocusFlashlight",
                     "type": "Button",
                     "id": "99a98d67-6474-4a14-8c0f-7f8831e6572f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "NormalFlashlight",
+                    "type": "Button",
+                    "id": "f598b6ee-5ec6-4aa5-8850-5a551c47e346",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -38,10 +46,21 @@
                     "name": "",
                     "id": "ecb19792-29c9-43cb-a2e4-b5ac3a17f268",
                     "path": "<Mouse>/rightButton",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "ToggleFocus",
+                    "action": "FocusFlashlight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e6e44471-c2d7-442c-814a-4328d1ff2b9f",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NormalFlashlight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
