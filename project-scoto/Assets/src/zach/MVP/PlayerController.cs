@@ -46,24 +46,23 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Update() {
-        // Check for demo mode.
+        // Get inputs from input actions.
+        movement_value = movement.ReadValue<Vector2>();
+        jump_value = jumping.ReadValue<float>();
+        mouse_value = mouse.ReadValue<Vector2>();
+        sprinting_value = sprinting.ReadValue<float>();
+
+        // Check for any movement/mouse inputs.
+        if (movement_value.x != 0f || movement_value.y != 0f || jump_value != 0f || mouse_value.x != 0f || mouse_value.y != 0f || sprinting_value != 0f) {
+            Demo.ResetTimer();
+        }
+
+        // If demo mode is on, replace inputs with inputs from demo.
         if (Demo.On()) {
-            // Get inputs from demo.
             movement_value = Demo.Move();
             jump_value = Demo.Jump();
             mouse_value = Vector2.zero;
             sprinting_value = Demo.Sprint();
-        } else {
-            // Get inputs from input actions.
-            movement_value = movement.ReadValue<Vector2>();
-            jump_value = jumping.ReadValue<float>();
-            mouse_value = mouse.ReadValue<Vector2>();
-            sprinting_value = sprinting.ReadValue<float>();
-        }
-
-        // Check for no inputs.
-        if (movement_value.x != 0f || movement_value.y != 0f || jump_value != 0f || mouse_value.x != 0f || mouse_value.y != 0f || sprinting_value != 0f) {
-            Demo.ResetTimer();
         }
 
         // Rotate from mouse.
