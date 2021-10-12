@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelGeneration : MonoBehaviour {
-    public GameObject player;
     public Room room;
+    public StartRoom sr;
+    public EndRoom er;
     public static int level_num;
     public List<List<Room>> room_matrix = new List<List<Room>>();
     private float mw_scaling = 0.1f;
@@ -15,10 +16,10 @@ public class LevelGeneration : MonoBehaviour {
 
     private void Start() {
         // Make start room.
-        Room start_room = Instantiate(room) as Room;
+        Room start_room = Instantiate(sr) as StartRoom;
         bool[] start_room_doors = new bool[4] {true, false, false, false};
         start_room.set_values(0, 0, start_room_doors, 1);
-        start_room.start_room_setup();
+        start_room.setup();
         room_count++;
 
         // Procedurally generate level layout.
@@ -48,6 +49,13 @@ public class LevelGeneration : MonoBehaviour {
                 }
             }
         }
+
+        // Make end room.
+        Room end_room = Instantiate(er) as EndRoom;
+        bool[] end_room_doors = new bool[4] {false, false, true, false};
+        end_room.set_values((room_matrix.Count - 1) / 2 - 1, room_matrix[0].Count, end_room_doors, 1);
+        end_room.setup();
+        room_count++;
     }
 
     public void generate_layout(int level) {

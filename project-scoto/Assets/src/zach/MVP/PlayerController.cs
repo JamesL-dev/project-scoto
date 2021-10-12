@@ -109,4 +109,19 @@ public class PlayerController : MonoBehaviour {
         velocity.x = (velocity.x + abs_move.x) * friction;
         velocity.z = (velocity.z + abs_move.z) * friction;
     }
+
+    public void tp(float x, float y, float z) {
+        Vector3 pos = Vector3.zero;
+        pos.x = x;
+        pos.y = y;
+        pos.z = z;
+
+        if (controller.enabled) {
+            controller.enabled = false;
+            transform.position = pos;
+            controller.enabled = true;
+        } else {
+            transform.position = pos;
+        }
+    }
 }
