@@ -5,12 +5,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour {
     // Variables
-    public float jump_force, move_speed, gravity, friction, sprint_multiplier, air_control_multiplier;
+    public float jump_force, move_speed, gravity, friction, sprint_multiplier;
     public Vector2 mouse_sens;
-    private Vector3 velocity;
-    private float x_rotation = 0f;
     private Vector2 movement_value, mouse_value;
     private float jump_value, sprinting_value;
+    private Vector3 velocity;
+    private float x_rotation = 0f;
     
     // Classes
     public LayerMask ground_mask;
@@ -46,11 +46,24 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Update() {
-        // Get inputs.
+        // Get inputs from input actions.
         movement_value = movement.ReadValue<Vector2>();
         jump_value = jumping.ReadValue<float>();
         mouse_value = mouse.ReadValue<Vector2>();
         sprinting_value = sprinting.ReadValue<float>();
+
+        // Check for any movement/mouse inputs.
+        if (movement_value.x != 0f || movement_value.y != 0f || jump_value != 0f || mouse_value.x != 0f || mouse_value.y != 0f || sprinting_value != 0f) {
+            Demo.ResetTimer();
+        }
+
+        // If demo mode is on, replace inputs with inputs from demo.
+        if (Demo.On()) {
+            movement_value = Demo.Move();
+            jump_value = Demo.Jump();
+            mouse_value = Vector2.zero;
+            sprinting_value = Demo.Sprint();
+        }
 
         // Rotate from mouse.
         transform.Rotate(Vector3.up, mouse_value.x * mouse_sens.x);
@@ -108,5 +121,20 @@ public class PlayerController : MonoBehaviour {
         // Update horizontal velocity.
         velocity.x = (velocity.x + abs_move.x) * friction;
         velocity.z = (velocity.z + abs_move.z) * friction;
+    }
+
+    public void tp(float x, float y, float z) {
+        Vector3 pos = Vector3.zero;
+        pos.x = x;
+        pos.y = y;
+        pos.z = z;
+
+        if (controller.enabled) {
+            controller.enabled = false;
+            transform.position = pos;
+            controller.enabled = true;
+        } else {
+            transform.position = pos;
+        }
     }
 }
