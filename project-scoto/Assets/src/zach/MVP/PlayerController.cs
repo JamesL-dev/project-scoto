@@ -51,8 +51,7 @@ public class PlayerController : MonoBehaviour {
             // Get inputs from demo.
             movement_value = Demo.Move();
             jump_value = Demo.Jump();
-            Vector2 temp = Vector2.zero;
-            mouse_value = temp;
+            mouse_value = Vector2.zero;
             sprinting_value = Demo.Sprint();
         } else {
             // Get inputs from input actions.
