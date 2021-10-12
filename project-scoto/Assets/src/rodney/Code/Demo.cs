@@ -4,20 +4,48 @@ using UnityEngine;
 
 public class Demo : MonoBehaviour 
 {
-    public static bool jump, sprint, IsSuccessMode;
-    public static int Counter, SlackTime;
+    private static bool jump, sprint, IsSuccessMode;
+    private static int Counter;
+    private static int SlackTime;
             
     public static void SwapSuccessMode() {Demo.IsSuccessMode = !Demo.IsSuccessMode; }
 
-    public static int MaxTime() { return Demo.SlackTime*60; }
+    public static int MaxSeconds() { return Demo.SlackTime/60; }
 
-    public static bool On() { if (Demo.Counter >= Demo.MaxTime()) return true; return false; }
+    public static bool On() { if (Demo.Counter >= Demo.SlackTime) return true; return false; }
 
     public static bool Jump() { if(Demo.On() && Demo.jump) return true; return false; }
 
     public static bool Sprint() { if(Demo.On() && Demo.sprint) return true; return false; }
 
-    public static void ResetTimer() { Demo.Counter = 0;}
+    public static void ResetTimer() 
+    { 
+        if(On()) {Debug.Log ("Demo Mode Turned Off.");}
+        Demo.Counter = 0;
+    }
+
+    public static void ChangeSlackTime(int x) 
+    {
+        switch(x) 
+        {
+            case 1:
+                SlackTime = 300; // 5 seconds
+                break;
+            case 2:
+                SlackTime = 600; // 10 seconds
+                break;
+            case 3:
+                SlackTime = 1200; // 20 seconds
+                break;
+            case 4:
+                SlackTime = 7200; // 2 minutes
+                break;
+            default:
+            SlackTime = 300;
+                Debug.LogError("Input to ChangeSlackTime() Out of Bounds. Must be 1 - 4 inclusive.");
+                break;
+        }
+    }
 
     public static Vector2 Move()
     {
@@ -29,22 +57,22 @@ public class Demo : MonoBehaviour
         jump = sprint = false;
         IsSuccessMode = true;
         Counter = 0;
-        SlackTime = 5; // seconds  
+        ChangeSlackTime(2);
+        if(SlackTime < 0) {Debug.LogError("Slack Time must be a positive value!");}
     }
 
     void FixedUpdate()
     {
         Counter++; 
+        if(Counter == SlackTime) { Debug.Log("Demo Mode Turned On");}
         if(On() && IsSuccessMode)
         {
             // Success Mode
-            Debug.Log("IT WORKS");
 
         }
         else if(On() && !IsSuccessMode)
         {
             // Failure Mode
-            Debug.Log("IT WORKS, BUT FALSE");
 
         }
     }
