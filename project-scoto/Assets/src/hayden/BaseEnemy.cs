@@ -153,8 +153,9 @@ public class BaseEnemy : MonoBehaviour
         }
     }
 
-    private void CowerAway()
+    public void OnFlashlightHit()
     {
+        TakeDamage(100000);
     }
 
     public void OnArrowHit(GameObject arrow)
