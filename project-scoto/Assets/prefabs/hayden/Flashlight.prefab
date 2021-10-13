@@ -53,8 +53,9 @@ MonoBehaviour:
   m_clickOnSound: {fileID: 3782002241604836208}
   m_clickOffSound: {fileID: 3459933559808279941}
   m_light: {fileID: 3645812484220129344}
-  m_normalFlashlightAngle: 90
+  m_normalFlashlightAngle: 100
   m_focusFlashlightAngle: 30
+  m_focusZoomLvl: 2
 --- !u!82 &3782002241604836208
 AudioSource:
   m_ObjectHideFlags: 0
@@ -322,8 +323,8 @@ Light:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 30
-  m_SpotAngle: 75
-  m_InnerSpotAngle: 7
+  m_SpotAngle: 100
+  m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0

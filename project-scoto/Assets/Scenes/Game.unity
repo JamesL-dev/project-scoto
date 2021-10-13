@@ -801,6 +801,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1452576986}
     m_Modifications:
+    - target: {fileID: 5588774951670214190, guid: d66050e705b82d74fbf3881138fd1dd0, type: 3}
+      propertyPath: m_focusZoomLvl
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5588774951670214190, guid: d66050e705b82d74fbf3881138fd1dd0, type: 3}
+      propertyPath: m_focusFlashlightAngle
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 6348602444579229915, guid: d66050e705b82d74fbf3881138fd1dd0, type: 3}
       propertyPath: m_Name
       value: Flashlight

@@ -13,6 +13,14 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private Light m_light;
     [SerializeField] private float m_normalFlashlightAngle;
     [SerializeField] private float m_focusFlashlightAngle;
+    [SerializeField] private float m_focusZoomLvl;
+
+
+    private float m_normalFov;
+    private float m_normalIntensity;
+    private float m_focusIntensity;
+    private float m_focusFov;
+    private Camera m_mainCamera;
     private int m_batteryLevel;
     private bool m_isFlashlightOn;
     private bool m_isFlashlightFocused;
@@ -26,6 +34,13 @@ public class Flashlight : MonoBehaviour
         m_isFlashlightFocused = false;
         m_light.spotAngle = m_normalFlashlightAngle;
         m_focusedTime = 0;
+
+        m_mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        m_normalFov = m_mainCamera.fov;
+        m_focusFov = m_normalFov/m_focusZoomLvl;
+
+        m_normalIntensity = m_light.intensity;
+        m_focusIntensity = m_normalIntensity * 3;
     }
 
     private void Update()
@@ -44,8 +59,6 @@ public class Flashlight : MonoBehaviour
                 OnNormalFlashlight();
             }
         }
-
-        Debug.Log(m_batteryLevel);
     }
     public bool AddBattery(int chargeAmount)
     {
@@ -90,15 +103,22 @@ public class Flashlight : MonoBehaviour
     {
         StopCoroutine("ToNormalTransition");
         float totalChangeNeeded = m_normalFlashlightAngle - m_focusFlashlightAngle;
+        float totalFovNeeded = m_normalFov - m_focusFov;
+        float totalIntensityNeeded = m_focusIntensity - m_normalIntensity;
+
         float smoothness = 0.01f; // time between each function call in seconds
         float duration = 0.5f; // duration in seconds
         float increment = duration/smoothness; //The amount of change to apply.
         while(m_light.spotAngle > m_focusFlashlightAngle)
         {
             m_light.spotAngle -= totalChangeNeeded/increment;
+            m_mainCamera.fov -= totalFovNeeded/increment;
+            m_light.intensity += totalIntensityNeeded/increment;
             yield return new WaitForSeconds(smoothness);
         }
         m_light.spotAngle = m_focusFlashlightAngle;
+        m_mainCamera.fov = m_focusFov;
+        m_light.intensity = m_focusIntensity;
         m_isFlashlightFocused = true;
     }
 
@@ -106,15 +126,22 @@ public class Flashlight : MonoBehaviour
     {
         StopCoroutine("ToFocusTransition");
         float totalChangeNeeded = m_normalFlashlightAngle - m_focusFlashlightAngle;
+        float totalFovNeeded = m_normalFov - m_focusFov;
+        float totalIntensityNeeded = m_focusIntensity - m_normalIntensity;
+
         float smoothness = 0.01f; // time between each function call in seconds
         float duration = 0.5f; // duration in seconds
         float increment = duration/smoothness; //The amount of change to apply.
         while(m_light.spotAngle < m_normalFlashlightAngle)
         {
             m_light.spotAngle += totalChangeNeeded/increment;
+            m_mainCamera.fov += totalFovNeeded/increment;
+            m_light.intensity -= totalIntensityNeeded/increment;
             yield return new WaitForSeconds(smoothness);
         }
         m_light.spotAngle = m_normalFlashlightAngle;
+        m_mainCamera.fov = m_normalFov;
+        m_light.intensity = m_normalIntensity;
     }
     private void OnFocusFlashlight()
     {
