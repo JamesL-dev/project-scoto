@@ -26,6 +26,7 @@ public class BaseEnemy : MonoBehaviour
     protected bool m_alreadyAttacked;
     protected bool m_playerInSightRange, m_playerInAttackRange;
 
+    protected int m_numOfGrenadesIn;
 
     public float GetHealth() {return m_health;}
     public float GetMaxHealth() {return m_maxHealth;}
@@ -41,6 +42,7 @@ public class BaseEnemy : MonoBehaviour
     private void Start()
     {
         m_agent.speed = m_speed;
+        m_numOfGrenadesIn = 0;
 
     }
 
@@ -53,6 +55,15 @@ public class BaseEnemy : MonoBehaviour
         if (!m_playerInSightRange && !m_playerInAttackRange) Patrol();
         if (m_playerInSightRange && !m_playerInAttackRange) ChasePlayer();
         if (m_playerInAttackRange && m_playerInSightRange) Attack();
+
+        if (m_numOfGrenadesIn > 0)
+        {
+            float dps = 15;
+            dps *= m_numOfGrenadesIn;
+            float fps = 1 / Time.deltaTime;
+            // should enemy be frozen if in grenade?
+            TakeDamage(dps / fps);
+        }
     }
 
     // does not see player, so randomly walks around
@@ -148,7 +159,10 @@ public class BaseEnemy : MonoBehaviour
 
     public void OnArrowHit(GameObject arrow)
     {
-        // do stuff
+        // do sound
+        // do animation
+        float arrowDamage = arrow.GetComponent<Arrow>().damage;
+        TakeDamage(arrowDamage);
     }
 
     public void OnGrenadeHit(GameObject grenade)
@@ -156,6 +170,7 @@ public class BaseEnemy : MonoBehaviour
         // do sound
         // do animation
         int initialGrenadeDamage = 50;
+        // I NEED THE INITIAL GRENADE DAMAGE
         TakeDamage(initialGrenadeDamage);
     }
 
@@ -164,7 +179,38 @@ public class BaseEnemy : MonoBehaviour
         // do sound
         // do animation
         int tridentDamage = 5;
-        // get real trident damage
+        // I NEED THE TRIDENT DAMAGE
         TakeDamage(tridentDamage);
+    }
+
+    
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "grenadeAOE")
+        {
+            m_numOfGrenadesIn++;
+        }
+    }
+
+    public void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "grenadeAOE")
+        {
+            m_numOfGrenadesIn--;
+        }
+
+        if (m_numOfGrenadesIn < 0)
+        {
+            m_numOfGrenadesIn = 0;
+        }
+    }
+
+    public void DecrementNumGrenadesIn()
+    {
+        m_numOfGrenadesIn--;
+        if (m_numOfGrenadesIn < 0)
+        {
+            m_numOfGrenadesIn = 0;
+        }
     }
 }
