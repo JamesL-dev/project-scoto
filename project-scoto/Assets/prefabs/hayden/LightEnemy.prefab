@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!136 &8517526317229659882
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8634047900113895466}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.8
+  m_Height: 4.035242
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.517621, z: 0}
 --- !u!95 &9107472069704209576
 Animator:
   serializedVersion: 3
@@ -7,7 +21,7 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7823379745261068193}
+  m_GameObject: {fileID: 8634047900113895466}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: b2e6b82167baac040ab6f982d1b38ac2, type: 2}
@@ -19,51 +33,44 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &9173819974394987436
-GameObject:
+--- !u!114 &2296508600820393505
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6606639218326636128}
-  - component: {fileID: 4477536861545633307}
-  - component: {fileID: 8778097018556537650}
-  - component: {fileID: 3960922230892888412}
-  m_Layer: 8
-  m_Name: LightEnemy
-  m_TagString: Enemy
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6606639218326636128
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9173819974394987436}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 7823379745260831617}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!195 &4477536861545633307
+  m_GameObject: {fileID: 8634047900113895466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00004002b2fb0a40ac903a21c5a1e54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_health: 50
+  m_speed: 3
+  m_maxHealth: 50
+  m_sightRange: 50
+  m_attackRange: 5
+  m_walkPointRange: 4
+  m_timeBetweenAttacks: 0
+  m_groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  m_playerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  m_agent: {fileID: 6546410325988052356}
+  m_player: {fileID: 0}
+--- !u!195 &6546410325988052356
 NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9173819974394987436}
+  m_GameObject: {fileID: 8634047900113895466}
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 1
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -75,57 +82,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &8778097018556537650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9173819974394987436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d00004002b2fb0a40ac903a21c5a1e54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_health: 50
-  m_speed: 1
-  m_maxHealth: 50
-  m_sightRange: 50
-  m_attackRange: 3
-  m_walkPointRange: 5
-  m_timeBetweenAttacks: 4
-  m_groundMask:
-    serializedVersion: 2
-    m_Bits: 320
-  m_playerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  m_agent: {fileID: 4477536861545633307}
-  m_player: {fileID: 0}
---- !u!136 &3960922230892888412
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9173819974394987436}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 4
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.5, z: 0}
---- !u!1001 &7823379745260968081
+--- !u!1001 &8634047900113864474
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 6606639218326636128}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 100144, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
       propertyPath: m_Name
-      value: ghoul
+      value: LightEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 100144, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 400140, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -190,13 +160,8 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 11100000, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
---- !u!1 &7823379745261068193 stripped
+--- !u!1 &8634047900113895466 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100144, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
-  m_PrefabInstance: {fileID: 7823379745260968081}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7823379745260831617 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400144, guid: ce65fa103f0e84b4289374b2a4bf93f8, type: 3}
-  m_PrefabInstance: {fileID: 7823379745260968081}
+  m_PrefabInstance: {fileID: 8634047900113864474}
   m_PrefabAsset: {fileID: 0}
