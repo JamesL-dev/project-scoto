@@ -16,6 +16,7 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private float m_focusZoomLvl;
 
 
+    private Light m_baseLight;
     private float m_normalFov;
     private float m_normalIntensity;
     private float m_focusIntensity;
@@ -41,6 +42,8 @@ public class Flashlight : MonoBehaviour
 
         m_normalIntensity = m_light.intensity;
         m_focusIntensity = m_normalIntensity * 3;
+
+        m_baseLight = GameObject.Find("baseLightSource").GetComponent<Light>();
     }
 
     private void Update()
@@ -75,18 +78,25 @@ public class Flashlight : MonoBehaviour
         }
         return true;
     }
+
+    public float CheckBatteryPercent()
+    {
+        return m_batteryLevel / m_maxBatteryLevel;
+    }
     public void OnToggleFlashlight()
     {
         if (m_isFlashlightOn)
         {
             m_isFlashlightOn = false;
             m_light.enabled = false;
+            m_baseLight.enabled = false;
             m_clickOffSound.Play();
         }
         else
         {
             m_isFlashlightOn = true;
             m_light.enabled = true;
+            m_baseLight.enabled = true;
             m_clickOnSound.Play();
         }
     }
@@ -121,7 +131,7 @@ public class Flashlight : MonoBehaviour
         float totalIntensityNeeded = m_focusIntensity - m_normalIntensity;
 
         float smoothness = 0.01f; // time between each function call in seconds
-        float duration = 0.5f; // duration in seconds
+        float duration = 0.2f; // duration in seconds
         float increment = duration/smoothness; //The amount of change to apply.
         while(m_light.spotAngle > m_focusFlashlightAngle)
         {
@@ -144,7 +154,7 @@ public class Flashlight : MonoBehaviour
         float totalIntensityNeeded = m_focusIntensity - m_normalIntensity;
 
         float smoothness = 0.01f; // time between each function call in seconds
-        float duration = 0.5f; // duration in seconds
+        float duration = 0.2f; // duration in seconds
         float increment = duration/smoothness; //The amount of change to apply.
         while(m_light.spotAngle < m_normalFlashlightAngle)
         {
