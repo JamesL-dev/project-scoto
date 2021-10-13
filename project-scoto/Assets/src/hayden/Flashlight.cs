@@ -16,40 +16,36 @@ public class Flashlight : MonoBehaviour
     private int m_batteryLevel;
     private bool m_isFlashlightOn;
     private bool m_isFlashlightFocused;
-    private bool m_currentlyDepleting;
+
+    private float m_focusedTime;
     private void Start()
     {
         m_batteryLevel = m_maxBatteryLevel;
         m_isFlashlightOn = true;
         m_light.enabled = true;
-        m_currentlyDepleting = false;
         m_isFlashlightFocused = false;
         m_light.spotAngle = m_normalFlashlightAngle;
-        
+        m_focusedTime = 0;
     }
 
     private void Update()
     {
         if (m_isFlashlightFocused)
         {
-            Invoke(nameof(DepleteBattery), m_timeBetwenFlashlightDeplete);
-            m_currentlyDepleting = true;
+            m_focusedTime += Time.deltaTime;
+
+            if (m_focusedTime >= m_timeBetwenFlashlightDeplete)
+            {
+                DepleteBattery();
+                m_focusedTime = 0;
+            }
             if (m_batteryLevel == 0)
             {
-                m_isFlashlightFocused = false;
+                OnNormalFlashlight();
             }
         }
-    }
-    public void OnToggleFocus()
-    {
-        if (m_isFlashlightFocused)
-        {
-            OffFocusFlashlight();
-        }
-        else if (!m_isFlashlightFocused)
-        {
-            OnFocusFlashlight();
-        }
+
+        Debug.Log(m_batteryLevel);
     }
     public bool AddBattery(int chargeAmount)
     {
@@ -88,7 +84,6 @@ public class Flashlight : MonoBehaviour
         {
             m_batteryLevel = 0;
         }
-        m_currentlyDepleting = false;
     }
     
     private IEnumerator ToFocusTransition()
@@ -104,6 +99,7 @@ public class Flashlight : MonoBehaviour
             yield return new WaitForSeconds(smoothness);
         }
         m_light.spotAngle = m_focusFlashlightAngle;
+        m_isFlashlightFocused = true;
     }
 
     private IEnumerator ToNormalTransition()
@@ -125,12 +121,10 @@ public class Flashlight : MonoBehaviour
         if (m_isFlashlightOn && m_batteryLevel != 0)
         {
             StartCoroutine("ToFocusTransition");
-            m_isFlashlightFocused = true;
         }
 
     }
-
-    private void OffFocusFlashlight()
+    private void OnNormalFlashlight()
     {
         m_isFlashlightFocused = false;
         StartCoroutine("ToNormalTransition");

@@ -113,8 +113,7 @@ public class BaseEnemy : MonoBehaviour
 
     private void Die()
     {
-        // DestroyImmediate(gameObject, true);
-        Debug.Log("ASDF");
+        DestroyImmediate(gameObject, true);
     }
 
     private void ResetAttack()
@@ -145,5 +144,27 @@ public class BaseEnemy : MonoBehaviour
 
     private void CowerAway()
     {
+    }
+
+    public void OnArrowHit(GameObject arrow)
+    {
+        // do stuff
+    }
+
+    public void OnGrenadeHit(GameObject grenade)
+    {
+        // do sound
+        // do animation
+        int initialGrenadeDamage = 50;
+        TakeDamage(initialGrenadeDamage);
+    }
+
+    public void OnTridentHit(GameObject trident)
+    {
+        // do sound
+        // do animation
+        int tridentDamage = 5;
+        // get real trident damage
+        TakeDamage(tridentDamage);
     }
 }
