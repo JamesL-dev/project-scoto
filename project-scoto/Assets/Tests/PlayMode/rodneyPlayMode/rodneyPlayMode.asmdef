@@ -4,8 +4,7 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "rodneySrc",
-        "zachSrc"
+        "srcAsm"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
