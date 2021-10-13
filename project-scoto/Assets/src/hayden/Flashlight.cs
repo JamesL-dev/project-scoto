@@ -48,7 +48,7 @@ public class Flashlight : MonoBehaviour
         if (m_isFlashlightFocused)
         {
             m_focusedTime += Time.deltaTime;
-
+            CheckRaycastEnemy();
             if (m_focusedTime >= m_timeBetwenFlashlightDeplete)
             {
                 DepleteBattery();
@@ -59,6 +59,7 @@ public class Flashlight : MonoBehaviour
                 OnNormalFlashlight();
             }
         }
+
     }
     public bool AddBattery(int chargeAmount)
     {
@@ -99,6 +100,19 @@ public class Flashlight : MonoBehaviour
         }
     }
     
+    private void CheckRaycastEnemy()
+    {
+        RaycastHit hitInfo;
+
+        if (Physics.Raycast(m_light.transform.position, m_light.transform.forward, out hitInfo, m_light.range))
+        {
+            if (hitInfo.collider.tag == "Enemy")
+            {
+                BaseEnemy enemy = hitInfo.collider.gameObject.GetComponent<BaseEnemy>();
+                enemy.OnFlashlightHit();
+            }
+        }
+    }
     private IEnumerator ToFocusTransition()
     {
         StopCoroutine("ToNormalTransition");
