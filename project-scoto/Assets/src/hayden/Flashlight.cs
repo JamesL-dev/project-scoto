@@ -37,7 +37,7 @@ public class Flashlight : MonoBehaviour
         m_focusedTime = 0;
 
         m_mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        m_normalFov = m_mainCamera.fov;
+        m_normalFov = m_mainCamera.fieldOfView;
         m_focusFov = m_normalFov/m_focusZoomLvl;
 
         m_normalIntensity = m_light.intensity;
@@ -136,12 +136,12 @@ public class Flashlight : MonoBehaviour
         while(m_light.spotAngle > m_focusFlashlightAngle)
         {
             m_light.spotAngle -= totalChangeNeeded/increment;
-            m_mainCamera.fov -= totalFovNeeded/increment;
+            m_mainCamera.fieldOfView -= totalFovNeeded/increment;
             m_light.intensity += totalIntensityNeeded/increment;
             yield return new WaitForSeconds(smoothness);
         }
         m_light.spotAngle = m_focusFlashlightAngle;
-        m_mainCamera.fov = m_focusFov;
+        m_mainCamera.fieldOfView = m_focusFov;
         m_light.intensity = m_focusIntensity;
         m_isFlashlightFocused = true;
     }
@@ -159,12 +159,12 @@ public class Flashlight : MonoBehaviour
         while(m_light.spotAngle < m_normalFlashlightAngle)
         {
             m_light.spotAngle += totalChangeNeeded/increment;
-            m_mainCamera.fov += totalFovNeeded/increment;
+            m_mainCamera.fieldOfView += totalFovNeeded/increment;
             m_light.intensity -= totalIntensityNeeded/increment;
             yield return new WaitForSeconds(smoothness);
         }
         m_light.spotAngle = m_normalFlashlightAngle;
-        m_mainCamera.fov = m_normalFov;
+        m_mainCamera.fieldOfView = m_normalFov;
         m_light.intensity = m_normalIntensity;
     }
     private void OnFocusFlashlight()
@@ -180,4 +180,6 @@ public class Flashlight : MonoBehaviour
         m_isFlashlightFocused = false;
         StartCoroutine("ToNormalTransition");
     }
+
+
 }

@@ -8,25 +8,28 @@ public class BaseEnemy : MonoBehaviour
     [SerializeField] protected float m_health;
     [SerializeField] protected float m_speed;
     [SerializeField] protected float m_maxHealth;
+    [SerializeField] protected float m_damagePerHit;
 
     [SerializeField] protected float m_sightRange;
     [SerializeField] protected float m_attackRange;
     [SerializeField] protected float m_walkPointRange;
 
-    [SerializeField] protected float m_timeBetweenAttacks;
 
     [SerializeField] protected LayerMask m_groundMask;
     [SerializeField] protected LayerMask m_playerMask;
 
-    [SerializeField] protected NavMeshAgent m_agent;
-    [SerializeField] protected Transform m_player;
+    protected Transform m_player;
+    protected Animator m_animator;
+    protected NavMeshAgent m_agent;
 
     protected Vector3 m_walkPoint;
     protected bool m_walkPointSet;
-    protected bool m_alreadyAttacked;
     protected bool m_playerInSightRange, m_playerInAttackRange;
 
     protected int m_numOfGrenadesIn;
+    protected float m_timeBetweenAttacks;
+    protected float m_attackLength;
+
 
     public float GetHealth() {return m_health;}
     public float GetMaxHealth() {return m_maxHealth;}
@@ -43,18 +46,38 @@ public class BaseEnemy : MonoBehaviour
     {
         m_agent.speed = m_speed;
         m_numOfGrenadesIn = 0;
+        m_timeBetweenAttacks = 1.667f;
+        m_attackLength = 1.667f;
+        m_damagePerHit = 10.0f;
+        m_animator = GetComponent<Animator>();
 
     }
 
     private void Update()
     {
+
+
         //Check for sight and attack range
         m_playerInSightRange = Physics.CheckSphere(transform.position, m_sightRange, m_playerMask);
         m_playerInAttackRange = Physics.CheckSphere(transform.position, m_attackRange, m_playerMask);
 
         if (!m_playerInSightRange && !m_playerInAttackRange) Patrol();
-        if (m_playerInSightRange && !m_playerInAttackRange) ChasePlayer();
-        if (m_playerInAttackRange && m_playerInSightRange) Attack();
+        if (m_playerInSightRange && !m_playerInAttackRange)
+        {
+            ChasePlayer();
+        }
+        else
+        {
+            m_animator.SetBool("isRunning", false);
+        }
+        if (m_playerInAttackRange && m_playerInSightRange)
+        {
+            Attack();
+        }
+        else 
+        {
+            m_animator.SetBool("isAttacking", false);
+        }
 
         if (m_numOfGrenadesIn > 0)
         {
@@ -72,19 +95,25 @@ public class BaseEnemy : MonoBehaviour
         if (!m_walkPointSet) CreateWalkPoint();
 
         if (m_walkPointSet)
+        {
             m_agent.SetDestination(m_walkPoint);
+            m_animator.SetBool("isWalking", true);
+        }
 
         Vector3 distanceToWalkPoint = transform.position - m_walkPoint;
 
         //Walkpoint reached
         if (distanceToWalkPoint.magnitude < 1f)
+        {
             m_walkPointSet = false;
+        }
     }
 
     // sees player, so chases player
     private void ChasePlayer()
     {
         m_agent.SetDestination(m_player.position);
+        m_animator.SetBool("isRunning", true);
     }
 
     private void CreateWalkPoint()
@@ -122,35 +151,29 @@ public class BaseEnemy : MonoBehaviour
         }
     }
 
+    private void ClearAnimationBools()
+    {
+        foreach(AnimatorControllerParameter parameter in m_animator.parameters) 
+        {
+            m_animator.SetBool(parameter.name, false);
+        }
+    }
+
     private void Die()
     {
         DestroyImmediate(gameObject, true);
-    }
-
-    private void ResetAttack()
-    {
-        m_alreadyAttacked = false;
     }
 
     private void Attack()
     {
         //Make sure enemy doesn't move
         m_agent.SetDestination(transform.position);
+        m_animator.SetBool("isAttacking", true);
 
         // freezes x axis rotation, so weird glitching doesnt happen
         Vector3 playerCoords = m_player.transform.position;
         playerCoords.y = transform.position.y;
         transform.LookAt(playerCoords);
-
-        if (!m_alreadyAttacked)
-        {
-            ///Attack code here
-
-            m_alreadyAttacked = true;
-
-            // call reset attack after a certain amount of time
-            Invoke(nameof(ResetAttack), m_timeBetweenAttacks);
-        }
     }
 
     public void OnFlashlightHit()
@@ -212,6 +235,19 @@ public class BaseEnemy : MonoBehaviour
         if (m_numOfGrenadesIn < 0)
         {
             m_numOfGrenadesIn = 0;
+        }
+    }
+
+    public void AlertObservers(string message)
+    {
+        if (message.Equals("AttackAnimationEnded"))
+        {
+            if (m_playerInAttackRange)
+            {
+                Debug.Log("hit player");
+                // player.TakeDamage(m_damagePerHit);
+            }
+            
         }
     }
 }
