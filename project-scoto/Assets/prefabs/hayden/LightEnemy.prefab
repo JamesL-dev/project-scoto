@@ -49,9 +49,9 @@ MonoBehaviour:
   m_speed: 8
   m_maxHealth: 50
   m_damagePerHit: 0
-  m_sightRange: 0
-  m_attackRange: 0
-  m_walkPointRange: 5
+  m_sightRange: 6
+  m_attackRange: 3
+  m_walkPointRange: 15
   m_groundMask:
     serializedVersion: 2
     m_Bits: 64

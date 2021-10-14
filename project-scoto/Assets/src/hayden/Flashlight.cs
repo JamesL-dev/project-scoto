@@ -173,7 +173,6 @@ public class Flashlight : MonoBehaviour
         {
             StartCoroutine("ToFocusTransition");
         }
-
     }
     private void OnNormalFlashlight()
     {

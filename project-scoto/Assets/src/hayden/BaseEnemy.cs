@@ -33,6 +33,7 @@ public class BaseEnemy : MonoBehaviour
     protected float m_walkPointWait;
 
     protected bool m_isInPatrol;
+    protected bool m_isDead;
 
 
     public float GetHealth() {return m_health;}
@@ -56,6 +57,7 @@ public class BaseEnemy : MonoBehaviour
         m_agent.speed = m_walkSpeed;
         m_numOfGrenadesIn = 0;
         m_isInPatrol = false;
+        m_isDead = false;
 
         m_animator = GetComponent<Animator>();
 
@@ -63,39 +65,43 @@ public class BaseEnemy : MonoBehaviour
 
     private void Update()
     {
-        //Check for sight and attack range
-        m_playerInSightRange = Physics.CheckSphere(transform.position, m_sightRange, m_playerMask);
-        m_playerInAttackRange = Physics.CheckSphere(transform.position, m_attackRange, m_playerMask);
 
-        if (!m_playerInSightRange && !m_playerInAttackRange && !m_isInPatrol)
-        {
-            StartCoroutine("Patrol");
-        }
 
-        if (m_playerInSightRange && !m_playerInAttackRange)
+        if (!m_isDead)
         {
-            ChasePlayer();
-        }
-        else
-        {
-            m_animator.SetBool("isRunning", false);
-        }
-        if (m_playerInAttackRange && m_playerInSightRange)
-        {
-            Attack();
-        }
-        else 
-        {
-            m_animator.SetBool("isAttacking", false);
-        }
+                    //Check for sight and attack range
+            m_playerInSightRange = Physics.CheckSphere(transform.position, m_sightRange, m_playerMask);
+            m_playerInAttackRange = Physics.CheckSphere(transform.position, m_attackRange, m_playerMask);
+            if (!m_playerInSightRange && !m_playerInAttackRange && !m_isInPatrol)
+            {
+                StartCoroutine("Patrol");
+            }
 
-        if (m_numOfGrenadesIn > 0)
-        {
-            float dps = 15;
-            dps *= m_numOfGrenadesIn;
-            float fps = 1 / Time.deltaTime;
-            // should enemy be frozen if in grenade?
-            TakeDamage(dps / fps);
+            if (m_playerInSightRange && !m_playerInAttackRange)
+            {
+                ChasePlayer();
+            }
+            else
+            {
+                m_animator.SetBool("isRunning", false);
+            }
+            if (m_playerInAttackRange && m_playerInSightRange)
+            {
+                Attack();
+            }
+            else 
+            {
+                m_animator.SetBool("isAttacking", false);
+            }
+
+            if (m_numOfGrenadesIn > 0)
+            {
+                float dps = 15;
+                dps *= m_numOfGrenadesIn;
+                float fps = 1 / Time.deltaTime;
+                // should enemy be frozen if in grenade?
+                TakeDamage(dps / fps);
+            }
         }
     }
 
@@ -135,6 +141,7 @@ public class BaseEnemy : MonoBehaviour
         m_agent.speed = m_runSpeed;
         m_agent.SetDestination(m_player.position);
         m_animator.SetBool("isRunning", true);
+        m_animator.SetBool("isWalking", false);
     }
 
     private void CreateWalkPoint()
@@ -157,8 +164,7 @@ public class BaseEnemy : MonoBehaviour
         {
             m_health = 0;
 
-            // Destroy enemy in a half a second
-            Invoke(nameof(Die), 0.5f);
+            Die();
         }
     }
 
@@ -175,7 +181,14 @@ public class BaseEnemy : MonoBehaviour
 
     private void Die()
     {
-        DestroyImmediate(gameObject, true);
+        // DestroyImmediate(gameObject, true);
+        // m_animator.SetBool("isRunning", false);
+        // m_animator.SetBool("isWalking", false);
+        // m_animator.SetBool("isStanding", false);
+        // m_animator.SetBool("isAttacking", false);
+        m_animator.SetBool("isDying", true);
+        m_isDead = true;
+        m_agent.speed = 0;
     }
 
     private void Attack()
@@ -262,6 +275,12 @@ public class BaseEnemy : MonoBehaviour
                 // player.TakeDamage(m_damagePerHit);
             }
             
+        }
+
+        if (message.Equals("DeathAnimationEnded"))
+        {
+            Debug.Log("Death Animation Ended. Enemy should start to die.");
+            // GameObject.Destroy(gameObject);
         }
     }
 }
