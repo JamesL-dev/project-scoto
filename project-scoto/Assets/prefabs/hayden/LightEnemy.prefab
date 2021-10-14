@@ -46,11 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_health: 50
-  m_speed: 3
+  m_speed: 8
   m_maxHealth: 50
   m_damagePerHit: 0
-  m_sightRange: 50
-  m_attackRange: 5
+  m_sightRange: 0
+  m_attackRange: 0
   m_walkPointRange: 5
   m_groundMask:
     serializedVersion: 2
@@ -68,7 +68,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 1
-  m_Speed: 3
+  m_Speed: 8
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
