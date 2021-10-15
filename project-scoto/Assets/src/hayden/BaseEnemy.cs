@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class BaseEnemy : MonoBehaviour
-{
-    [SerializeField] protected float m_health;
-    [SerializeField] protected float m_speed;
+{   
     [SerializeField] protected float m_maxHealth;
     [SerializeField] protected float m_damagePerHit;
 
@@ -22,6 +21,8 @@ public class BaseEnemy : MonoBehaviour
     protected Animator m_animator;
     protected NavMeshAgent m_agent;
 
+    protected GameObject m_healthSlider;
+
     protected Vector3 m_walkPoint;
     protected bool m_walkPointSet;
     protected bool m_playerInSightRange, m_playerInAttackRange;
@@ -34,9 +35,11 @@ public class BaseEnemy : MonoBehaviour
 
     protected bool m_isInPatrol;
     protected bool m_isDead;
+    protected float m_health;
 
 
     public float GetHealth() {return m_health;}
+    public float GetHealthPercent() {return m_health/m_maxHealth;}
     public float GetMaxHealth() {return m_maxHealth;}
     public float GetAttackRange() {return m_attackRange;}
 
@@ -54,18 +57,23 @@ public class BaseEnemy : MonoBehaviour
         m_walkPointWait = 3.0f;
         m_damagePerHit = 10.0f;
 
+        m_health = m_maxHealth;
         m_agent.speed = m_walkSpeed;
         m_numOfGrenadesIn = 0;
         m_isInPatrol = false;
         m_isDead = false;
 
+        m_healthSlider = transform.Find("HealthBarCanvas/HealthBar").gameObject;
         m_animator = GetComponent<Animator>();
+
+        m_healthSlider.SetActive(false);
+
 
     }
 
     private void Update()
     {
-
+        Debug.Log("mhealth " + m_health);
 
         if (!m_isDead)
         {
@@ -162,6 +170,7 @@ public class BaseEnemy : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
+        m_healthSlider.SetActive(true);
         m_health -= damage;
     
         if (m_health <= 0)
@@ -185,14 +194,12 @@ public class BaseEnemy : MonoBehaviour
 
     private void Die()
     {
-        // DestroyImmediate(gameObject, true);
-        // m_animator.SetBool("isRunning", false);
-        // m_animator.SetBool("isWalking", false);
-        // m_animator.SetBool("isStanding", false);
-        // m_animator.SetBool("isAttacking", false);
         m_animator.SetBool("isDying", true);
+        m_healthSlider.SetActive(false);
         m_isDead = true;
+        
         m_agent.speed = 0;
+        m_healthSlider.SetActive(false);
     }
 
     private void Attack()
