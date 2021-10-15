@@ -27,8 +27,13 @@ public class BaseEnemy : MonoBehaviour
     protected bool m_playerInSightRange, m_playerInAttackRange;
 
     protected int m_numOfGrenadesIn;
-    protected float m_timeBetweenAttacks;
-    protected float m_attackLength;
+
+    protected float m_walkSpeed;
+    protected float m_runSpeed;
+    protected float m_walkPointWait;
+
+    protected bool m_isInPatrol;
+    protected bool m_isDead;
 
 
     public float GetHealth() {return m_health;}
@@ -44,11 +49,16 @@ public class BaseEnemy : MonoBehaviour
 
     private void Start()
     {
-        m_agent.speed = m_speed;
-        m_numOfGrenadesIn = 0;
-        m_timeBetweenAttacks = 1.667f;
-        m_attackLength = 1.667f;
+        m_walkSpeed = 2.0f;
+        m_runSpeed = 8.0f;
+        m_walkPointWait = 3.0f;
         m_damagePerHit = 10.0f;
+
+        m_agent.speed = m_walkSpeed;
+        m_numOfGrenadesIn = 0;
+        m_isInPatrol = false;
+        m_isDead = false;
+
         m_animator = GetComponent<Animator>();
 
     }
@@ -57,41 +67,50 @@ public class BaseEnemy : MonoBehaviour
     {
 
 
-        //Check for sight and attack range
-        m_playerInSightRange = Physics.CheckSphere(transform.position, m_sightRange, m_playerMask);
-        m_playerInAttackRange = Physics.CheckSphere(transform.position, m_attackRange, m_playerMask);
+        if (!m_isDead)
+        {
+                    //Check for sight and attack range
+            m_playerInSightRange = Physics.CheckSphere(transform.position, m_sightRange, m_playerMask);
+            m_playerInAttackRange = Physics.CheckSphere(transform.position, m_attackRange, m_playerMask);
+            if (!m_playerInSightRange && !m_playerInAttackRange && !m_isInPatrol)
+            {
+                StartCoroutine("Patrol");
+            }
 
-        if (!m_playerInSightRange && !m_playerInAttackRange) Patrol();
-        if (m_playerInSightRange && !m_playerInAttackRange)
-        {
-            ChasePlayer();
-        }
-        else
-        {
-            m_animator.SetBool("isRunning", false);
-        }
-        if (m_playerInAttackRange && m_playerInSightRange)
-        {
-            Attack();
-        }
-        else 
-        {
-            m_animator.SetBool("isAttacking", false);
-        }
+            if (m_playerInSightRange && !m_playerInAttackRange)
+            {
+                ChasePlayer();
+            }
+            else
+            {
+                m_animator.SetBool("isRunning", false);
+            }
+            if (m_playerInAttackRange && m_playerInSightRange)
+            {
+                Attack();
+            }
+            else 
+            {
+                m_animator.SetBool("isAttacking", false);
+            }
 
-        if (m_numOfGrenadesIn > 0)
-        {
-            float dps = 15;
-            dps *= m_numOfGrenadesIn;
-            float fps = 1 / Time.deltaTime;
-            // should enemy be frozen if in grenade?
-            TakeDamage(dps / fps);
+            if (m_numOfGrenadesIn > 0)
+            {
+                float dps = 15;
+                dps *= m_numOfGrenadesIn;
+                float fps = 1 / Time.deltaTime;
+                // should enemy be frozen if in grenade?
+                TakeDamage(dps / fps);
+            }
         }
     }
 
     // does not see player, so randomly walks around
-    private void Patrol()
+    private IEnumerator Patrol()
     {
+        m_isInPatrol = true;
+
+        m_agent.speed = m_walkSpeed;
         if (!m_walkPointSet) CreateWalkPoint();
 
         if (m_walkPointSet)
@@ -105,15 +124,24 @@ public class BaseEnemy : MonoBehaviour
         //Walkpoint reached
         if (distanceToWalkPoint.magnitude < 1f)
         {
+            m_animator.SetBool("isWalking", false);
             m_walkPointSet = false;
+            yield return new WaitForSeconds(m_walkPointWait);
+
         }
+
+        m_isInPatrol = false;
     }
+
+
 
     // sees player, so chases player
     private void ChasePlayer()
     {
+        m_agent.speed = m_runSpeed;
         m_agent.SetDestination(m_player.position);
         m_animator.SetBool("isRunning", true);
+        m_animator.SetBool("isWalking", false);
     }
 
     private void CreateWalkPoint()
@@ -128,6 +156,10 @@ public class BaseEnemy : MonoBehaviour
             m_walkPointSet = true;
     }
 
+    static public BaseEnemy CheckIfEnemy(Collider collider)
+    {
+        return collider.GetComponentInParent<BaseEnemy>();
+    }
     public void TakeDamage(float damage)
     {
         m_health -= damage;
@@ -136,8 +168,7 @@ public class BaseEnemy : MonoBehaviour
         {
             m_health = 0;
 
-            // Destroy enemy in a half a second
-            Invoke(nameof(Die), 0.5f);
+            Die();
         }
     }
 
@@ -151,17 +182,17 @@ public class BaseEnemy : MonoBehaviour
         }
     }
 
-    private void ClearAnimationBools()
-    {
-        foreach(AnimatorControllerParameter parameter in m_animator.parameters) 
-        {
-            m_animator.SetBool(parameter.name, false);
-        }
-    }
 
     private void Die()
     {
-        DestroyImmediate(gameObject, true);
+        // DestroyImmediate(gameObject, true);
+        // m_animator.SetBool("isRunning", false);
+        // m_animator.SetBool("isWalking", false);
+        // m_animator.SetBool("isStanding", false);
+        // m_animator.SetBool("isAttacking", false);
+        m_animator.SetBool("isDying", true);
+        m_isDead = true;
+        m_agent.speed = 0;
     }
 
     private void Attack()
@@ -248,6 +279,11 @@ public class BaseEnemy : MonoBehaviour
                 // player.TakeDamage(m_damagePerHit);
             }
             
+        }
+
+        if (message.Equals("DeathAnimationEnded"))
+        {
+            GameObject.Destroy(gameObject, 1.0f);
         }
     }
 }
