@@ -27,6 +27,8 @@ public class Flashlight : MonoBehaviour
     private bool m_isFlashlightFocused;
 
     private float m_focusedTime;
+
+
     private void Start()
     {
         m_batteryLevel = m_maxBatteryLevel;
@@ -116,9 +118,9 @@ public class Flashlight : MonoBehaviour
 
         if (Physics.Raycast(m_light.transform.position, m_light.transform.forward, out hitInfo, m_light.range))
         {
-            if (hitInfo.collider.tag == "Enemy")
+            BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hitInfo.collider);
+            if (enemy)
             {
-                BaseEnemy enemy = hitInfo.collider.gameObject.GetComponent<BaseEnemy>();
                 enemy.OnFlashlightHit();
             }
         }

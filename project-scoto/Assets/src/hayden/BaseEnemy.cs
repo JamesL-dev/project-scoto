@@ -156,6 +156,10 @@ public class BaseEnemy : MonoBehaviour
             m_walkPointSet = true;
     }
 
+    static public BaseEnemy CheckIfEnemy(Collider collider)
+    {
+        return collider.GetComponentInParent<BaseEnemy>();
+    }
     public void TakeDamage(float damage)
     {
         m_health -= damage;
@@ -279,8 +283,7 @@ public class BaseEnemy : MonoBehaviour
 
         if (message.Equals("DeathAnimationEnded"))
         {
-            Debug.Log("Death Animation Ended. Enemy should start to die.");
-            // GameObject.Destroy(gameObject);
+            GameObject.Destroy(gameObject, 1.0f);
         }
     }
 }
