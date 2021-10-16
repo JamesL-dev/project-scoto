@@ -82,7 +82,7 @@ public class WeaponManager : MonoBehaviour
                 if (one.ReadValue<float>() != 0) {CurrWeapon = 0; ChangeWeaponVal = 1;}
                 if (two.ReadValue<float>() != 0) {CurrWeapon = 1; ChangeWeaponVal = 1;}
                 if (three.ReadValue<float>() != 0) {CurrWeapon = 2; ChangeWeaponVal = 1;}
-                if (four.ReadValue<float>() != 0) {CurrWeapon = 3; ChangeWeaponVal = 1;}
+                // if (four.ReadValue<float>() != 0) {CurrWeapon = 3; ChangeWeaponVal = 1;}
                 // SWITCH WHICH MODEL IS ACTIVATED
                 if(ChangeWeaponVal == 1) 
                 {

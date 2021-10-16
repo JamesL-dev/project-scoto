@@ -5,7 +5,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     protected int MAX_TIME = 15;
-    [SerializeField] protected float Damage = 0;
+    [SerializeField] protected float Damage = 10;
     protected bool IsActive = false;
     protected bool discovered = false;
 
