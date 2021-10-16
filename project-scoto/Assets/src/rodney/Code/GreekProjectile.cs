@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GreekProjectile : MonoBehaviour
 {
-    float velocity_scalar = 20F;
+    float velocity_scalar = 20F, radius = 5F;
     int MAX_TIME = 45, timer = 0;
     
     public bool create_fire_at_explosion = true;
@@ -31,6 +31,17 @@ public class GreekProjectile : MonoBehaviour
                 Fire_small = Instantiate(Fire_small, new Vector3(gameObject.transform.position.x, .2F, gameObject.transform.position.z), 
                     Quaternion.LookRotation(Vector3.right, Vector3.up)) as GameObject; 
                 Fire_small.transform.localScale = new Vector3(1.5F, 0.75F, 1.5F);
+                
+                // void ExplosionDamage(Vector3 center, float radius)
+                // {
+                Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, radius);
+                foreach (var hitCollider in hitColliders)
+                {
+                    //hitCollider.SendMessage("AddDamage");
+                    BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hitCollider);
+                    if (enemy) { enemy.TakeDamage(100F); }
+                }
+                // }
             }
             Destroy(gameObject);
         }
