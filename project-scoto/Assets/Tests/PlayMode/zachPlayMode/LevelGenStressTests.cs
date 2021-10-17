@@ -14,7 +14,7 @@ public class LevelGenStressTests {
 
         for (int i = 0; i < 100; i++) {
             // Set the level number.
-            LevelGeneration.level_num = level;
+            LevelGeneration.set_level_num(level);
 
             // Load scene.
             SceneManager.LoadScene("Game");
@@ -34,7 +34,7 @@ public class LevelGenStressTests {
         // Print results.
         if (1f / Time.deltaTime < 10f) {
             GameObject level_generator = GameObject.Find("Level Generator");
-            Debug.Log("Less than 10 FPS reached | Cycles: " + cycles + " | Level: " + LevelGeneration.level_num + " | Rooms: " + level_generator.GetComponent<LevelGeneration>().room_count);
+            Debug.Log("Less than 10 FPS reached | Cycles: " + cycles + " | Level: " + LevelGeneration.get_level_num() + " | Rooms: " + level_generator.GetComponent<LevelGeneration>().get_room_count());
         } else {
             Debug.Log("100 cycles completed without critical FPS reached");
         }

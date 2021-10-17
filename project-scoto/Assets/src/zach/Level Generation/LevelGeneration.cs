@@ -6,13 +6,10 @@ public class LevelGeneration : MonoBehaviour {
     public Room room;
     public StartRoom sr;
     public EndRoom er;
-    public static int level_num;
     public List<List<Room>> room_matrix = new List<List<Room>>();
-    private float mw_scaling = 0.1f;
-    private float mh_scaling = 0.2f;
-
-    // For testing
-    public int room_count = 0;
+    private const float mw_scaling = 0.1f, mh_scaling = 0.2f;
+    private static int level_num = 1;
+    private int room_count = 0;
 
     private void Start() {
         // Make start room.
@@ -68,6 +65,10 @@ public class LevelGeneration : MonoBehaviour {
         // The width and height are complementary; a wider level is less likely to be taller, and vice versa.
         int maze_width = 3 + 2 * Mathf.RoundToInt((-0.5f + size_seed) + (mw_scaling * (level - 1)));
         int maze_height = 3 + Mathf.RoundToInt((0.5f - size_seed) + (mh_scaling * (level - 1)));
+
+        // Determine minimum number of rooms.
+        // Approximately equal to (width upper bound - 1) * (height upper bound - 1) + 2
+        int min_rooms = Mathf.RoundToInt((level / 5f + 1.8f) * (level / 5f + 1.8f) + 2);
         
         // Set up empty level layout.
         for (int x = 0; x < maze_width; x++) {
@@ -90,7 +91,16 @@ public class LevelGeneration : MonoBehaviour {
 
         // Procedurally generate layout.
         int loop_count = 0;
-        while (!((maze_x == (maze_width - 1) / 2) && (maze_z == maze_height - 1)) && loop_count < 100000) {
+        bool is_complete = false;
+        while ((room_count < min_rooms || !is_complete) && loop_count < 100000) {
+            // Test for end of maze. If so, add door to end room in the last room.
+            if ((maze_x == (maze_width - 1) / 2) && (maze_z == maze_height - 1)) {
+                temp_doors = room_matrix[maze_x][maze_z].get_doors();
+                temp_doors[0] = true;
+                room_matrix[maze_x][maze_z].set_doors(temp_doors);
+                is_complete = true;
+            }
+
             // Check if surrounding room locations are out of bounds or room already exists.
             bool[] blocked = new bool[4];
             blocked[0] = (maze_z + 1 >= maze_height) || (room_matrix[maze_x][maze_z + 1] != null);
@@ -164,11 +174,6 @@ public class LevelGeneration : MonoBehaviour {
             Debug.LogError("ERROR: Infinite loop detected in generate_layout().");
             Application.Quit();
         }
-
-        // Finally, add door to end room in the last room.
-        temp_doors = room_matrix[maze_x][maze_z].get_doors();
-        temp_doors[0] = true;
-        room_matrix[maze_x][maze_z].set_doors(temp_doors);
     }
 
     private Vector3Int create_room(int x, int z) {
@@ -230,5 +235,25 @@ public class LevelGeneration : MonoBehaviour {
         } else {
             return "[  ] ";
         }
+    }
+
+    public static void set_level_num(int level) {
+        if (level < 0) {
+            Debug.LogWarning("Warning: Level number is less than 0, setting to 0 instead.");
+            level_num = 0;
+        } else if (level > 100) {
+            Debug.LogWarning("Warning: Level number is over 100, setting to 100 instead.");
+            level_num = 100;
+        } else {
+            level_num = level;
+        }
+    }
+
+    public static int get_level_num() {
+        return level_num;
+    }
+
+    public int get_room_count() {
+        return room_count;
     }
 }
