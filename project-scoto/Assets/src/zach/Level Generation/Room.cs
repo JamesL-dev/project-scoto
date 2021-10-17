@@ -6,7 +6,7 @@ public class Room : MonoBehaviour {
     public GameObject enemy, pickup, wall, wall_door;
     public GameObject[] wall_list = new GameObject[4];
     protected bool[] door_list = new bool[] {false, false, false, false};
-    protected int x_pos = 0, z_pos = 0, type = 0;
+    protected int x_pos = 0, z_pos = 0, type = -1;
     protected Vector3[] wall_positions = new Vector3[4], wall_rotations = new Vector3[4];
 
     protected void Awake() {
@@ -75,9 +75,9 @@ public class Room : MonoBehaviour {
         room_pos.z = (z_pos + 1) * 20;
         transform.position = room_pos;
 
-        // Create type (just check if type exists, for now)
-        if (get_type() == 0) {
-            Debug.LogError("ERROR: Room has type of 0 in setup().");
+        // Create room parts based on type (just check if type exists, for now)
+        if (get_type() < 0) {
+            Debug.LogError("ERROR: Room has undefined type in setup().");
             Application.Quit();
         }
 

@@ -2,6 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+Type list (WIP)
+    [-1] Undefined
+    [0] Empty
+    [1] Start room
+    [2] End room
+    [3] Treasure room
+    Probably reserve 0 through 9 for special types
+    [10] ...
+*/
+
 public class LevelGeneration : MonoBehaviour {
     public Room room;
     public StartRoom sr;
@@ -23,24 +34,17 @@ public class LevelGeneration : MonoBehaviour {
         generate_layout(level_num);
 
         // // DEBUG: Print visualization of level.
-        // List<string> print_matrix = new List<string>();
-        // for (int z = 0; z < room_matrix[0].Count; z++) {
-        //     print_matrix.Add("");
-        // }
-        // for (int x = 0; x < room_matrix.Count; x++) {
-        //     for (int z = 0; z < room_matrix[x].Count; z++) {
-        //         print_matrix[z] += draw_doors(x, z);
-        //     }
-        // }
-        // string message = "";
-        // for (int z = 0; z < room_matrix[0].Count; z++) {
-        //     message = print_matrix[z] + "\n" + message;
-        // }
-        // Debug.Log(message);
-        
-        // Add walls to rooms.
+        // print_level();
+  
+        // Loop through matrix to finish building rooms.
         for (int x = 0; x < room_matrix.Count; x++) {
             for (int z = 0; z < room_matrix[x].Count; z++) {
+                // Identify treasure rooms.
+                if (is_treasure(x, z)) {
+                    room_matrix[x][z].set_type(3);
+                }
+            
+                // Set up rooms.
                 if (room_matrix[x][z] != null) {
                     room_matrix[x][z].setup(room_matrix.Count, room_matrix[x].Count);
                 }
@@ -50,7 +54,7 @@ public class LevelGeneration : MonoBehaviour {
         // Make end room.
         Room end_room = Instantiate(er) as EndRoom;
         bool[] end_room_doors = new bool[4] {false, false, true, false};
-        end_room.set_values(0, room_matrix[0].Count, end_room_doors, 1);
+        end_room.set_values(0, room_matrix[0].Count, end_room_doors, 2);
         end_room.setup();
         room_count++;
     }
@@ -92,7 +96,7 @@ public class LevelGeneration : MonoBehaviour {
         // Procedurally generate layout.
         int loop_count = 0;
         bool is_complete = false;
-        while ((room_count < min_rooms || !is_complete) && loop_count < 100000) {
+        while ((room_count < min_rooms || !is_complete) && loop_count < 10000) {
             // Test for end of maze. If so, add door to end room in the last room.
             if ((maze_x == (maze_width - 1) / 2) && (maze_z == maze_height - 1)) {
                 temp_doors = room_matrix[maze_x][maze_z].get_doors();
@@ -130,7 +134,7 @@ public class LevelGeneration : MonoBehaviour {
 
             // Choose a new location, repeat until an empty one is chosen.
             int direction = Random.Range(0, 4); // returns 0, 1, 2, or 3
-            while (blocked[direction] && loop_count < 100000) {
+            while (blocked[direction] && loop_count < 10000) {
                 direction = Random.Range(0, 4);
                 loop_count++;
             }
@@ -169,7 +173,7 @@ public class LevelGeneration : MonoBehaviour {
         }
 
         // Check if infinite loop was detected.
-        if (loop_count >= 100000) {
+        if (loop_count >= 10000) {
             // Force stop.
             Debug.LogError("ERROR: Infinite loop detected in generate_layout().");
             Application.Quit();
@@ -180,7 +184,7 @@ public class LevelGeneration : MonoBehaviour {
         // Create room at position.
         Room temp_room = Instantiate(room) as Room;
         temp_room.set_position(x, z);
-        temp_room.set_type(1);
+        temp_room.set_type(0);
         room_matrix[x][z] = temp_room;
 
         // Increase room counter.
@@ -191,6 +195,29 @@ public class LevelGeneration : MonoBehaviour {
         temp_pos.x = x;
         temp_pos.z = z;
         return temp_pos;
+    }
+
+    // DEBUG
+    private void print_level() {
+        // Create a list of strings with size equal to the maze height.
+        List<string> print_matrix = new List<string>();
+        for (int z = 0; z < room_matrix[0].Count; z++) {
+            print_matrix.Add("");
+        }
+
+        // Add symbols to indicate the doors in each room.
+        for (int x = 0; x < room_matrix.Count; x++) {
+            for (int z = 0; z < room_matrix[x].Count; z++) {
+                print_matrix[z] += draw_doors(x, z);
+            }
+        }
+
+        // Combine into one string and print.
+        string message = "";
+        for (int z = 0; z < room_matrix[0].Count; z++) {
+            message = print_matrix[z] + "\n" + message;
+        }
+        Debug.Log(message);
     }
 
     // DEBUG
@@ -255,5 +282,20 @@ public class LevelGeneration : MonoBehaviour {
 
     public int get_room_count() {
         return room_count;
+    }
+
+    private bool is_treasure(int x, int z) {
+        // Test if the room exists.
+        if (room_matrix[x][z] != null) {
+            // If so, return true if the room has exactly one door.
+            bool[] doors = room_matrix[x][z].get_doors();
+            return (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == true ||
+                    doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == false ||
+                    doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == false ||
+                    doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == false);
+        } else {
+            // If not, return false.
+            return false;
+        }
     }
 }

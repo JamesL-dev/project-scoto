@@ -29,11 +29,5 @@ public class EndRoom : Room {
         room_pos.x = (x_pos - ((maze_width - 1) / 2)) * 20;
         room_pos.z = (z_pos + 1) * 20;
         transform.position = room_pos;
-
-        // Create type (just check if type exists, for now)
-        if (get_type() == 0) {
-            Debug.LogError("ERROR: Room has type of 0 in setup().");
-            Application.Quit();
-        }
     }
 }
