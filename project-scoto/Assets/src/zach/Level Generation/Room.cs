@@ -12,13 +12,6 @@ public class Room : MonoBehaviour {
     protected void Awake() {
         // Set starting values for position and rotation arrays.
         set_transform_arrays();
-
-        // DEBUG: Create test enemy and pickup GameObjects.
-        enemy = Instantiate(enemy, this.transform);
-        enemy.transform.position += new Vector3(0, 1, 4);
-
-        pickup = Instantiate(pickup, this.transform);
-        pickup.transform.position += new Vector3(1, 2, 6);
     }
 
     public void set_values(int x, int z, bool[] d, int t) {
@@ -87,6 +80,13 @@ public class Room : MonoBehaviour {
             Debug.LogError("ERROR: Room has type of 0 in setup().");
             Application.Quit();
         }
+
+        // DEBUG: Create test enemy and pickup GameObjects.
+        enemy = Instantiate(enemy, transform);
+        enemy.transform.position = (transform.position + new Vector3(0, 0, 0));
+
+        pickup = Instantiate(pickup, transform);
+        pickup.transform.position = (transform.position + new Vector3(0, 0, 0));
     }
 
     protected void set_transform_arrays() {

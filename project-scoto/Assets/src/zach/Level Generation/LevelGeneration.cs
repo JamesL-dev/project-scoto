@@ -53,7 +53,7 @@ public class LevelGeneration : MonoBehaviour {
         // Make end room.
         Room end_room = Instantiate(er) as EndRoom;
         bool[] end_room_doors = new bool[4] {false, false, true, false};
-        end_room.set_values((room_matrix.Count - 1) / 2 - 1, room_matrix[0].Count, end_room_doors, 1);
+        end_room.set_values(0, room_matrix[0].Count, end_room_doors, 1);
         end_room.setup();
         room_count++;
     }

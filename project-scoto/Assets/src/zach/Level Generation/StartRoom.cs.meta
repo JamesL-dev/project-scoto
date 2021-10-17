@@ -4,11 +4,10 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - enemy: {fileID: 9173819974394987436, guid: 6b6903acb9a055549acc10cb76804bce, type: 3}
-  - pickup: {fileID: 3409597266733467619, guid: 0eeead4cf15ad7c4688b1558621da7ef, type: 3}
-  - wall: {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
-  - wall_door: {fileID: 4541664134235730180, guid: a8e71e74c993bc84993cd212d033d89d, type: 3}
-  - player: {fileID: 1124084671793721859, guid: 320956f1ba9c8b644b46782fa2685b44, type: 3}
+  - enemy: {instanceID: 0}
+  - pickup: {instanceID: 0}
+  - wall: {instanceID: 0}
+  - wall_door: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
