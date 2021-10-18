@@ -1,10 +1,22 @@
+/*
+* Filename: jamesStressTest.cs
+* Developer: James Lasso
+* Purpose: Performs stress test by spawning hundreds of scoins
+* Tests against if scoin breaks out of bounds or by FPS drop to below 15
+*/
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+
+/*
+* Runs stress test
+*
+* Member variables: none
+*/
 public class JamesPlayModeTest
 {  
     [UnityTest]

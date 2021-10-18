@@ -1,43 +1,73 @@
-// Powerup Superclass
-
+/*
+* Filename: PowerUp.cs
+* Developer: James Lasso
+* Purpose: Superclass for powerup/pickup system
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* PowerUp Class
+* Default values and characteristics of all powerups and pickups
+*
+* Member variables: none
+* 
+*/
 public class PowerUp : MonoBehaviour
 {
     public string powerUpName;
     public bool expiresImmediately;
     public GameObject specialEffect;
     public AudioClip soundEffect;
+    protected PowerUpState powerUpState;
 
     // keep reference of player here
     // protected playerStuff playerstuff;
 
-
-    // keep track of what state the powerup is in
+    /* Function to keep track of what state the powerup is in.
+    *
+    * Parameters: none
+    *
+    * Returns:
+    * enum -- current state
+    */
     protected enum PowerUpState
     {
         InAttractMode, IsCollected, IsExpiring
     }
 
-    protected PowerUpState powerUpState;
-
-
-    // When the powerup is initially spawned it is in an "attract" mode, making it easier for player
-    // to spot it. IE: Visual effects, sounds etc.. sparklies.
+    /* Function to set the state the powerup is in when it is intially spawned.
+    *  Powerups start in 'attract mode' by default
+    *
+    * Parameters: none
+    *
+    * Returns: none
+    */
     protected virtual void Start()
     {
         powerUpState = PowerUpState.InAttractMode;
     }
 
-    // This is used for 3D object interaction
+    /* Function for 3D object interaction.
+    *
+    * Parameters:
+    * Collider other -- any other collider than itself
+    *
+    * Returns: none
+    */
     protected virtual void OnTriggerEnter (Collider other)
     {
         PowerUpCollected(other.gameObject);
     }
 
-    // Make sure the powerup is collected by the player then calls special effects and payload
+    /* Function handles when powerup is collected by the player.
+    *  Special effects and payload are then called.
+    *
+    * Parameters:
+    * gameObjectCollectingPowerUp -- what is collecting powerup
+    *
+    * Returns: none
+    */
     protected virtual void PowerUpCollected(GameObject gameObjectCollectingPowerUp)
     {
         if (gameObjectCollectingPowerUp.tag != "Player")
@@ -51,14 +81,17 @@ public class PowerUp : MonoBehaviour
         }
         powerUpState = PowerUpState.IsCollected;
 
-        // collect effects
-        PowerUpEffects();
+        PowerUpEffects(); // Collect special effects
 
-        // payload
-        PowerUpPayload();
+        PowerUpPayload(); // Call paylod
     }
 
-    // This is to instantiate visual effects and a sound
+    /* Function to instantiate visual effects and sound
+    *
+    * Parameters: none
+    *
+    * Returns: none
+    */
     protected virtual void PowerUpEffects()
     {
         if (specialEffect != null)
@@ -72,7 +105,12 @@ public class PowerUp : MonoBehaviour
         }
     }
 
-    // This will apply the powerups payload to the player
+    /* Function to apply the powerups payload to the player
+    *
+    * Parameters: none
+    *
+    * Returns: none
+    */
     protected virtual void PowerUpPayload()
     {
         Debug.Log("Power Up collected, applying payload for: " + gameObject.name);
@@ -84,7 +122,12 @@ public class PowerUp : MonoBehaviour
         }
     }
 
-    // When the powerup has expired a msg will be send and the object will be destroyed
+    /* Function to send a message that the powerup has expired
+    *
+    * Parameters: none
+    *
+    * Returns: none
+    */
     protected virtual void PowerUpHasExpired()
     {
         if (powerUpState == PowerUpState.IsExpiring)
@@ -97,6 +140,12 @@ public class PowerUp : MonoBehaviour
         DestroySelfAfterDelay();
     }
 
+    /* Function to destroy the powerup.
+    *
+    * Parameters: none
+    *
+    * Returns: none
+    */
     protected virtual void DestroySelfAfterDelay()
     {
         Destroy(gameObject, 10f);
