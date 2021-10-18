@@ -2,17 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
-Type list (WIP)
-    [-1] Undefined
-    [0] Empty
-    [1] Start room
-    [2] End room
-    [3] Treasure room
-    Probably reserve 0 through 9 for special types
-    [10] ...
-*/
-
 public class LevelGeneration : MonoBehaviour {
     public Room room;
     public StartRoom sr;
@@ -70,9 +59,9 @@ public class LevelGeneration : MonoBehaviour {
         int maze_width = 3 + 2 * Mathf.RoundToInt((-0.5f + size_seed) + (mw_scaling * (level - 1)));
         int maze_height = 3 + Mathf.RoundToInt((0.5f - size_seed) + (mh_scaling * (level - 1)));
 
-        // Determine minimum number of rooms.
-        // Approximately equal to (width upper bound - 1) * (height upper bound - 1) + 2
-        int min_rooms = Mathf.RoundToInt((level / 5f + 1.8f) * (level / 5f + 1.8f) + 2);
+        // Determine minimum number of rooms, not counting start and end room.
+        // Approximately equal to (width upper bound - 1) * (height upper bound - 1)
+        int min_rooms = Mathf.RoundToInt((level / 5f + 2f) * (level / 5f + 2f));
         
         // Set up empty level layout.
         for (int x = 0; x < maze_width; x++) {
@@ -93,18 +82,11 @@ public class LevelGeneration : MonoBehaviour {
         temp_doors[2] = true;
         room_matrix[maze_x][maze_z].set_doors(temp_doors);
 
-        // Procedurally generate layout.
+        // Procedurally generate layout until ending is reached and the number of maze rooms is at least min_rooms.
+        // (The "- 1" is to account for the start room.)
         int loop_count = 0;
         bool is_complete = false;
-        while ((room_count < min_rooms || !is_complete) && loop_count < 10000) {
-            // Test for end of maze. If so, add door to end room in the last room.
-            if ((maze_x == (maze_width - 1) / 2) && (maze_z == maze_height - 1)) {
-                temp_doors = room_matrix[maze_x][maze_z].get_doors();
-                temp_doors[0] = true;
-                room_matrix[maze_x][maze_z].set_doors(temp_doors);
-                is_complete = true;
-            }
-
+        while ((room_count - 1 < min_rooms || !is_complete) && loop_count < 10000) {
             // Check if surrounding room locations are out of bounds or room already exists.
             bool[] blocked = new bool[4];
             blocked[0] = (maze_z + 1 >= maze_height) || (room_matrix[maze_x][maze_z + 1] != null);
@@ -168,6 +150,14 @@ public class LevelGeneration : MonoBehaviour {
             temp_doors = room_matrix[maze_x][maze_z].get_doors();
             temp_doors[(direction + 2) % 4] = true;
             room_matrix[maze_x][maze_z].set_doors(temp_doors);
+
+            // Test for end of maze. If so, add door to end room in the last room.
+            if ((maze_x == (maze_width - 1) / 2) && (maze_z == maze_height - 1)) {
+                temp_doors = room_matrix[maze_x][maze_z].get_doors();
+                temp_doors[0] = true;
+                room_matrix[maze_x][maze_z].set_doors(temp_doors);
+                is_complete = true;
+            }
 
             loop_count++;
         }

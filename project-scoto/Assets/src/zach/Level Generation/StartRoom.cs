@@ -23,6 +23,10 @@ public class StartRoom : Room {
             // Add wall to array.
             wall_list[i] = temp_wall;
         }
+        
+        // DEBUG: Create test pickup.
+        pickup = Instantiate(pickup, transform);
+        pickup.transform.position = (transform.position + new Vector3(0, 1, 0));
 
         // Spawn player.
         GameObject player = GameObject.Find("Player");
