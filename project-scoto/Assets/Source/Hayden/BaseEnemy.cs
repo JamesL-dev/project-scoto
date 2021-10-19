@@ -216,7 +216,7 @@ public class BaseEnemy : MonoBehaviour
     {
         // do sound
         // do animation
-        float arrowDamage = arrow.GetComponent<Arrow>().damage;
+        float arrowDamage = 10F/*arrow.GetComponent<Arrow>().damage*/;
         TakeDamage(arrowDamage);
     }
 

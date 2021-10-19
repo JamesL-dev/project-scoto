@@ -312,9 +312,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c811047a32d4a8d4a9c3c05169eaa239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 50
-  weapon: {fileID: 565952073}
-  projectile: {fileID: 1415556611663978, guid: 216ec6e5fef3e254d86b21071e614d66, type: 3}
+  m_weapon: {fileID: 565952073}
+  m_projectile: {fileID: 1415556611663978, guid: 216ec6e5fef3e254d86b21071e614d66, type: 3}
+  m_damage: 10
 --- !u!1 &284144640
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,8 +418,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37c00d2025eb4a547995ce8d90c3743d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
-  curr_state: 1
+  m_timer: 0
+  m_currState: 1
 --- !u!4 &299721809
 Transform:
   m_ObjectHideFlags: 0
@@ -912,9 +912,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8f4a22b2cd11847bce74940c3e035a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 50
-  weapon: {fileID: 962924733}
-  projectile: {fileID: 4445846166995065021, guid: 3033a6ed3bbc07f4aa9b61f7959a1915, type: 3}
+  m_weapon: {fileID: 962924733}
+  m_projectile: {fileID: 4445846166995065021, guid: 3033a6ed3bbc07f4aa9b61f7959a1915, type: 3}
+  m_damage: 10
 --- !u!1 &827849451
 GameObject:
   m_ObjectHideFlags: 0
@@ -1501,9 +1501,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caeccc6db62fdbb469b7270a6c36985e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 50
-  weapon: {fileID: 325200681}
-  projectile: {fileID: 1236168260100604, guid: 09ea8abf901b66e4f87b63c4620a1d63, type: 3}
+  m_weapon: {fileID: 325200681}
+  m_projectile: {fileID: 1236168260100604, guid: 09ea8abf901b66e4f87b63c4620a1d63, type: 3}
+  m_damage: 10
 --- !u!1 &1785261552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1551,14 +1551,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d304cb104a85b40a2d960b3ab5a50d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireAmount: 0
-  FiringWeapons: 0
-  ShowWeapons: 1
-  weapon:
+  m_weapon:
   - {fileID: 1747505995}
   - {fileID: 789693169}
   - {fileID: 263810676}
-  - {fileID: 0}
 --- !u!1 &2141885753
 GameObject:
   m_ObjectHideFlags: 0

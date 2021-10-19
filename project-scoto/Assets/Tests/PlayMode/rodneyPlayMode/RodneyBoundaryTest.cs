@@ -14,14 +14,13 @@ public class RodneyBoundaryTest : MonoBehaviour
         SceneManager.LoadScene("Game");
         yield return new WaitForSeconds(2.5F);
 
-        Inv_Flashlight flashlight = GameObject.Find("FlashlightContainer").GetComponent<Inv_Flashlight>();
-        flashlight.NotFound();
-        GameObject.Find("TridentContainer").GetComponent<Trident>().NotFound();
+        Trident trident = GameObject.Find("TridentContainer").GetComponent<Trident>(); 
+        trident.NotFound();
         GameObject.Find("BowContainer").GetComponent<Bow>().NotFound();
         GameObject.Find("GreekFireContainer").GetComponent<GreekFire>().NotFound();
 
         yield return new WaitForSeconds(.1F);
-        Assert.IsTrue(flashlight.isFound());
+        Assert.IsTrue(trident.isFound());
         yield return null;
     }
 
@@ -47,13 +46,13 @@ public class RodneyBoundaryTest : MonoBehaviour
 
         previous_weapon = obj_.CurrentWeapon();
         yield return new WaitForSeconds(.05F);
-        obj_.SetCurrentWeapon(WeaponManager.InvSize);
+        obj_.SetCurrentWeapon(WeaponManager.m_invSize);
         yield return new WaitForSeconds(.05F);
         Assert.AreEqual(obj_.CurrentWeapon(), previous_weapon);
 
         previous_weapon = obj_.CurrentWeapon();
         yield return new WaitForSeconds(.05F);
-        obj_.SetCurrentWeapon(WeaponManager.InvSize + 1000);
+        obj_.SetCurrentWeapon(WeaponManager.m_invSize + 1000);
         yield return new WaitForSeconds(.05F);
         Assert.AreEqual(obj_.CurrentWeapon(), previous_weapon);
         yield return null;
