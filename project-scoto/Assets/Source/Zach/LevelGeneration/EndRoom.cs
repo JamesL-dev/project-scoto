@@ -11,24 +11,30 @@ using UnityEngine;
 /*
  * A subclass of Room for the final room of each level that takes the player to the next one.
  */
-public class EndRoom : Room {
+public class EndRoom : Room
+{
     /* Sets up the end room by setting position and creating walls and doors.
      *
      * Parameters:
      * mazeWidth -- Integer for the width of the maze.
      * mazeHeight -- Integer for the height of the maze.
      */
-    public override void Setup(int mazeWidth = 0, int mazeHeight = 0) {
+    public override void Setup(int mazeWidth = 0, int mazeHeight = 0)
+    {
         // Generate walls.
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
             // Create new wall.
             GameObject tempWall;
-            if (m_doorList[i]) {
+            if (m_doorList[i])
+            {
                 tempWall = Instantiate(m_wallDoor, this.transform);
                 tempWall.transform.position = m_wallPositions[i];
                 tempWall.transform.eulerAngles = m_wallRotations[i];
                 tempWall.tag = m_wallDoor.tag;
-            } else {
+            }
+            else
+            {
                 tempWall = Instantiate(m_wall, this.transform);
                 tempWall.transform.position = m_wallPositions[i];
                 tempWall.transform.eulerAngles = m_wallRotations[i];

@@ -15,15 +15,18 @@ using UnityEngine.TestTools;
 /*
  * Stress tests for the level generation feature.
  */
-public class LevelGenStressTests {
+public class LevelGenStressTests
+{
     /* Repeatedly generates larger and larger levels until the FPS gets below a critical value.
      */
     [UnityTest]
-    public IEnumerator ExpandLevel() {
+    public IEnumerator ExpandLevel()
+    {
         int level = 1;
         int cycles = 0;
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++)
+        {
             // Set the level number.
             LevelGeneration.SetLevelNum(level);
 
@@ -34,7 +37,8 @@ public class LevelGenStressTests {
 
             // Check for FPS decrease.
             // If I set it a little lower than 10, Unity crashes before the FPS is detected.
-            if (1f / Time.deltaTime < 10f) {
+            if (1f / Time.deltaTime < 10f)
+            {
                 break;
             }
 
@@ -43,11 +47,14 @@ public class LevelGenStressTests {
         }
 
         // Print results.
-        if (1f / Time.deltaTime < 10f) {
+        if (1f / Time.deltaTime < 10f)
+        {
             GameObject levelGenerator = GameObject.Find("Level Generator");
             Debug.Log("Less than 10 FPS reached | Cycles: " + cycles + " | Level: " + LevelGeneration.GetLevelNum() +
                       " | Rooms: " + levelGenerator.GetComponent<LevelGeneration>().GetRoomCount());
-        } else {
+        }
+        else
+        {
             Debug.Log("100 cycles completed without critical FPS reached");
         }
 

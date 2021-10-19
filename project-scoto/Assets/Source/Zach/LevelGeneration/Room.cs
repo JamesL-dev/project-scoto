@@ -37,7 +37,8 @@ Room type list (WIP)
  * m_wallRotations -- Vector3 for the preset rotations of the 4 walls of a room.
  * m_isCleared -- Boolean that stores if a room has been cleared or not. 
  */
-public class Room : MonoBehaviour {
+public class Room : MonoBehaviour
+{
     public GameObject m_enemy, m_pickup, m_wall, m_wallDoor;
     public GameObject[] m_wallList = new GameObject[4];
 
@@ -48,21 +49,26 @@ public class Room : MonoBehaviour {
 
     /* Sets preset values for wall positions and rotations.
      */
-    protected void Awake() {
+    protected void Awake()
+    {
         // Set starting values for position and rotation arrays.
         SetTransformArrays();
     }
 
     /* Detects if the room's doors should be opened.
      */
-    protected void Update() {
+    protected void Update()
+    {
         // DEBUG: Detect if pickup is deleted.
-        if (m_pickup == null && !m_isCleared) {
+        if (m_pickup == null && !m_isCleared)
+        {
             Debug.Log("Pickup deleted in room (" + m_xPos + ", " + m_zPos + ")");
             m_isCleared = true;
 
-            for (int i = 0; i < 4; i++) {
-                if (m_doorList[i]) {
+            for (int i = 0; i < 4; i++)
+            {
+                if (m_doorList[i])
+                {
                     m_wallList[i].GetComponentInChildren<Door>().OpenDoor();
                 }
             }
@@ -75,17 +81,22 @@ public class Room : MonoBehaviour {
      * mazeWidth -- Integer for the width of the maze.
      * mazeHeight -- Integer for the height of the maze.
      */
-    public virtual void Setup(int mazeWidth = 0, int mazeHeight = 0) {
+    public virtual void Setup(int mazeWidth = 0, int mazeHeight = 0)
+    {
         // Generate walls.
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
             // Create new wall.
             GameObject tempWall;
-            if (m_doorList[i]) {
+            if (m_doorList[i])
+            {
                 tempWall = Instantiate(m_wallDoor, this.transform);
                 tempWall.transform.position = m_wallPositions[i];
                 tempWall.transform.eulerAngles = m_wallRotations[i];
                 tempWall.tag = m_wallDoor.tag;
-            } else {
+            }
+            else
+            {
                 tempWall = Instantiate(m_wall, this.transform);
                 tempWall.transform.position = m_wallPositions[i];
                 tempWall.transform.eulerAngles = m_wallRotations[i];
@@ -103,7 +114,8 @@ public class Room : MonoBehaviour {
         transform.position = roomPos;
 
         // Create room parts based on type (just check if type exists, for now)
-        if (GetRoomType() < 0) {
+        if (GetRoomType() < 0)
+        {
             Debug.LogError("ERROR: Room has undefined type in setup().");
             Application.Quit();
         }
@@ -125,7 +137,8 @@ public class Room : MonoBehaviour {
      * d -- Array of booleans for the room's doors.
      * t -- Integer for the room's type.
      */
-    public void SetValues(int x, int z, bool[] d, int t) {
+    public void SetValues(int x, int z, bool[] d, int t)
+    {
         SetPosition(x, z);
         SetDoors(d);
         SetRoomType(t);
@@ -137,7 +150,8 @@ public class Room : MonoBehaviour {
      * x -- Integer for the room's x position within the level layout grid.
      * z -- Integer for the room's z position within the level layout grid.
      */
-    public void SetPosition(int x, int z) {
+    public void SetPosition(int x, int z)
+    {
         m_xPos = x;
         m_zPos = z;
     }
@@ -147,7 +161,8 @@ public class Room : MonoBehaviour {
      * Parameters:
      * d -- Array of booleans for the room's doors.
      */
-    public void SetDoors(bool[] d) {
+    public void SetDoors(bool[] d)
+    {
         m_doorList = d;
     }
 
@@ -156,7 +171,8 @@ public class Room : MonoBehaviour {
      * Parameters:
      * t -- Integer for the room's type.
      */
-    public void SetRoomType(int t) {
+    public void SetRoomType(int t)
+    {
         m_roomType = t;
     }
 
@@ -165,7 +181,8 @@ public class Room : MonoBehaviour {
      * Returns:
      * Vector3Int -- Room's position within the level layout grid.
      */
-    public Vector3Int GetPosition() {
+    public Vector3Int GetPosition()
+    {
         Vector3Int temp = Vector3Int.zero;
         temp.x = m_xPos;
         temp.z = m_zPos;
@@ -177,7 +194,8 @@ public class Room : MonoBehaviour {
      * Returns:
      * bool[] -- Whether or not a door exists for each of the 4 walls of the room.
      */
-    public bool[] GetDoors() {
+    public bool[] GetDoors()
+    {
         return m_doorList;
     }
 
@@ -186,13 +204,15 @@ public class Room : MonoBehaviour {
      * Returns:
      * int -- The room's type.
      */
-    public int GetRoomType() {
+    public int GetRoomType()
+    {
         return m_roomType;
     }
 
     /* Sets preset values for wall positions and rotations.
      */
-    protected void SetTransformArrays() {
+    protected void SetTransformArrays()
+    {
         m_wallPositions[0] = new Vector3(0, 5, 10);
         m_wallPositions[1] = new Vector3(10, 5, 0);
         m_wallPositions[2] = new Vector3(0, 5, -10);

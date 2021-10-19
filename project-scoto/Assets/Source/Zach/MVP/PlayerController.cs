@@ -34,7 +34,8 @@ using UnityEngine.InputSystem;
  * m_sprinting -- InputAction for sprinting.
  * m_controller -- CharacterController for moving the player and detecting collisions.
  */
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
     public float m_jumpForce, m_moveSpeed, m_gravity, m_friction, m_sprintMultiplier;
     public Vector2 m_mouseSens;
     public LayerMask m_groundMask;
@@ -50,7 +51,8 @@ public class PlayerController : MonoBehaviour {
     
     /* Sets up the input actions.
      */
-    private void Awake() {
+    private void Awake()
+    {
         m_playerInputActions = new PlayerInputActions();
         m_movement = m_playerInputActions.Player.Movement;
         m_jumping = m_playerInputActions.Player.Jumping;
@@ -62,7 +64,8 @@ public class PlayerController : MonoBehaviour {
 
     /* Enambles the input actions when the player is enabled.
      */
-    private void OnEnable() {
+    private void OnEnable()
+    {
         m_movement.Enable();
         m_jumping.Enable();
         m_mouse.Enable();
@@ -72,7 +75,8 @@ public class PlayerController : MonoBehaviour {
 
     /* Disables the input actions when the player is disabled.
      */
-    private void OnDisable() {
+    private void OnDisable()
+    {
         m_movement.Disable();
         m_jumping.Disable();
         m_mouse.Disable();
@@ -82,7 +86,8 @@ public class PlayerController : MonoBehaviour {
 
     /* Gets the inputs for the player (either from the input actions or the demo) and rotates the player camera.
      */
-    private void Update() {
+    private void Update()
+    {
         // Get inputs from input actions.
         m_movementValue = m_movement.ReadValue<Vector2>();
         m_jumpValue = m_jumping.ReadValue<float>();
@@ -91,12 +96,14 @@ public class PlayerController : MonoBehaviour {
 
         // Check for any movement/mouse inputs.
         if (m_movementValue.x != 0f || m_movementValue.y != 0f || m_jumpValue != 0f ||
-            m_mouseValue.x != 0f || m_mouseValue.y != 0f || m_sprintingValue != 0f) {
+            m_mouseValue.x != 0f || m_mouseValue.y != 0f || m_sprintingValue != 0f)
+        {
             Demo.ResetTimer();
         }
 
         // If demo mode is on, replace inputs with inputs from demo.
-        if (Demo.On()) {
+        if (Demo.On())
+        {
             m_movementValue = Demo.Move();
             m_jumpValue = Demo.Jump();
             m_mouseValue = Vector2.zero;
@@ -115,7 +122,8 @@ public class PlayerController : MonoBehaviour {
 
     /* Moves the player.
      */
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         MovePlayer();
     }
 
@@ -124,32 +132,40 @@ public class PlayerController : MonoBehaviour {
      * Parameters:
      * pos -- Vector3 for the position to go to.
      */
-    public void Tp(Vector3 pos) {
-        if (m_controller.enabled) {
+    public void Tp(Vector3 pos)
+    {
+        if (m_controller.enabled)
+        {
             m_controller.enabled = false;
             transform.position = pos;
             m_controller.enabled = true;
-        } else {
+        }
+        else
+        {
             transform.position = pos;
         }
     }
 
     /* Moves the player.
      */
-    private void MovePlayer() {
+    private void MovePlayer()
+    {
         // Apply m_gravity.
         m_velocity.y += m_gravity;
 
         // Check if player is grounded.
         bool is_grounded = Physics.CheckSphere(transform.position, 0.1f, m_groundMask);
-        if (is_grounded) {
+        if (is_grounded)
+        {
             // Stop falling.
-            if (m_velocity.y < 0) {
+            if (m_velocity.y < 0)
+            {
                 m_velocity.y = 0;
             }
 
             // If jump is pressed, jump.
-            if (m_jumpValue > 0) {
+            if (m_jumpValue > 0)
+            {
                 m_velocity.y = m_jumpForce;
             }
         }
@@ -161,13 +177,17 @@ public class PlayerController : MonoBehaviour {
 
     /* Controls the player's horizontal movement.
      */
-    private void HorizontalMovement() {
+    private void HorizontalMovement()
+    {
         // Calculate horizontal movement relative to the player.
         Vector3 player_move = Vector3.zero;
         player_move.x = m_movementValue.x * m_moveSpeed;
-        if (m_sprintingValue > 0 && m_movementValue.y > 0) {
+        if (m_sprintingValue > 0 && m_movementValue.y > 0)
+        {
             player_move.z = m_movementValue.y * m_moveSpeed * m_sprintMultiplier;
-        } else {
+        }
+        else
+        {
             player_move.z = m_movementValue.y * m_moveSpeed;
         }
 
