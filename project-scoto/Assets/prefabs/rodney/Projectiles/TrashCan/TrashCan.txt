@@ -1,0 +1,3 @@
+Prefab: TrashCan
+Purpose: Default projectile for weapon subclasses.
+Interactions: Instantiates when no Fire function has been overloaded in a weapon subclass.

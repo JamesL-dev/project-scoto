@@ -34,6 +34,7 @@ public class Trident : Weapon
 
         BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hit.collider);
         if (enemy) { enemy.TakeDamage(m_damage); }
+        /* REPLACE WITH OnTridentHit() */
     }
 }
 
