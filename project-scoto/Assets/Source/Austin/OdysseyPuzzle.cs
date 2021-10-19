@@ -1,28 +1,36 @@
+/*
+ * Filename: OdysseyPuzzle.cs
+ * Developer: Austin Kugler
+ * Purpose: This file includes a class for functionality related to odyssey puzzles.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Class for odyssey puzzle functionality, inheriting from BasePuzzle.
+ *
+ */
 public class OdysseyPuzzle : BasePuzzle
 {
-    // Start is called before the first frame update
     void Start()
     {
         InvokeRepeating("ChancePuzzle", m_delay, m_delay);
     }
 
-    // Update is called once per frame
     void Update()
     {
 
     }
 
-    // Fixed Update is called 50 times per second
     void FixedUpdate()
     {
 
     }
 
-    // Initilizes a puzzle if a random chance occurs
+    /*
+     * Initilizes a puzzle if a random chance occurs.
+     */
     void ChancePuzzle()
     {
         if (!m_isActive && m_frequency != 0.0f && m_frequency <= Random.Range(0.0f, 1.0f))
@@ -31,7 +39,9 @@ public class OdysseyPuzzle : BasePuzzle
         }
     }
 
-    // Initialize a new puzzle
+    /*
+     * Initilizes a new puzzle when called.
+     */
     void Initialize()
     {
         m_isActive = true;

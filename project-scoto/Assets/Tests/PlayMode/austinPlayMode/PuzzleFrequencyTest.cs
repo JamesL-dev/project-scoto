@@ -1,12 +1,26 @@
+/*
+ * Filename: PuzzleFrequencyTest.cs
+ * Developer: Austin Kugler
+ * Purpose: This file includes a class for boundary testing puzzle frequency in the BasePuzzle class.
+ */
+using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.TestTools;
-using UnityEditor;
 
+/*
+ * Class for boundary testing puzzle frequency.
+ */
 public class PuzzleFrequencyTest
 {
+    /*
+     * Tests the upper bound of puzzle freqeuncy, should be <= 1.0f (100%).
+     *
+     * Returns:
+     * IEnumerator -- Allows the progression of the game.
+     */
     [UnityTest]
     public IEnumerator FrequencyUpperBound()
     {
@@ -37,6 +51,12 @@ public class PuzzleFrequencyTest
         yield return null;
     }
 
+    /*
+     * Tests the upper bound of puzzle freqeuncy, should be >= 0.0f (0%).
+     *
+     * Returns:
+     * IEnumerator -- Allows the progression of the game.
+     */
     [UnityTest]
     public IEnumerator FrequencyLowerBound()
     {

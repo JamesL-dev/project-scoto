@@ -1,0 +1,3 @@
+Prefab: Weapon Models
+Purpose: Each is a weapon model to display on the screen
+Interactions: Activated and Disactivated based on user input.

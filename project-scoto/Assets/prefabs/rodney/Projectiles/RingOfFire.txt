@@ -1,0 +1,3 @@
+Prefab: RingOfFire
+Purpose: To show where the AOE effect is that attacks enemies.
+Interactions: Damages enemies over time.

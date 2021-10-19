@@ -1,100 +1,120 @@
+/*
+ * Filename: WeaponManager.cs
+ * Developer: Rodney McCoy
+ * Purpose: (soon to be) singleton to manage and control the weapons the player can use
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/*
+ * Main Class
+ *
+ * Member Variables:
+ * m_invSize -- size of inventory
+ * m_initWeapon -- (zero indexed) which weapon should always be discovered
+ * m_weapon -- dynamically bound array of weapon subclass instances
+ * m_currWeapon -- weapon currently selected
+ * m_previousIndex -- weapon previously selected
+ * m_changeCurrWeapon -- change current weapon from outside script (for testing only)
+ * m_timer -- time tell weapon stops firing
+ * m_fireAmount -- GreekFire ammo
+ * m_firingWeapons -- true if currently firing a weapon
+ * m_showWeapons -- true if no external entity has deactivated weapons
+ * m_changeShowWeapons -- ture if external entity wants to deactivate weapons
+ * m_weaponInputActions, m_fireWeapon, m_changeWeapon, m_one, m_two, m_three, m_four -- user input
+ */
 public class WeaponManager : MonoBehaviour 
 {
-    public const int InvSize = 3, initWeapon = 0;
-    int CurrWeapon = initWeapon, previous_index = initWeapon, ChangeCurrWeapon = -1, timer = 0;
-    [SerializeField] public int FireAmount = 0;
-    
-    [SerializeField] bool FiringWeapons = false, ShowWeapons = true;
-    bool ChangeShowWeapons = false;
+    public const int m_invSize = 3, m_initWeapon = 0;
+    public Weapon[] m_weapon = new Weapon[m_invSize];
 
-    private WeaponInputActions weapon_input_actions;
-    private InputAction FireWeapon, ChangeWeapon, one, two, three, four;
-
-    public Weapon[] weapon = new Weapon[InvSize];
+    int m_currWeapon = m_initWeapon, m_previousIndex = m_initWeapon, m_changeCurrWeapon = -1, m_timer = 0;
+    static int m_fireAmount = 120;
+    bool m_firingWeapons = false, m_showWeapons = true, m_changeShowWeapons = false;
+    private WeaponInputActions m_weaponInputActions;
+    private InputAction m_fireWeapon, m_changeWeapon, m_one, m_two, m_three, m_four;
 
     private void Awake() 
     {
-        weapon_input_actions = new WeaponInputActions();
-        FireWeapon = weapon_input_actions.Player.FireWeapon;
-        ChangeWeapon = weapon_input_actions.Player.ChangeWeapon;
+        m_weaponInputActions = new WeaponInputActions();
+        m_fireWeapon = m_weaponInputActions.Player.FireWeapon;
+        m_changeWeapon = m_weaponInputActions.Player.ChangeWeapon;
 
-        one = weapon_input_actions.Player.one;
-        two = weapon_input_actions.Player.two;
-        three = weapon_input_actions.Player.three;
-        four = weapon_input_actions.Player.four;
+        m_one = m_weaponInputActions.Player.one;
+        m_two = m_weaponInputActions.Player.two;
+        m_three = m_weaponInputActions.Player.three;
+        m_four = m_weaponInputActions.Player.four;
 
-        weapon[0].setActive(true);
-        for(int i = 1; i < InvSize; i++) { weapon[i].setActive(false); }
+        m_weapon[0].setActive(true);
+        for(int i = 1; i < m_invSize; i++) { m_weapon[i].setActive(false); }
     }
 
     void FixedUpdate() 
     {
         // ERROR HANDLING
-        // IF ALL WEAPONS ON NOT DISCOVERED, SET weapon[initWeapon] to discovered
+        // IF ALL WEAPONS ON NOT DISCOVERED, SET m_weapon[m_initWeapon] to discovered
         bool flag = false;
-        for(int i = 0; i < InvSize; i++) { if(weapon[i].isFound()) {flag = true; break;} }
-        if(!flag) {Debug.LogWarning("No weapon in inventory is set to discovered, this can't happen. Setting weapon[initWeapon] to discovered."); weapon[initWeapon].Found();}
+        for(int i = 0; i < m_invSize; i++) { if(m_weapon[i].isFound()) {flag = true; break;} }
+        if(!flag) {Debug.LogWarning("No m_weapon in inventory is set to discovered, this can't happen. Setting m_weapon[m_initWeapon] to discovered."); m_weapon[m_initWeapon].Found();}
         // IF CURRENT WEAPON OUT OF BOUNDS, SET TO PREVIOUS VALUE 
-        if(CurrWeapon >= InvSize || CurrWeapon < 0) { CurrWeapon = previous_index; }
+        if(m_currWeapon >= m_invSize || m_currWeapon < 0) { m_currWeapon = m_previousIndex; }
         
+        if(!m_showWeapons) {Demo.ResetTimer();}
 
-        if(!FiringWeapons && ShowWeapons) 
+        if(!m_firingWeapons && m_showWeapons) 
         {
             // IF ABLE TO FIRE WEAPONS 
-            if(FireWeapon.ReadValue<float>() != 0) 
+            if(m_fireWeapon.ReadValue<float>() != 0) 
             {
                 GameObject Object = GameObject.FindGameObjectWithTag("MainCamera");
-                weapon[CurrWeapon].Fire(Object.transform.position, Object.transform.rotation);
-                timer = weapon[CurrWeapon].Time();    
-                FiringWeapons = true;
+                m_weapon[m_currWeapon].Fire(Object.transform.position, Object.transform.rotation);
+                m_timer = m_weapon[m_currWeapon].Time();    
+                m_firingWeapons = true;
                 Demo.ResetTimer();
             }
-            previous_index = CurrWeapon;
+            m_previousIndex = m_currWeapon;
             float ChangeWeaponVal;
 
-            if((ChangeWeaponVal = ChangeWeapon.ReadValue<float>()) != 0)
+            if((ChangeWeaponVal = m_changeWeapon.ReadValue<float>()) != 0)
             {
                 Demo.ResetTimer();
                 // CHANGE INVENTORY SLOT BY "SCROLL"
                 if(ChangeWeaponVal < 0) 
                 { 
-                    CurrWeapon ++;
-                    if (CurrWeapon >= InvSize) {CurrWeapon = 0;}
+                    m_currWeapon ++;
+                    if (m_currWeapon >= m_invSize) {m_currWeapon = 0;}
                 }
                 if(ChangeWeaponVal > 0) 
                 {
-                    CurrWeapon --;
-                    if (CurrWeapon < 0) {CurrWeapon = InvSize-1;}
+                    m_currWeapon --;
+                    if (m_currWeapon < 0) {m_currWeapon = m_invSize-1;}
                 }
                 // SWITCH WHICH MODEL IS ACTIVATED
-                weapon[previous_index].setActive(false);
-                weapon[CurrWeapon].setActive(true);
+                m_weapon[m_previousIndex].setActive(false);
+                m_weapon[m_currWeapon].setActive(true);
             }
             else
             {
                 // CHANGE INVENTORY SLOT BY "HOTKEY"
                 ChangeWeaponVal = 0;
-                if (one.ReadValue<float>() != 0) {CurrWeapon = 0; ChangeWeaponVal = 1;}
-                if (two.ReadValue<float>() != 0) {CurrWeapon = 1; ChangeWeaponVal = 1;}
-                if (three.ReadValue<float>() != 0) {CurrWeapon = 2; ChangeWeaponVal = 1;}
-                if (four.ReadValue<float>() != 0) {CurrWeapon = 3; ChangeWeaponVal = 1;}
+                if (m_one.ReadValue<float>() != 0) {m_currWeapon = 0; ChangeWeaponVal = 1;}
+                if (m_two.ReadValue<float>() != 0) {m_currWeapon = 1; ChangeWeaponVal = 1;}
+                if (m_three.ReadValue<float>() != 0) {m_currWeapon = 2; ChangeWeaponVal = 1;}
+                // if (m_four.ReadValue<float>() != 0) {m_currWeapon = 3; ChangeWeaponVal = 1;}
                 // SWITCH WHICH MODEL IS ACTIVATED
                 if(ChangeWeaponVal == 1) 
                 {
                     Demo.ResetTimer();
-                    if(weapon[CurrWeapon].isFound() && CurrWeapon != previous_index)
+                    if(m_weapon[m_currWeapon].isFound() && m_currWeapon != m_previousIndex)
                     {
-                        weapon[previous_index].setActive(false);
-                        weapon[CurrWeapon].setActive(true);
+                        m_weapon[m_previousIndex].setActive(false);
+                        m_weapon[m_currWeapon].setActive(true);
                     }
                     else
                     {
-                        CurrWeapon = previous_index;
+                        m_currWeapon = m_previousIndex;
                     }
                 }
             }
@@ -102,57 +122,84 @@ public class WeaponManager : MonoBehaviour
         else 
         { 
             // IF NOT ABLE TO FIRE WEAPONS
-            if(timer > 0) { timer --; }
-            if(timer == 0) { FiringWeapons = false; }
+            if(m_timer > 0) { m_timer --; }
+            if(m_timer == 0) { m_firingWeapons = false; }
         }
 
         // IF EXTERNAL ENTITY WANTS TO NOT DISPLAY WEAPONS 
-        if(ChangeShowWeapons) 
+        if(m_changeShowWeapons) 
         {
-            if(ShowWeapons) { weapon[CurrWeapon].setActive(false); } 
-            else { weapon[CurrWeapon].setActive(true); }
-            ShowWeapons = !ShowWeapons;
-            ChangeShowWeapons = false;
+            if(m_showWeapons) { m_weapon[m_currWeapon].setActive(false); } 
+            else { m_weapon[m_currWeapon].setActive(true); }
+            m_showWeapons = !m_showWeapons;
+            m_changeShowWeapons = false;
         }
 
         // IF EXTERNAL ENTITY WANTS TO CHANGE CURRENT WEAPON
-        if(ChangeCurrWeapon != -1)
+        if(m_changeCurrWeapon != -1)
         {
-            CurrWeapon = ChangeCurrWeapon;
-            ChangeCurrWeapon = -1;
+            m_currWeapon = m_changeCurrWeapon;
+            m_changeCurrWeapon = -1;
         }
-    }
-
-
-    // SWITCH FOR EXTERNAL ENTITY TO NOTIFY SCRIPT THAT THEY WANT TO NOT DISPLAY WEAPONS
-    public void EnableInventory(bool flag) { if(flag != ShowWeapons) { ChangeShowWeapons = true; } }
-
-    public void SetCurrentWeapon(int x)
-    { 
-        Debug.LogWarning("Function SetCurrentWeapon() only to be used for testing & debugging."); 
-        if(x == -1) {Debug.LogWarning("SetCurrentWeapon() will not change CurrentWeapon because it was given \"-1\"");}
-        ChangeCurrWeapon = x; 
     }
 
     private void OnEnable() 
     {
-        FireWeapon.Enable();
-        ChangeWeapon.Enable();
-        one.Enable();
-        two.Enable();
-        three.Enable();
-        four.Enable();
+        m_fireWeapon.Enable();
+        m_changeWeapon.Enable();
+        m_one.Enable();
+        m_two.Enable();
+        m_three.Enable();
+        m_four.Enable();
     }
 
     private void OnDisable() 
     {
-        FireWeapon.Disable();
-        ChangeWeapon.Disable();
-        one.Disable();
-        two.Disable();
-        three.Disable();
-        four.Disable();
+        m_fireWeapon.Disable();
+        m_changeWeapon.Disable();
+        m_one.Disable();
+        m_two.Disable();
+        m_three.Disable();
+        m_four.Disable();
     }
 
-    public int CurrentWeapon() { return CurrWeapon;}
+    /*
+     * Switch for external entity to notify script to turn off weapons until further notified
+     *
+     * Parameters:
+     * flag -- true to enable inventory, false to disable inventory
+     */ 
+    public void EnableInventory(bool flag) { if(flag != m_showWeapons) { m_changeShowWeapons = true; } }
+
+    /*
+     * Mutator to set current m_weapon. Only for testing
+     *
+     * Parameters:
+     * x -- Current Weapon
+     */
+    public void SetCurrentWeapon(int x)
+    { 
+        Debug.LogWarning("Function SetCurrentWeapon() only to be used for testing & debugging."); 
+        if(x == -1) {Debug.LogWarning("SetCurrentWeapon() will not change CurrentWeapon because it was given \"-1\"");}
+        m_changeCurrWeapon = x; 
+    }
+
+    /*
+     * Decrements GreekFire ammo
+     */
+    public static void DecrementAmmo() { m_fireAmount--; }
+
+    /*
+     * Is their greek fire ammo
+     *
+     * Returns:
+     * bool -- true if greek fire ammo available
+     */
+    public static bool AmmoAvailable() { return m_fireAmount > 0; }
+
+    /*
+     * Accessor to CurrentWeapon
+     */
+    public int CurrentWeapon() { return m_currWeapon;}
 }
+

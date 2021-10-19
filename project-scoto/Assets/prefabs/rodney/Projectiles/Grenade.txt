@@ -1,0 +1,3 @@
+Prefab: Grenade
+Purpose: Grenade Projectile.
+Interactions: Instantiates and interacts with the world once the player left clicks while holding the greek fire.
