@@ -10,13 +10,8 @@ using UnityEngine;
 
 /*
  * A subclass of Room for the room that the player spawns in for each level.
- *
- * Member variables:
- * m_player -- GameObject for the player, to spawn them in the correct location.
  */
 public class StartRoom : Room {
-    public GameObject m_player;
-
     /* Sets up the start room by creating walls, doors, and room parts and spawning the player.
      *
      * Parameters:
@@ -49,7 +44,8 @@ public class StartRoom : Room {
         m_pickup.transform.position = (transform.position + new Vector3(0, 1, 0));
 
         // Spawn player.
-        m_player.GetComponent<PlayerController>().Tp(new Vector3(0, 0, -5));
+        GameObject player = GameObject.Find("Player");
+        player.GetComponent<PlayerController>().Tp(new Vector3(0, 0, -5));
     }
 }
 
