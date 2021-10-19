@@ -69,8 +69,7 @@ public class Arrow : MonoBehaviour
             BaseEnemy enemy = BaseEnemy.CheckIfEnemy(other);
             if (enemy)
             {
-                enemy.TakeDamage(m_damage);
-                /* REPLACE WITH OnArrowHit() */
+                enemy.HitEnemy(BaseEnemy.WeaponType.Arrow, m_damage);
                 gameObject.transform.parent = other.transform;
             }
             else if(other.gameObject.layer == LayerMask.NameToLayer("Ground")) 
