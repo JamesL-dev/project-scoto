@@ -1,29 +1,44 @@
+/* 
+ * Filename: AOE.cs
+ * Developer: Rodney McCoy
+ * Purpose: Control the collider and particle effects of the AOE effect that damages enemies over time
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * Main Class
+ *
+ * Member Variables:
+ * m_damage -- damage per frame to enemies inside AOE effect
+ * m_timer -- current lifetime of AOE effect
+ * m_radius -- Radius of AOE effect
+ * m_maxtime1 -- Lifetime of AOE effect before it starts shrinking
+ * m_maxtime2 -- Lifetime of AOE effect with shrink time
+ * m_scaleChange -- change of AOE effects scale per frame
+ * m_sphere -- Sphere collider attached to object
+ */
 public class AOE : MonoBehaviour
 {
-    int DAMAGE = 1, timer = 0, MAX_TIME = 1000, radius = 5;
-
-    Vector3 scale_change = Vector3.zero; 
-    SphereCollider sphere = null;
-    int MAX_TIME_0;
+    int m_damage = 1, m_timer = 0, m_radius = 5, m_maxTime1 = 1000, m_maxTime2 = 1100;
+    Vector3 m_scaleChange = Vector3.zero; 
+    SphereCollider m_sphere = null;
 
     void Awake()
     {
-        MAX_TIME_0 = MAX_TIME - 100;
-        scale_change = gameObject.transform.localScale/100;
-        gameObject.GetComponent<SphereCollider>().radius = radius;
+        m_maxTime2 = m_maxTime1 - 100;
+        m_scaleChange = gameObject.transform.localScale/100;
+        gameObject.GetComponent<SphereCollider>().radius = m_radius;
     }
 
     void FixedUpdate()
     {
-        timer ++;
-        if(timer >= MAX_TIME_0) 
+        m_timer ++;
+        if(m_timer >= m_maxTime2) 
         {
-            gameObject.transform.localScale -= scale_change;
-            if(timer >= MAX_TIME) { Destroy(gameObject);}
+            gameObject.transform.localScale -= m_scaleChange;
+            if(m_timer >= m_maxTime1) { Destroy(gameObject);}
         }
     }
 
@@ -31,27 +46,41 @@ public class AOE : MonoBehaviour
     {
         //Debug.Log("1");
         BaseEnemy enemy = BaseEnemy.CheckIfEnemy(other.gameObject.GetComponent<Collider>());
-        if (enemy) { enemy.TakeDamage(DAMAGE); /*Debug.Log("2");*/}
+        if (enemy) { enemy.TakeDamage(m_damage); /*Debug.Log("2");*/}
     }
 
-    void Init(int _radius, int _MAX_TIME)
+    /*
+     * Initializes AOE effect
+     * 
+     * Parameters:
+     * radius -- radius of AOE effect
+     * maxtime -- time until AOE effect starts shrinking
+     */
+    void Init(int radius, int maxTime)
     {
-        radius = _radius;
-        if(MAX_TIME < 100)
+        m_radius = radius;
+        m_maxTime1 = maxTime;
+        if(maxTime < 0)
         {
-            Debug.LogError("Max time given to AOE.Init must be 100 or greater");
-            MAX_TIME = 100;
+            Debug.LogError("Max time given to AOE.Init must be greater than or equal to zero");
+            m_maxTime1 = 0;
         }
-        MAX_TIME = _MAX_TIME;
-        MAX_TIME_0 = MAX_TIME - 100;
+        m_maxTime2 = m_maxTime1 + 100;
     }
 
+    /*
+     * Sets radius of AOE effect collider and particles
+     *
+     * Parameters:
+     * radius -- new radius of AOE effect
+     */
     void SetRadius(int rad)
     {
-        if(sphere == null)
+        if(m_sphere == null)
         {
-            sphere = gameObject.GetComponent<SphereCollider>();
+            m_sphere = gameObject.GetComponent<SphereCollider>();
         }
-        sphere.radius = rad;
+        m_sphere.radius = rad;
     }
 }
+
