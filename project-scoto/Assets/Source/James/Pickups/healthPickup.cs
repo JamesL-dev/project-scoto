@@ -1,5 +1,5 @@
 /*
-* Filename: healthPickup.cs
+* Filename: HealthPickup.cs
 * Developer: James Lasso
 * Purpose: Health pickup contains payload information and other overrides.
 */
@@ -13,9 +13,9 @@ using UnityEngine;
 *
 * Member variables: none
 */
-public class health : PowerUp
+public class HealthPickup : PowerUp
 {
-    public int healthBonus = 50;
+    public int m_healthBonus = 50;
 
     /* Function that contains payload information.
     *  Default powerup payload is overridden here
