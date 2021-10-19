@@ -21,9 +21,9 @@ using UnityEngine;
  */
 public class Weapon : MonoBehaviour
 {
+    [SerializeField] public float m_damage = 10;
     public GameObject m_weapon, m_projectile;
 
-    [SerializeField] protected float m_damage = 10;
     protected int m_maxTime = 15;
     protected bool m_isActive = false, m_discovered = false;
 

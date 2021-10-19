@@ -23,6 +23,7 @@ using UnityEngine;
  */
 public class GreekProjectile : MonoBehaviour
 {
+    [SerializeField] public float m_damage = 100F;
     public bool m_fireAtExplosion = true;
     public GameObject m_explosion, m_fire;
 
@@ -55,8 +56,7 @@ public class GreekProjectile : MonoBehaviour
                 foreach (var hitCollider in hitColliders)
                 {
                     BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hitCollider);
-                    if (enemy) { enemy.TakeDamage(100F); }
-                    /* REPLACE WITH OnGrenadeHit() */
+                    if (enemy) { enemy.HitEnemy(BaseEnemy.WeaponType.Grenade, m_damage); }
                 }
             }
             Destroy(gameObject);

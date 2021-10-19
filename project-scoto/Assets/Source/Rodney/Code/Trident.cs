@@ -16,12 +16,14 @@ public class Trident : Weapon
     
     void Start() 
     {
-        m_maxTime = 20; 
+        m_maxTime = 30; 
         m_discovered = true;
+        m_damage = 33;
     }
 
     /*
      * overriden function used to fire weapon
+     * 
      * Parameters:
      * position -- position vector for raycast
      * rotation -- rotation quaternion for direction of raycast
@@ -33,8 +35,7 @@ public class Trident : Weapon
         Physics.Raycast(ray, out hit, 100);
 
         BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hit.collider);
-        if (enemy) { enemy.TakeDamage(m_damage); }
-        /* REPLACE WITH OnTridentHit() */
+        if (enemy) { enemy.HitEnemy(BaseEnemy.WeaponType.Trident, m_damage); }
     }
 }
 

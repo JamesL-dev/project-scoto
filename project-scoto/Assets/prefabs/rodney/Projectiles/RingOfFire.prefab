@@ -9720,6 +9720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c11ebe63d692e9d46a362584f4883c24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_damage: 0.75
 --- !u!135 &7793337813379063663
 SphereCollider:
   m_ObjectHideFlags: 0
