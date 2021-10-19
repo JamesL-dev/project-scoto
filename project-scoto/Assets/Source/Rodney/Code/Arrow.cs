@@ -70,6 +70,7 @@ public class Arrow : MonoBehaviour
             if (enemy)
             {
                 enemy.TakeDamage(m_damage);
+                /* REPLACE WITH OnArrowHit() */
                 gameObject.transform.parent = other.transform;
             }
             else if(other.gameObject.layer == LayerMask.NameToLayer("Ground")) 

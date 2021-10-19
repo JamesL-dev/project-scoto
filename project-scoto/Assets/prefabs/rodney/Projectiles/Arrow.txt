@@ -1,0 +1,3 @@
+Prefab: Arrow
+Purpose: Arrow Projectile for bow.
+Interactions: Damages enemies and sticks into walls.

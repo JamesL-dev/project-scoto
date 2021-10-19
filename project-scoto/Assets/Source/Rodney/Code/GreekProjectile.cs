@@ -51,16 +51,13 @@ public class GreekProjectile : MonoBehaviour
                     Quaternion.LookRotation(Vector3.right, Vector3.up)) as GameObject; 
                 m_fireSmall.transform.localScale = new Vector3(1.5F, 0.75F, 1.5F);
                 
-                // void ExplosionDamage(Vector3 center, float m_radius)
-                // {
                 Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, m_radius);
                 foreach (var hitCollider in hitColliders)
                 {
-                    //hitCollider.SendMessage("AddDamage");
                     BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hitCollider);
                     if (enemy) { enemy.TakeDamage(100F); }
+                    /* REPLACE WITH OnGrenadeHit() */
                 }
-                // }
             }
             Destroy(gameObject);
         }
