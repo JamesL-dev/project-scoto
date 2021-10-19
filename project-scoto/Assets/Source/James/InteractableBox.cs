@@ -12,14 +12,12 @@ using UnityEngine.Events;
 *
 * Member variables:
 * m_isInRange -- boolean to signify if player is in range of interacting
-* m_inTeracTKey -- Key used to interact
 * m_interactAction -- What happens when object is interacted with
 * 
 */
-public class Interactable : MonoBehaviour
+public class InteractableBox : MonoBehaviour
 {
     public bool m_isInRange;
-    public KeyCode m_interactKey;
     public UnityEvent m_interactAction;
 
     void Start()
@@ -29,10 +27,7 @@ public class Interactable : MonoBehaviour
 
     void Update()
     {
-        if(m_isInRange) // Check if in range to interact
-        {
 
-        }
     }
     
     /* Function to see if player is in range of the box
@@ -64,6 +59,21 @@ public class Interactable : MonoBehaviour
         {
             m_isInRange = false;
             Debug.Log("Player now not in range");
+        }
+    }
+
+    /* Function to handle interact action
+    *
+    * Parameters:
+    *
+    * Returns: none
+    */   
+    private void OnInteract()
+    {
+        if(m_isInRange) // Check if in range to interact
+        {
+            string objectName = gameObject.name;
+            Debug.Log(objectName + " was interacted with");
         }
     }
 }
