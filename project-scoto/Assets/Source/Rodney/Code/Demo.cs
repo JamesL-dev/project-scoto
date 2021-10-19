@@ -30,7 +30,7 @@ public class Demo : MonoBehaviour
         m_jump = m_sprint = false;
         m_isSuccessMode = true;
         m_counter = 0;
-        ChangeSlackTime(2);
+        ChangeSlackTime(20);
         if(m_slackTime < 0) {Debug.LogError("Slack Time must be a positive value!");}
     }
 
