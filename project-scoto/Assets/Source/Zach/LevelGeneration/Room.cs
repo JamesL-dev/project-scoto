@@ -108,9 +108,9 @@ public class Room : MonoBehaviour {
             Application.Quit();
         }
 
-        // // DEBUG: Create test enemy.
-        // m_enemy = Instantiate(m_enemy, transform);
-        // m_enemy.transform.position = (transform.position + new Vector3(0, 1, 0));
+        // DEBUG: Create test enemy.
+        m_enemy = Instantiate(m_enemy, transform);
+        m_enemy.transform.position = (transform.position + new Vector3(0, 1, 0));
 
         // DEBUG: Create test pickup.
         m_pickup = Instantiate(m_pickup, transform);
