@@ -21,7 +21,8 @@ using UnityEngine;
  * m_levelNum -- Class variable int for the current level number.
  * m_roomCount -- Integer for the current number of rooms in the level.
  */
-public class LevelGeneration : MonoBehaviour {
+public class LevelGeneration : MonoBehaviour
+{
     public Room m_room;
     public StartRoom m_sr;
     public EndRoom m_er;
@@ -33,7 +34,8 @@ public class LevelGeneration : MonoBehaviour {
 
     /* Initializes the level generation, and creates the start and end rooms.
      */
-    private void Start() {
+    private void Start()
+    {
         // Make start room via dynamic binding.
         Room startRoom = Instantiate(m_sr) as StartRoom;
         bool[] startRoomDoors = new bool[4] {true, false, false, false};
@@ -48,15 +50,19 @@ public class LevelGeneration : MonoBehaviour {
         // print_level();
   
         // Loop through matrix to finish building rooms.
-        for (int x = 0; x < m_roomMatrix.Count; x++) {
-            for (int z = 0; z < m_roomMatrix[x].Count; z++) {
+        for (int x = 0; x < m_roomMatrix.Count; x++)
+        {
+            for (int z = 0; z < m_roomMatrix[x].Count; z++)
+            {
                 // Identify treasure rooms.
-                if (IsTreasure(x, z)) {
+                if (IsTreasure(x, z))
+                {
                     m_roomMatrix[x][z].SetRoomType(3);
                 }
             
                 // Set up rooms.
-                if (m_roomMatrix[x][z] != null) {
+                if (m_roomMatrix[x][z] != null)
+                {
                     m_roomMatrix[x][z].Setup(m_roomMatrix.Count, m_roomMatrix[x].Count);
                 }
             }
@@ -75,7 +81,8 @@ public class LevelGeneration : MonoBehaviour {
      * Parameters:
      * level -- Integer for the level number to generate for.
      */
-    public void GenerateLayout(int level) {
+    public void GenerateLayout(int level)
+    {
         // Choose the width-height variance.
         float sizeSeed = Random.value;
 
@@ -91,9 +98,11 @@ public class LevelGeneration : MonoBehaviour {
         int minRooms = Mathf.RoundToInt((level / 5f + 2f) * (level / 5f + 2f));
         
         // Set up empty level layout.
-        for (int x = 0; x < mazeWidth; x++) {
+        for (int x = 0; x < mazeWidth; x++)
+        {
             m_roomMatrix.Add(new List<Room>());
-            for (int z = 0; z < mazeHeight; z++) {
+            for (int z = 0; z < mazeHeight; z++)
+            {
                 m_roomMatrix[x].Add(null);
             }
         }
@@ -113,7 +122,8 @@ public class LevelGeneration : MonoBehaviour {
         // (The "- 1" is to account for the start room.)
         int loopCount = 0;
         bool isComplete = false;
-        while ((m_roomCount - 1 < minRooms || !isComplete) && loopCount < 10000) {
+        while ((m_roomCount - 1 < minRooms || !isComplete) && loopCount < 10000)
+        {
             // Check if surrounding room locations are out of bounds or room already exists.
             bool[] blocked = new bool[4];
             blocked[0] = (mazeZ + 1 >= mazeHeight) || (m_roomMatrix[mazeX][mazeZ + 1] != null);
@@ -122,9 +132,11 @@ public class LevelGeneration : MonoBehaviour {
             blocked[3] = (mazeX - 1 < 0) || (m_roomMatrix[mazeX - 1][mazeZ] != null);
 
             // Test for dead end.
-            while (blocked[0] && blocked[1] && blocked[2] && blocked[3]) {
+            while (blocked[0] && blocked[1] && blocked[2] && blocked[3])
+            {
                 // If at start of path, force stop.
-                if (mazePath.Count == 0) {
+                if (mazePath.Count == 0)
+                {
                     Debug.LogError("ERROR: Maze is full before ending is reached.");
                     Application.Quit();
                 }
@@ -143,7 +155,8 @@ public class LevelGeneration : MonoBehaviour {
 
             // Choose a new location, repeat until an empty one is chosen.
             int direction = Random.Range(0, 4); // returns 0, 1, 2, or 3
-            while (blocked[direction] && loopCount < 10000) {
+            while (blocked[direction] && loopCount < 10000)
+            {
                 direction = Random.Range(0, 4);
                 loopCount++;
             }
@@ -154,19 +167,28 @@ public class LevelGeneration : MonoBehaviour {
             m_roomMatrix[mazeX][mazeZ].SetDoors(tempDoors);
 
             // Go to new room location and create a room.
-            if (direction == 0) {
+            if (direction == 0)
+            {
                 // North
                 mazeZ += 1;
-            } else if (direction == 1) {
+            }
+            else if (direction == 1)
+            {
                 // East
                 mazeX += 1;
-            } else if (direction == 2) {
+            }
+            else if (direction == 2)
+            {
                 // South
                 mazeZ -= 1;
-            } else if (direction == 3) {
+            }
+            else if (direction == 3)
+            {
                 // West
                 mazeX -= 1;
-            } else {
+            }
+            else
+            {
                 // Bad value.
                 Debug.LogError("ERROR: Invalid direction in generate_layout().");
                 Application.Quit();
@@ -179,7 +201,8 @@ public class LevelGeneration : MonoBehaviour {
             m_roomMatrix[mazeX][mazeZ].SetDoors(tempDoors);
 
             // Test for end of maze. If so, add door to end room in the last room.
-            if ((mazeX == (mazeWidth - 1) / 2) && (mazeZ == mazeHeight - 1)) {
+            if ((mazeX == (mazeWidth - 1) / 2) && (mazeZ == mazeHeight - 1))
+            {
                 tempDoors = m_roomMatrix[mazeX][mazeZ].GetDoors();
                 tempDoors[0] = true;
                 m_roomMatrix[mazeX][mazeZ].SetDoors(tempDoors);
@@ -190,7 +213,8 @@ public class LevelGeneration : MonoBehaviour {
         }
 
         // Check if infinite loop was detected.
-        if (loopCount >= 10000) {
+        if (loopCount >= 10000)
+        {
             // Force stop.
             Debug.LogError("ERROR: Infinite loop detected in generate_layout().");
             Application.Quit();
@@ -202,14 +226,20 @@ public class LevelGeneration : MonoBehaviour {
      * Parameters:
      * level -- Integer for the level number to set to.
      */
-    public static void SetLevelNum(int level) {
-        if (level < 0) {
+    public static void SetLevelNum(int level)
+    {
+        if (level < 0)
+        {
             Debug.LogWarning("Warning: Level number is less than 0, setting to 0 instead.");
             m_levelNum = 0;
-        } else if (level > 100) {
+        }
+        else if (level > 100)
+        {
             Debug.LogWarning("Warning: Level number is over 100, setting to 100 instead.");
             m_levelNum = 100;
-        } else {
+        }
+        else
+        {
             m_levelNum = level;
         }
     }
@@ -219,7 +249,8 @@ public class LevelGeneration : MonoBehaviour {
      * Returns:
      * int -- Current level number.
      */
-    public static int GetLevelNum() {
+    public static int GetLevelNum()
+    {
         return m_levelNum;
     }
 
@@ -228,7 +259,8 @@ public class LevelGeneration : MonoBehaviour {
      * Returns:
      * int -- Current number of rooms.
      */
-    public int GetRoomCount() {
+    public int GetRoomCount()
+    {
         return m_roomCount;
     }
 
@@ -241,7 +273,8 @@ public class LevelGeneration : MonoBehaviour {
      * Returns:
      * Vector3Int -- Room's position within the level layout grid.
      */
-    private Vector3Int CreateRoom(int x, int z) {
+    private Vector3Int CreateRoom(int x, int z)
+    {
         // Create room at position.
         Room tempRoom = Instantiate(m_room) as Room;
         tempRoom.SetPosition(x, z);
@@ -260,23 +293,28 @@ public class LevelGeneration : MonoBehaviour {
 
     /* DEBUG: Prints the maze to the console.
      */
-    private void PrintLevel() {
+    private void PrintLevel()
+    {
         // Create a list of strings with size equal to the maze height.
         List<string> printMatrix = new List<string>();
-        for (int z = 0; z < m_roomMatrix[0].Count; z++) {
+        for (int z = 0; z < m_roomMatrix[0].Count; z++)
+        {
             printMatrix.Add("");
         }
 
         // Add symbols to indicate the doors in each room.
-        for (int x = 0; x < m_roomMatrix.Count; x++) {
-            for (int z = 0; z < m_roomMatrix[x].Count; z++) {
+        for (int x = 0; x < m_roomMatrix.Count; x++)
+        {
+            for (int z = 0; z < m_roomMatrix[x].Count; z++)
+            {
                 printMatrix[z] += DrawDoors(x, z);
             }
         }
 
         // Combine into one string and print.
         string message = "";
-        for (int z = 0; z < m_roomMatrix[0].Count; z++) {
+        for (int z = 0; z < m_roomMatrix[0].Count; z++)
+        {
             message = printMatrix[z] + "\n" + message;
         }
         Debug.Log(message);
@@ -291,45 +329,82 @@ public class LevelGeneration : MonoBehaviour {
      * Returns:
      * string -- Text representation of the room's doors.
      */
-    private string DrawDoors(int x, int z) {
-        if (m_roomMatrix[x][z] != null) {
+    private string DrawDoors(int x, int z)
+    {
+        if (m_roomMatrix[x][z] != null)
+        {
             bool[] doors = m_roomMatrix[x][z].GetDoors();
-            if (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == false) {
-                return "e";
-            } else if (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == true) {
-                return "[o] ";
-            } else if (doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == false) {
-                return "[o] ";
-            } else if (doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == true) {
-                return "[┐] ";
-            } else if (doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == false) {
-                return "[o] ";
-            } else if (doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == true) {
-                return "[─] ";
-            } else if (doors[0] == false && doors[1] == true && doors[2] == true && doors[3] == false) {
-                return "[┌] ";
-            } else if (doors[0] == false && doors[1] == true && doors[2] == true && doors[3] == true) {
-                return "[┬] ";
-            } else if (doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == false) {
-                return "[o] ";
-            } else if (doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == true) {
-                return "[┘] ";
-            } else if (doors[0] == true && doors[1] == false && doors[2] == true && doors[3] == false) {
-                return "[│] ";
-            } else if (doors[0] == true && doors[1] == false && doors[2] == true && doors[3] == true) {
-                return "[┤] ";
-            } else if (doors[0] == true && doors[1] == true && doors[2] == false && doors[3] == false) {
-                return "[└] ";
-            } else if (doors[0] == true && doors[1] == true && doors[2] == false && doors[3] == true) {
-                return "[┴] ";
-            } else if (doors[0] == true && doors[1] == true && doors[2] == true && doors[3] == false) {
-                return "[├] ";
-            } else if (doors[0] == true && doors[1] == true && doors[2] == true && doors[3] == true) {
-                return "[┼] ";
-            } else {
+            if (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == false)
+            {
                 return "e";
             }
-        } else {
+            else if (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == true)
+            {
+                return "[o] ";
+            }
+            else if (doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == false)
+            {
+                return "[o] ";
+            }
+            else if (doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == true)
+            {
+                return "[┐] ";
+            }
+            else if (doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == false)
+            {
+                return "[o] ";
+            }
+            else if (doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == true)
+            {
+                return "[─] ";
+            }
+            else if (doors[0] == false && doors[1] == true && doors[2] == true && doors[3] == false)
+            {
+                return "[┌] ";
+            }
+            else if (doors[0] == false && doors[1] == true && doors[2] == true && doors[3] == true)
+            {
+                return "[┬] ";
+            }
+            else if (doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == false)
+            {
+                return "[o] ";
+            }
+            else if (doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == true)
+            {
+                return "[┘] ";
+            }
+            else if (doors[0] == true && doors[1] == false && doors[2] == true && doors[3] == false)
+            {
+                return "[│] ";
+            }
+            else if (doors[0] == true && doors[1] == false && doors[2] == true && doors[3] == true)
+            {
+                return "[┤] ";
+            }
+            else if (doors[0] == true && doors[1] == true && doors[2] == false && doors[3] == false)
+            {
+                return "[└] ";
+            }
+            else if (doors[0] == true && doors[1] == true && doors[2] == false && doors[3] == true)
+            {
+                return "[┴] ";
+            }
+            else if (doors[0] == true && doors[1] == true && doors[2] == true && doors[3] == false)
+            {
+                return "[├] ";
+            }
+            else if (doors[0] == true && doors[1] == true && doors[2] == true && doors[3] == true)
+            {
+                return "[┼] ";
+            }
+            else
+            {
+                return "e";
+            }
+        }
+        else
+        {
             return "[  ] ";
         }
     }
@@ -343,16 +418,20 @@ public class LevelGeneration : MonoBehaviour {
      * Returns:
      * bool -- If the room should be a treasure room or not.
      */
-    private bool IsTreasure(int x, int z) {
+    private bool IsTreasure(int x, int z)
+    {
         // Test if the room exists.
-        if (m_roomMatrix[x][z] != null) {
+        if (m_roomMatrix[x][z] != null)
+        {
             // If so, return true if the room has exactly one door.
             bool[] doors = m_roomMatrix[x][z].GetDoors();
             return (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == true ||
                     doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == false ||
                     doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == false ||
                     doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == false);
-        } else {
+        }
+        else
+        {
             // If not, return false.
             return false;
         }

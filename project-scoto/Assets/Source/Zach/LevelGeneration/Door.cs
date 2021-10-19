@@ -11,10 +11,12 @@ using UnityEngine;
 /*
  * Controls the opening of doors when a room is cleared.
  */
-public class Door : MonoBehaviour {
+public class Door : MonoBehaviour
+{
     /* Opens the door.
      */
-    public void OpenDoor() {
+    public void OpenDoor()
+    {
         Destroy(gameObject);
     }
 }

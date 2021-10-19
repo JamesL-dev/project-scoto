@@ -15,7 +15,8 @@ using UnityEngine;
  * m_health -- Float for player's health.
  * m_battery -- Float for player's battery.
  */
-public class PlayerData : MonoBehaviour {
+public class PlayerData : MonoBehaviour
+{
     ////////////////////////////// Variables //////////////////////////////
     public float m_health, m_battery;
 
@@ -25,7 +26,8 @@ public class PlayerData : MonoBehaviour {
      * Parameters:
      * h - Float for health.
      */
-    public void SetHealth(float h) {
+    public void SetHealth(float h)
+    {
         m_health = h;
     }
 
@@ -34,7 +36,8 @@ public class PlayerData : MonoBehaviour {
      * Parameters:
      * b - Float for battery.
      */
-    public void SetBattery(float b) {
+    public void SetBattery(float b)
+    {
         m_battery = b;
     }
 
@@ -43,7 +46,8 @@ public class PlayerData : MonoBehaviour {
      * Parameters:
      * jf - Float for jump force.
      */
-    public void SetJumpForce(float jf) {
+    public void SetJumpForce(float jf)
+    {
         GetComponent<PlayerController>().m_jumpForce = jf;
     }
 
@@ -52,7 +56,8 @@ public class PlayerData : MonoBehaviour {
      * Parameters:
      * ms - Float for movement speed.
      */
-    public void SetMoveSpeed(float ms) {
+    public void SetMoveSpeed(float ms)
+    {
         GetComponent<PlayerController>().m_moveSpeed = ms;
     }
 
@@ -61,7 +66,8 @@ public class PlayerData : MonoBehaviour {
      * Parameters:
      * h - Float for gravity.
      */
-    public void SetGravity(float g) {
+    public void SetGravity(float g)
+    {
         GetComponent<PlayerController>().m_gravity = g;
     }
 
@@ -70,7 +76,8 @@ public class PlayerData : MonoBehaviour {
      * Parameters:
      * f - Float for friction.
      */
-    public void SetFriction(float f) {
+    public void SetFriction(float f)
+    {
         GetComponent<PlayerController>().m_friction = f;
     }
 
@@ -79,7 +86,8 @@ public class PlayerData : MonoBehaviour {
      * Parameters:
      * sm - Float for sprint multiplier.
      */
-    public void SetSprintMultiplier(float sm) {
+    public void SetSprintMultiplier(float sm)
+    {
         GetComponent<PlayerController>().m_sprintMultiplier = sm;
     }
 
@@ -89,7 +97,8 @@ public class PlayerData : MonoBehaviour {
      * Returns:
      * float -- Health.
      */
-    public float GetHealth() {
+    public float GetHealth()
+    {
         return m_health;
     }
 
@@ -98,7 +107,8 @@ public class PlayerData : MonoBehaviour {
      * Returns:
      * float -- Battery.
      */
-    public float GetBattery() {
+    public float GetBattery()
+    {
         return m_battery;
     }
 
@@ -107,7 +117,8 @@ public class PlayerData : MonoBehaviour {
      * Returns:
      * float -- Jump force.
      */
-    public float GetJumpForce() {
+    public float GetJumpForce()
+    {
         return GetComponent<PlayerController>().m_jumpForce;
     }
 
@@ -116,7 +127,8 @@ public class PlayerData : MonoBehaviour {
      * Returns:
      * float -- Movement speed.
      */
-    public float GetMoveSpeed() {
+    public float GetMoveSpeed()
+    {
         return GetComponent<PlayerController>().m_moveSpeed;
     }
 
@@ -125,7 +137,8 @@ public class PlayerData : MonoBehaviour {
      * Returns:
      * float -- Gravity.
      */
-    public float GetGravity() {
+    public float GetGravity()
+    {
         return GetComponent<PlayerController>().m_gravity;
     }
 
@@ -134,7 +147,8 @@ public class PlayerData : MonoBehaviour {
      * Returns:
      * float -- Friction.
      */
-    public float GetFriction() {
+    public float GetFriction()
+    {
         return GetComponent<PlayerController>().m_friction;
     }
 
@@ -143,7 +157,8 @@ public class PlayerData : MonoBehaviour {
      * Returns:
      * float -- Sprint multiplier.
      */
-    public float GetSprintMultiplier() {
+    public float GetSprintMultiplier()
+    {
         return GetComponent<PlayerController>().m_sprintMultiplier;
     }
 }

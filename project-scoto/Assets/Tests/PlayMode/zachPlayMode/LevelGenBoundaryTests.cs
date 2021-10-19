@@ -15,11 +15,13 @@ using UnityEngine.TestTools;
 /*
   Boundary tests for the level generation feature.
  */
-public class LevelGenBoundaryTests {
+public class LevelGenBoundaryTests
+{
     /* Tests if the number of rooms in the level is below a lower bound.
      */
     [UnityTest]
-    public IEnumerator RoomCountLowerBound() {
+    public IEnumerator RoomCountLowerBound()
+    {
         // Set the level number.
         LevelGeneration.SetLevelNum(1);
 
@@ -38,7 +40,8 @@ public class LevelGenBoundaryTests {
     /* Tests if the number of rooms in the level is above an upper bound.
      */
     [UnityTest]
-    public IEnumerator RoomCountUpperBound() {
+    public IEnumerator RoomCountUpperBound()
+    {
         // Set the level number.
         LevelGeneration.SetLevelNum(1);
 

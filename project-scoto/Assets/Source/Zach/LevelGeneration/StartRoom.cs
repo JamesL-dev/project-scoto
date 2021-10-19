@@ -11,24 +11,30 @@ using UnityEngine;
 /*
  * A subclass of Room for the room that the player spawns in for each level.
  */
-public class StartRoom : Room {
+public class StartRoom : Room
+{
     /* Sets up the start room by creating walls, doors, and room parts and spawning the player.
      *
      * Parameters:
      * mazeWidth -- Integer for the width of the maze.
      * mazeHeight -- Integer for the height of the maze.
      */
-    public override void Setup(int mazeWidth = 0, int mazeHeight = 0) {
+    public override void Setup(int mazeWidth = 0, int mazeHeight = 0)
+    {
         // Generate walls.
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
+        {
             // Create new wall.
             GameObject tempWall;
-            if (m_doorList[i]) {
+            if (m_doorList[i])
+            {
                 tempWall = Instantiate(m_wallDoor, this.transform);
                 tempWall.transform.position = m_wallPositions[i];
                 tempWall.transform.eulerAngles = m_wallRotations[i];
                 tempWall.tag = m_wallDoor.tag;
-            } else {
+            }
+            else
+            {
                 tempWall = Instantiate(m_wall, this.transform);
                 tempWall.transform.position = m_wallPositions[i];
                 tempWall.transform.eulerAngles = m_wallRotations[i];
