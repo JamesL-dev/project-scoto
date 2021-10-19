@@ -1,1 +1,0 @@
-Austin will be creating the menu systems and overlay elements. This includes the menu that appears on launch and when pausing. Overlay elements include puzzles that the player can solve for helpful items.
