@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -312,9 +312,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c811047a32d4a8d4a9c3c05169eaa239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_damage: 10
   m_weapon: {fileID: 565952073}
   m_projectile: {fileID: 1415556611663978, guid: 216ec6e5fef3e254d86b21071e614d66, type: 3}
-  m_damage: 10
 --- !u!1 &284144640
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,16 +740,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee40d415c669074f998e36a8e98389b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jump_force: 0.3
-  move_speed: 0.04
-  gravity: -0.02
-  friction: 0.8
-  sprint_multiplier: 2
-  mouse_sens: {x: 0.4, y: 0.4}
-  ground_mask:
+  m_jumpForce: 0.3
+  m_moveSpeed: 0.04
+  m_gravity: -0.02
+  m_friction: 0.8
+  m_sprintMultiplier: 2
+  m_mouseSens: {x: 0.4, y: 0.4}
+  m_groundMask:
     serializedVersion: 2
     m_Bits: 64
-  player_camera: {fileID: 1452576986}
+  m_playerCamera: {fileID: 1452576986}
 --- !u!143 &685583359
 CharacterController:
   m_ObjectHideFlags: 0
@@ -780,8 +780,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f7348ee6eab854f88e267b25e3fe8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  battery: 100
+  m_health: 100
+  m_battery: 100
 --- !u!114 &685583361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -912,9 +912,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8f4a22b2cd11847bce74940c3e035a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_damage: 10
   m_weapon: {fileID: 962924733}
   m_projectile: {fileID: 4445846166995065021, guid: 3033a6ed3bbc07f4aa9b61f7959a1915, type: 3}
-  m_damage: 10
 --- !u!1 &827849451
 GameObject:
   m_ObjectHideFlags: 0
@@ -1453,10 +1453,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedaf979f160a5d44be1228de761de35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  room: {fileID: 8221912916405124795, guid: 27340ba6f91c86e4db4a282f553a17cf, type: 3}
-  sr: {fileID: -3615680084213463576, guid: 3f4a4410f431bf548b95d4b0d97624fa, type: 3}
-  er: {fileID: -5465335692254668585, guid: dcaf79274d3493140a13b83c10b28fea, type: 3}
-  room_count: 0
+  m_room: {fileID: 8221912916405124795, guid: 27340ba6f91c86e4db4a282f553a17cf, type: 3}
+  m_sr: {fileID: -3615680084213463576, guid: 3f4a4410f431bf548b95d4b0d97624fa, type: 3}
+  m_er: {fileID: -5465335692254668585, guid: dcaf79274d3493140a13b83c10b28fea, type: 3}
 --- !u!1 &1747505993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1501,9 +1500,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caeccc6db62fdbb469b7270a6c36985e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_damage: 10
   m_weapon: {fileID: 325200681}
   m_projectile: {fileID: 1236168260100604, guid: 09ea8abf901b66e4f87b63c4620a1d63, type: 3}
-  m_damage: 10
 --- !u!1 &1785261552
 GameObject:
   m_ObjectHideFlags: 0

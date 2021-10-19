@@ -1,66 +1,150 @@
+/*
+ * Filename: PlayerData.cs
+ * Developer: Zachariah Preston
+ * Purpose: Allows for storage and modification of various player values. 
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+ * Allows for storage and modification of various player values.
+ *
+ * Member variables:
+ * m_health -- Float for player's health.
+ * m_battery -- Float for player's battery.
+ */
 public class PlayerData : MonoBehaviour {
-    // Variables
-    public float health, battery;
+    ////////////////////////////// Variables //////////////////////////////
+    public float m_health, m_battery;
 
-    // Setters
-    public void set_health(float h) {
-        health = h;
+    ////////////////////////////// Setters //////////////////////////////
+    /* Set the player's health.
+     *
+     * Parameters:
+     * h - Float for health.
+     */
+    public void SetHealth(float h) {
+        m_health = h;
     }
 
-    public void set_battery(float b) {
-        battery = b;
+    /* Set the player's battery.
+     *
+     * Parameters:
+     * b - Float for battery.
+     */
+    public void SetBattery(float b) {
+        m_battery = b;
     }
 
-    public void set_jump_force(float jf) {
-        GetComponent<PlayerController>().jump_force = jf;
+    /* Set the player's jump force.
+     *
+     * Parameters:
+     * jf - Float for jump force.
+     */
+    public void SetJumpForce(float jf) {
+        GetComponent<PlayerController>().m_jumpForce = jf;
     }
 
-    public void set_move_speed(float ms) {
-        GetComponent<PlayerController>().move_speed = ms;
+    /* Set the player's movement speed.
+     *
+     * Parameters:
+     * ms - Float for movement speed.
+     */
+    public void SetMoveSpeed(float ms) {
+        GetComponent<PlayerController>().m_moveSpeed = ms;
     }
 
-    public void set_gravity(float g) {
-        GetComponent<PlayerController>().gravity = g;
+    /* Set the player's gravity.
+     *
+     * Parameters:
+     * h - Float for gravity.
+     */
+    public void SetGravity(float g) {
+        GetComponent<PlayerController>().m_gravity = g;
     }
 
-    public void set_friction(float f) {
-        GetComponent<PlayerController>().friction = f;
+    /* Set the player's friction.
+     *
+     * Parameters:
+     * f - Float for friction.
+     */
+    public void SetFriction(float f) {
+        GetComponent<PlayerController>().m_friction = f;
     }
 
-    public void set_sprint_multiplier(float sm) {
-        GetComponent<PlayerController>().sprint_multiplier = sm;
+    /* Set the player's sprint multiplier.
+     *
+     * Parameters:
+     * sm - Float for sprint multiplier.
+     */
+    public void SetSprintMultiplier(float sm) {
+        GetComponent<PlayerController>().m_sprintMultiplier = sm;
     }
 
-    // Getters
-    public float get_health() {
-        return health;
+    ////////////////////////////// Getters //////////////////////////////
+    /* Get the player's health.
+     *
+     * Returns:
+     * float -- Health.
+     */
+    public float GetHealth() {
+        return m_health;
     }
 
-    public float get_battery() {
-        return battery;
+    /* Get the player's battery.
+     *
+     * Returns:
+     * float -- Battery.
+     */
+    public float GetBattery() {
+        return m_battery;
     }
 
-    public float get_jump_force() {
-        return GetComponent<PlayerController>().jump_force;
+    /* Get the player's jump force.
+     *
+     * Returns:
+     * float -- Jump force.
+     */
+    public float GetJumpForce() {
+        return GetComponent<PlayerController>().m_jumpForce;
     }
 
-    public float get_move_speed() {
-        return GetComponent<PlayerController>().move_speed;
+    /* Get the player's movement speed.
+     *
+     * Returns:
+     * float -- Movement speed.
+     */
+    public float GetMoveSpeed() {
+        return GetComponent<PlayerController>().m_moveSpeed;
     }
 
-    public float get_gravity() {
-        return GetComponent<PlayerController>().gravity;
+    /* Get the player's gravity.
+     *
+     * Returns:
+     * float -- Gravity.
+     */
+    public float GetGravity() {
+        return GetComponent<PlayerController>().m_gravity;
     }
 
-    public float get_friction() {
-        return GetComponent<PlayerController>().friction;
+    /* Get the player's friction.
+     *
+     * Returns:
+     * float -- Friction.
+     */
+    public float GetFriction() {
+        return GetComponent<PlayerController>().m_friction;
     }
 
-    public float get_sprint_multiplier() {
-        return GetComponent<PlayerController>().sprint_multiplier;
+    /* Get the player's sprint multiplier.
+     *
+     * Returns:
+     * float -- Sprint multiplier.
+     */
+    public float GetSprintMultiplier() {
+        return GetComponent<PlayerController>().m_sprintMultiplier;
     }
 }
+
