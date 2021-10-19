@@ -1,41 +1,57 @@
+/*
+ * Filename: LevelGenBoundaryTests.cs
+ * Developer: Zachariah Preston
+ * Purpose: Boundary tests for the level generation feature.
+ */
+using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
 
+
+/*
+  Boundary tests for the level generation feature.
+ */
 public class LevelGenBoundaryTests {
+    /* Tests if the number of rooms in the level is below a lower bound.
+     */
     [UnityTest]
-    public IEnumerator room_count_lower_bound() {
+    public IEnumerator RoomCountLowerBound() {
         // Set the level number.
-        LevelGeneration.set_level_num(1);
+        LevelGeneration.SetLevelNum(1);
 
         // Load scene.
         SceneManager.LoadScene("Game");
         yield return new WaitForSeconds(2f);
 
         // Test for too few rooms.
-        GameObject level_generator = GameObject.Find("Level Generator");
-        Debug.Log("Lower bound test (>= 4) | Level: " + LevelGeneration.get_level_num() + " | Rooms: " + level_generator.GetComponent<LevelGeneration>().get_room_count());
-        Assert.IsTrue(level_generator.GetComponent<LevelGeneration>().get_room_count() >= 4);
+        GameObject levelGenerator = GameObject.Find("Level Generator");
+        Debug.Log("Lower bound test (>= 4) | Level: " + LevelGeneration.GetLevelNum() + " | Rooms: " +
+                  levelGenerator.GetComponent<LevelGeneration>().GetRoomCount());
+        Assert.IsTrue(levelGenerator.GetComponent<LevelGeneration>().GetRoomCount() >= 4);
         yield return null;
     }
 
+    /* Tests if the number of rooms in the level is above an upper bound.
+     */
     [UnityTest]
-    public IEnumerator room_count_upper_bound() {
+    public IEnumerator RoomCountUpperBound() {
         // Set the level number.
-        LevelGeneration.set_level_num(1);
+        LevelGeneration.SetLevelNum(1);
 
         // Load scene.
         SceneManager.LoadScene("Game");
         yield return new WaitForSeconds(2f);
 
         // Test for too many rooms.
-        GameObject level_generator = GameObject.Find("Level Generator");
-        Debug.Log("Upper bound test (<= 10) | Level: " + LevelGeneration.get_level_num() + " | Rooms: " + level_generator.GetComponent<LevelGeneration>().get_room_count());
-        Assert.IsTrue(level_generator.GetComponent<LevelGeneration>().get_room_count() <= 10);
+        GameObject levelGenerator = GameObject.Find("Level Generator");
+        Debug.Log("Upper bound test (<= 10) | Level: " + LevelGeneration.GetLevelNum() + " | Rooms: " +
+                  levelGenerator.GetComponent<LevelGeneration>().GetRoomCount());
+        Assert.IsTrue(levelGenerator.GetComponent<LevelGeneration>().GetRoomCount() <= 10);
         yield return null;
     }
 }
+

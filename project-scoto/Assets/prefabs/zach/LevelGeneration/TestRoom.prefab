@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8763259673824862222}
   - component: {fileID: 8221912916405124795}
   m_Layer: 6
-  m_Name: Test Room
+  m_Name: TestRoom
   m_TagString: Room
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,15 +80,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 328ab668cef1abc4ab61a54ab4f7f075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 9173819974394987436, guid: f2bd9c998cb743246b554eabf80a2b84, type: 3}
-  pickup: {fileID: 3409597266733467619, guid: 0eeead4cf15ad7c4688b1558621da7ef, type: 3}
-  wall: {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
-  wall_door: {fileID: 4541664134235730180, guid: a8e71e74c993bc84993cd212d033d89d, type: 3}
-  wall_list:
-  - {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
-  - {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
-  - {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
-  - {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
+  m_enemy: {fileID: 0}
+  m_pickup: {fileID: 0}
+  m_wall: {fileID: 0}
+  m_wallDoor: {fileID: 0}
+  m_wallList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &2704893925704699748
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 5605938323194935437}
   - component: {fileID: 5568444321402625700}
   m_Layer: 6
-  m_Name: East Wall
+  m_Name: EastWall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 2491022062264670075}
   - component: {fileID: 2457486491371483474}
   m_Layer: 6
-  m_Name: South Wall
+  m_Name: SouthWall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -486,7 +486,7 @@ GameObject:
   - component: {fileID: 781352489202508076}
   - component: {fileID: 746672150550578949}
   m_Layer: 6
-  m_Name: West Wall
+  m_Name: WestWall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -582,7 +582,7 @@ GameObject:
   - component: {fileID: 1719058997204641350}
   - component: {fileID: 1679858755831103599}
   m_Layer: 6
-  m_Name: North Wall
+  m_Name: NorthWall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

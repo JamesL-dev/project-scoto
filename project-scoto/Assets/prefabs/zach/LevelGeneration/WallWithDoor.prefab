@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9154572922764841625}
   - component: {fileID: 8307997553781876363}
   m_Layer: 6
-  m_Name: Wall With Door Left
+  m_Name: WallWithDoorLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 6590991132973527488}
   - component: {fileID: 6628377451281258473}
   m_Layer: 6
-  m_Name: Wall With Door Top
+  m_Name: WallWithDoorTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -202,7 +202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4833519728770611199}
   m_Layer: 0
-  m_Name: Wall With Door
+  m_Name: WallWithDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 905961675758280646}
   - component: {fileID: 1444955516017165592}
   m_Layer: 6
-  m_Name: Wall With Door Right
+  m_Name: WallWithDoorRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
