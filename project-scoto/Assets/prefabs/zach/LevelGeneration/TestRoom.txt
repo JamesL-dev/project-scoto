@@ -1,0 +1,3 @@
+Prefab: TestRoom
+Purpose: A room with walls already included, to be easier to use when testing in a custom scene.
+Interactions: Same as the Room class, although it should never be instantiated in the final game.

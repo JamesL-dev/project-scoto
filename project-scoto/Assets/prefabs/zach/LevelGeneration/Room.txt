@@ -1,0 +1,4 @@
+Prefab: Room
+Purpose: Let the level generator create multiple instances of rooms.
+Interactions: This prefab is instantiated multiple times during the level generation process. It creates four walls
+and any enemies, pickups, etc. within the room.
