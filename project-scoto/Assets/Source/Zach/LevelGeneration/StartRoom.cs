@@ -45,9 +45,9 @@ public class StartRoom : Room
             m_wallList[i] = tempWall;
         }
         
-        // DEBUG: Create test pickup.
-        m_pickup = Instantiate(m_pickup, transform);
-        m_pickup.transform.position = (transform.position + new Vector3(0, 1, 0));
+        // DEBUG: Create test opener.
+        m_opener = Instantiate(m_opener, transform);
+        m_opener.transform.position = (transform.position + new Vector3(0, 1, 0));
 
         // Spawn player.
         GameObject player = GameObject.Find("Player");
