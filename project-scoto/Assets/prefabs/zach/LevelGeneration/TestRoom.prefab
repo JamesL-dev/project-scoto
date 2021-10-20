@@ -89,7 +89,7 @@ MonoBehaviour:
   - {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
   - {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
   - {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
-  m_pickup: {fileID: 3409597266733467619, guid: 0eeead4cf15ad7c4688b1558621da7ef, type: 3}
+  m_opener: {fileID: 3409597266733467619, guid: 0eeead4cf15ad7c4688b1558621da7ef, type: 3}
 --- !u!1 &2704893925704699748
 GameObject:
   m_ObjectHideFlags: 0

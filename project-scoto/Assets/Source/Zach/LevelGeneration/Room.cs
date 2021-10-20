@@ -42,8 +42,8 @@ public class Room : MonoBehaviour
     public GameObject m_enemySpawner, m_pickupSpawner, m_wall, m_wallDoor;
     public GameObject[] m_wallList = new GameObject[4];
 
-    // DEBUG: Temporary pickup for testing opening doors.
-    public GameObject m_pickup;
+    // DEBUG
+    public GameObject m_opener;
 
     protected bool[] m_doorList = new bool[] {false, false, false, false};
     protected int m_xPos = 0, m_zPos = 0, m_roomType = -1;
@@ -63,9 +63,9 @@ public class Room : MonoBehaviour
     protected void Update()
     {
         // DEBUG: Detect if pickup is deleted.
-        if (m_pickup == null && !m_isCleared)
+        if (m_opener == null && !m_isCleared)
         {
-            Debug.Log("Pickup deleted in room (" + m_xPos + ", " + m_zPos + ")");
+            Debug.Log("Opener deleted in room (" + m_xPos + ", " + m_zPos + ")");
             m_isCleared = true;
 
             for (int i = 0; i < 4; i++)
@@ -130,9 +130,9 @@ public class Room : MonoBehaviour
         m_pickupSpawner = Instantiate(m_pickupSpawner, transform);
         m_pickupSpawner.transform.position = (transform.position + new Vector3(-4, 0, 0));
 
-        // DEBUG: Create test pickup for opening doors.
-        m_pickup = Instantiate(m_pickup, transform);
-        m_pickup.transform.position = (transform.position + new Vector3(0, 1, 0));
+        // DEBUG: Create test opener.
+        m_opener = Instantiate(m_opener, transform);
+        m_opener.transform.position = (transform.position + new Vector3(0, 1, 0));
     }
 
     /* Sets the room's position, doors, and type.
