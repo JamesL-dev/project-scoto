@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class OptionsMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void SetVolume(float volume)
     {
-        
+        // Set the volume
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetGraphics(int qualityIndex)
     {
-        
+        Debug.Log(qualityIndex);
+        QualitySettings.SetQualityLevel(qualityIndex);
     }
 }
