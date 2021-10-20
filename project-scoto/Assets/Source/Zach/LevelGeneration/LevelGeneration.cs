@@ -137,8 +137,7 @@ public class LevelGeneration : MonoBehaviour
                 // If at start of path, force stop.
                 if (mazePath.Count == 0)
                 {
-                    Debug.LogError("ERROR: Maze is full before ending is reached.");
-                    Application.Quit();
+                    throw new System.Exception("Maze is full before ending is reached in generate_layout().");
                 }
 
                 // Backtrack to previous location in path.
@@ -190,8 +189,7 @@ public class LevelGeneration : MonoBehaviour
             else
             {
                 // Bad value.
-                Debug.LogError("ERROR: Invalid direction in generate_layout().");
-                Application.Quit();
+                throw new System.Exception("Invalid direction in generate_layout().");
             }
             mazePath.Add(CreateRoom(mazeX, mazeZ));
 
@@ -215,9 +213,7 @@ public class LevelGeneration : MonoBehaviour
         // Check if infinite loop was detected.
         if (loopCount >= 10000)
         {
-            // Force stop.
-            Debug.LogError("ERROR: Infinite loop detected in generate_layout().");
-            Application.Quit();
+            throw new System.Exception("Infinite loop detected in generate_layout().");
         }
     }
 

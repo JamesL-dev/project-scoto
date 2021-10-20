@@ -116,8 +116,7 @@ public class Room : MonoBehaviour
         // Create room parts based on type (just check if type exists, for now)
         if (GetRoomType() < 0)
         {
-            Debug.LogError("ERROR: Room has undefined type in setup().");
-            Application.Quit();
+            Debug.LogError("Error: Room has undefined type in setup().");
         }
 
         // DEBUG: Create test enemy.
