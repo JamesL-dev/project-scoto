@@ -39,8 +39,11 @@ Room type list (WIP)
  */
 public class Room : MonoBehaviour
 {
-    public GameObject m_enemy, m_pickup, m_wall, m_wallDoor;
+    public GameObject m_enemySpawner, m_pickupSpawner, m_wall, m_wallDoor;
     public GameObject[] m_wallList = new GameObject[4];
+
+    // DEBUG: Temporary pickup for testing opening doors.
+    public GameObject m_pickup;
 
     protected bool[] m_doorList = new bool[] {false, false, false, false};
     protected int m_xPos = 0, m_zPos = 0, m_roomType = -1;
@@ -119,11 +122,15 @@ public class Room : MonoBehaviour
             Debug.LogError("Error: Room has undefined type in setup().");
         }
 
-        // DEBUG: Create test enemy.
-        m_enemy = Instantiate(m_enemy, transform);
-        m_enemy.transform.position = (transform.position + new Vector3(0, 1, 0));
+        // Create enemy spawner.
+        m_enemySpawner = Instantiate(m_enemySpawner, transform);
+        m_enemySpawner.transform.position = (transform.position + new Vector3(0, 1, 0));
 
-        // DEBUG: Create test pickup.
+        // Create pickup spawner.
+        m_pickupSpawner = Instantiate(m_pickupSpawner, transform);
+        m_pickupSpawner.transform.position = (transform.position + new Vector3(-4, 0, 0));
+
+        // DEBUG: Create test pickup for opening doors.
         m_pickup = Instantiate(m_pickup, transform);
         m_pickup.transform.position = (transform.position + new Vector3(0, 1, 0));
     }
