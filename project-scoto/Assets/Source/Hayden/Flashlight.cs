@@ -85,23 +85,6 @@ public class Flashlight : MonoBehaviour
     {
         return m_batteryLevel / m_maxBatteryLevel;
     }
-    public void OnToggleFlashlight()
-    {
-        if (m_isFlashlightOn)
-        {
-            m_isFlashlightOn = false;
-            m_light.enabled = false;
-            m_baseLight.enabled = false;
-            m_clickOffSound.Play();
-        }
-        else
-        {
-            m_isFlashlightOn = true;
-            m_light.enabled = true;
-            m_baseLight.enabled = true;
-            m_clickOnSound.Play();
-        }
-    }
     private void DepleteBattery()
     {
         if (m_batteryLevel == 0) {return;};
@@ -181,6 +164,24 @@ public class Flashlight : MonoBehaviour
     {
         m_isFlashlightFocused = false;
         StartCoroutine("ToNormalTransition");
+    }
+
+    private void OnToggleFlashlight()
+    {
+        if (m_isFlashlightOn)
+        {
+            m_isFlashlightOn = false;
+            m_light.enabled = false;
+            m_baseLight.enabled = false;
+            m_clickOffSound.Play();
+        }
+        else
+        {
+            m_isFlashlightOn = true;
+            m_light.enabled = true;
+            m_baseLight.enabled = true;
+            m_clickOnSound.Play();
+        }
     }
 
 

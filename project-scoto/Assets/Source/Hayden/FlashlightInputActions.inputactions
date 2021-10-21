@@ -6,14 +6,6 @@
             "id": "8678eb30-e476-477c-a1fb-119f5e5734af",
             "actions": [
                 {
-                    "name": "ToggleFlashlight",
-                    "type": "Button",
-                    "id": "26a86898-46d0-4171-a0b1-d9e967c5d97a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "FocusFlashlight",
                     "type": "Button",
                     "id": "99a98d67-6474-4a14-8c0f-7f8831e6572f",
@@ -28,20 +20,17 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "ToggleFlashlight",
+                    "type": "Button",
+                    "id": "a0c94b44-c9ee-4d98-8d4d-e44b69e41283",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "46dc9698-e679-4dbd-bddf-55a6188637bf",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ToggleFlashlight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "ecb19792-29c9-43cb-a2e4-b5ac3a17f268",
@@ -61,6 +50,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "NormalFlashlight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "60cf76c5-6f46-45d5-b121-26e279645e55",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleFlashlight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

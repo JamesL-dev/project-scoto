@@ -73,8 +73,6 @@ public class BaseEnemy : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("mhealth " + m_health);
-
         if (!m_isDead)
         {
                     //Check for sight and attack range
@@ -282,7 +280,6 @@ public class BaseEnemy : MonoBehaviour
         {
             if (m_playerInAttackRange)
             {
-                Debug.Log("hit player");
                 // player.TakeDamage(m_damagePerHit);
             }
             

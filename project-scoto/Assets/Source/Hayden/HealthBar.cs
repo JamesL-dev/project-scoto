@@ -16,7 +16,6 @@ public class HealthBar : MonoBehaviour
         m_enemy = gameObject.GetComponentInParent<BaseEnemy>();
 
         gameObject.GetComponent<Canvas>().worldCamera = m_camera.GetComponent<Camera>();
-        Debug.Log("is this code getting ran?");
 
     }
 
