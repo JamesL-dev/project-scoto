@@ -2,12 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
+using UnityEngine.UI;
 
 public class BaseEnemy : MonoBehaviour
-{
-    [SerializeField] protected float m_health;
-    [SerializeField] protected float m_speed;
+{   
     [SerializeField] protected float m_maxHealth;
     [SerializeField] protected float m_damagePerHit;
 
@@ -23,9 +21,13 @@ public class BaseEnemy : MonoBehaviour
     protected Animator m_animator;
     protected NavMeshAgent m_agent;
 
+    protected GameObject m_healthSlider;
+
     protected Vector3 m_walkPoint;
     protected bool m_walkPointSet;
     protected bool m_playerInSightRange, m_playerInAttackRange;
+
+    protected int m_numOfGrenadesIn;
 
     protected float m_walkSpeed;
     protected float m_runSpeed;
@@ -33,9 +35,11 @@ public class BaseEnemy : MonoBehaviour
 
     protected bool m_isInPatrol;
     protected bool m_isDead;
+    protected float m_health;
 
 
     public float GetHealth() {return m_health;}
+    public float GetHealthPercent() {return m_health/m_maxHealth;}
     public float GetMaxHealth() {return m_maxHealth;}
     public float GetAttackRange() {return m_attackRange;}
 
@@ -53,11 +57,17 @@ public class BaseEnemy : MonoBehaviour
         m_walkPointWait = 3.0f;
         m_damagePerHit = 10.0f;
 
+        m_health = m_maxHealth;
         m_agent.speed = m_walkSpeed;
+        m_numOfGrenadesIn = 0;
         m_isInPatrol = false;
         m_isDead = false;
 
+        m_healthSlider = transform.Find("HealthBarCanvas/HealthBar").gameObject;
         m_animator = GetComponent<Animator>();
+
+        m_healthSlider.SetActive(false);
+
 
     }
 
@@ -65,7 +75,7 @@ public class BaseEnemy : MonoBehaviour
     {
         if (!m_isDead)
         {
-            //Check for sight and attack range
+                    //Check for sight and attack range
             m_playerInSightRange = Physics.CheckSphere(transform.position, m_sightRange, m_playerMask);
             m_playerInAttackRange = Physics.CheckSphere(transform.position, m_attackRange, m_playerMask);
             if (!m_playerInSightRange && !m_playerInAttackRange && !m_isInPatrol)
@@ -88,6 +98,15 @@ public class BaseEnemy : MonoBehaviour
             else 
             {
                 m_animator.SetBool("isAttacking", false);
+            }
+
+            if (m_numOfGrenadesIn > 0)
+            {
+                float dps = 15;
+                dps *= m_numOfGrenadesIn;
+                float fps = 1 / Time.deltaTime;
+                // should enemy be frozen if in grenade?
+                TakeDamage(dps / fps);
             }
         }
     }
@@ -120,6 +139,8 @@ public class BaseEnemy : MonoBehaviour
         m_isInPatrol = false;
     }
 
+
+
     // sees player, so chases player
     private void ChasePlayer()
     {
@@ -147,6 +168,7 @@ public class BaseEnemy : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
+        m_healthSlider.SetActive(true);
         m_health -= damage;
     
         if (m_health <= 0)
@@ -170,14 +192,12 @@ public class BaseEnemy : MonoBehaviour
 
     private void Die()
     {
-        // DestroyImmediate(gameObject, true);
-        // m_animator.SetBool("isRunning", false);
-        // m_animator.SetBool("isWalking", false);
-        // m_animator.SetBool("isStanding", false);
-        // m_animator.SetBool("isAttacking", false);
         m_animator.SetBool("isDying", true);
+        m_healthSlider.SetActive(false);
         m_isDead = true;
+        
         m_agent.speed = 0;
+        m_healthSlider.SetActive(false);
     }
 
     private void Attack()
@@ -192,10 +212,85 @@ public class BaseEnemy : MonoBehaviour
         transform.LookAt(playerCoords);
     }
 
-    // public void OnFlashlightHit()
-    // {
-    //     TakeDamage(100000);
-    // }
+    public void OnFlashlightHit()
+    {
+        TakeDamage(100000);
+    }
+
+    public void OnArrowHit(GameObject arrow)
+    {
+        // do sound
+        // do animation
+        // float arrowDamage = arrow.GetComponent<Arrow>().damage;
+        // TakeDamage(arrowDamage);
+    }
+
+    public void OnGrenadeHit(GameObject grenade)
+    {
+        // do sound
+        // do animation
+        int initialGrenadeDamage = 50;
+        // I NEED THE INITIAL GRENADE DAMAGE
+        TakeDamage(initialGrenadeDamage);
+    }
+
+    public void OnTridentHit(GameObject trident)
+    {
+        // do sound
+        // do animation
+        int tridentDamage = 5;
+        // I NEED THE TRIDENT DAMAGE
+        TakeDamage(tridentDamage);
+    }
+
+    
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "grenadeAOE")
+        {
+            m_numOfGrenadesIn++;
+        }
+    }
+
+    public void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "grenadeAOE")
+        {
+            m_numOfGrenadesIn--;
+        }
+
+        if (m_numOfGrenadesIn < 0)
+        {
+            m_numOfGrenadesIn = 0;
+        }
+    }
+
+    public void DecrementNumGrenadesIn()
+    {
+        m_numOfGrenadesIn--;
+        if (m_numOfGrenadesIn < 0)
+        {
+            m_numOfGrenadesIn = 0;
+        }
+    }
+
+    public void AlertObservers(string message)
+    {
+        if (message.Equals("AttackAnimationEnded"))
+        {
+            if (m_playerInAttackRange)
+            {
+                // player.TakeDamage(m_damagePerHit);
+            }
+            
+        }
+
+        if (message.Equals("DeathAnimationEnded"))
+        {
+            GameObject.Destroy(gameObject, 1.0f);
+        }
+    }
+
 
     public enum WeaponType
     {
@@ -231,22 +326,5 @@ public class BaseEnemy : MonoBehaviour
         TakeDamage(damage);
     }
 
-    public void AlertObservers(string message)
-    {
-        if (message.Equals("AttackAnimationEnded"))
-        {
-            if (m_playerInAttackRange)
-            {
-                Debug.Log("hit player");
-                // player.TakeDamage(m_damagePerHit);
-            }
-            
-        }
 
-        if (message.Equals("DeathAnimationEnded"))
-        {
-            GameObject.Destroy(gameObject, 1.0f);
-        }
-    }
 }
-
