@@ -1,17 +1,16 @@
 {
-    "name": "srcAsm",
-    "rootNamespace": "",
+    "name": "NavMeshComponentsEditor",
     "references": [
-        "Unity.InputSystem",
         "NavMeshComponents"
     ],
-    "includePlatforms": [],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+    "defineConstraints": []
 }

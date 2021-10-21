@@ -6,6 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 /*
@@ -26,21 +27,26 @@ public class LevelGeneration : MonoBehaviour
     public Room m_room;
     public StartRoom m_sr;
     public EndRoom m_er;
+
     public List<List<Room>> m_roomMatrix = new List<List<Room>>();
+
+    private NavMeshBaker m_navmeshBaker = new NavMeshBaker();
 
     private const float m_mwScaling = 0.1f, m_mhScaling = 0.2f;
     private static int m_levelNum = 1;
     private int m_roomCount = 0;
-
+    private bool m_isDone = false;
     /* Initializes the level generation, and creates the start and end rooms.
      */
     private void Start()
     {
+        m_isDone = false;
         // Make start room via dynamic binding.
         Room startRoom = Instantiate(m_sr) as StartRoom;
         bool[] startRoomDoors = new bool[4] {true, false, false, false};
         startRoom.SetValues(0, 0, startRoomDoors, 1);
         startRoom.Setup();
+
         m_roomCount++;
 
         // Procedurally generate level layout.
@@ -74,6 +80,25 @@ public class LevelGeneration : MonoBehaviour
         endRoom.SetValues(0, m_roomMatrix[0].Count, endRoomDoors, 2);
         endRoom.Setup();
         m_roomCount++;
+
+
+        m_navmeshBaker.AddSurface(startRoom.gameObject);
+        m_navmeshBaker.AddSurface(endRoom.gameObject);
+        m_navmeshBaker.CreateLevelMesh();
+
+
+        m_isDone = true;
+
+
+    }
+
+    public bool IsDone()
+    {
+        return m_isDone;
+    }
+
+    private void Update()
+    {
     }
 
     /* Generates the maze layout.
@@ -276,6 +301,10 @@ public class LevelGeneration : MonoBehaviour
         tempRoom.SetPosition(x, z);
         tempRoom.SetRoomType(0);
         m_roomMatrix[x][z] = tempRoom;
+
+        // add navmesh surface
+        m_navmeshBaker.AddSurface(tempRoom.gameObject);
+
 
         // Increase room counter.
         m_roomCount++;

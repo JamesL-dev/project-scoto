@@ -11,7 +11,6 @@ public class BaseEnemy : MonoBehaviour
 
     [SerializeField] protected float m_sightRange;
     [SerializeField] protected float m_attackRange;
-    [SerializeField] protected float m_walkPointRange;
 
 
     [SerializeField] protected LayerMask m_groundMask;
@@ -20,8 +19,11 @@ public class BaseEnemy : MonoBehaviour
     protected Transform m_player;
     protected Animator m_animator;
     protected NavMeshAgent m_agent;
+    protected float m_walkPointRange;
 
     protected GameObject m_healthSlider;
+    protected GameObject m_roomIn;
+    protected GameObject m_enemySpawner;
 
     protected Vector3 m_walkPoint;
     protected bool m_walkPointSet;
@@ -47,12 +49,13 @@ public class BaseEnemy : MonoBehaviour
     {
         m_player = GameObject.Find("Player").transform;
         m_agent = GetComponent<NavMeshAgent>();
-
+        m_roomIn = HaydenHelpers.FindParentWithTag(gameObject, "Room");
+        m_enemySpawner = transform.parent.gameObject;
     }
 
     private void Start()
     {
-        m_walkSpeed = 2.0f;
+        m_walkSpeed = 5.0f;
         m_runSpeed = 8.0f;
         m_walkPointWait = 3.0f;
         m_damagePerHit = 10.0f;
@@ -62,6 +65,10 @@ public class BaseEnemy : MonoBehaviour
         m_numOfGrenadesIn = 0;
         m_isInPatrol = false;
         m_isDead = false;
+
+        Vector3 roomSize = m_roomIn.transform.Find("Floor").GetComponent<Collider>().bounds.size;
+        m_walkPointRange = Mathf.Min(roomSize.x, roomSize.z) * 0.5f * 0.75f;
+        Debug.Log(m_walkPointRange);
 
         m_healthSlider = transform.Find("HealthBarCanvas/HealthBar").gameObject;
         m_animator = GetComponent<Animator>();
@@ -156,10 +163,13 @@ public class BaseEnemy : MonoBehaviour
         float randomZ = Random.Range(-m_walkPointRange, m_walkPointRange);
         float randomX = Random.Range(-m_walkPointRange, m_walkPointRange);
 
-        m_walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+        m_walkPoint = new Vector3(m_enemySpawner.transform.position.x + randomX, m_enemySpawner.transform.position.y, m_enemySpawner.transform.position.z + randomZ);
+
 
         if (Physics.Raycast(m_walkPoint, -transform.up, 2f, m_groundMask))
+        {
             m_walkPointSet = true;
+        }
     }
 
     static public BaseEnemy CheckIfEnemy(Collider collider)
@@ -326,6 +336,4 @@ public class BaseEnemy : MonoBehaviour
         }
         TakeDamage(damage);
     }
-
-
 }
