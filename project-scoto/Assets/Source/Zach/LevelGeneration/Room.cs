@@ -24,11 +24,12 @@ Room type list (WIP)
  * Represents one room in the level, including its doors and any room parts within it.
  *
  * Member variables:
- * m_enemy -- GameObject for a test enemy.
- * m_pickup -- GameObject for a test pickup.
+ * m_enemySpawner -- GameObject for creating enemies.
+ * m_pickupSpawner -- GameObject for creating pickups.
  * m_wall -- GameObject for one wall without a door.
  * m_wallDoor -- GameObject for one wall with a door.
  * m_wallList -- Array of GameObjects for the 4 walls of a room.
+ * m_opener -- GameObject for a test pickup to open doors.
  * m_doorList -- Array of booleans that represent if each wall has a door or not.
  * m_xPos -- Integer for the room's x position within the level layout grid.
  * m_zPos -- Integer for the room's z position within the level layout grid.
