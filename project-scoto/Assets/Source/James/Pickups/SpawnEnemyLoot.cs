@@ -16,7 +16,7 @@ public class SpawnEnemyLoot : MonoBehaviour
         
     }
 
-    public void SpawnLoot()
+    static public void SpawnLoot()
     {
         Debug.Log("Loot Spawned");
     }

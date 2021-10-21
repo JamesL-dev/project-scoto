@@ -288,6 +288,7 @@ public class BaseEnemy : MonoBehaviour
         if (message.Equals("DeathAnimationEnded"))
         {
             GameObject.Destroy(gameObject, 1.0f);
+            SpawnEnemyLoot.SpawnLoot();
         }
     }
 
