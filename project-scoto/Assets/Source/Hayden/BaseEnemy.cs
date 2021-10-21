@@ -223,8 +223,8 @@ public class BaseEnemy : MonoBehaviour
     {
         // do sound
         // do animation
-        float arrowDamage = arrow.GetComponent<Arrow>().damage;
-        TakeDamage(arrowDamage);
+        // float arrowDamage = arrow.GetComponent<Arrow>().damage;
+        // TakeDamage(arrowDamage);
     }
 
     public void OnGrenadeHit(GameObject grenade)

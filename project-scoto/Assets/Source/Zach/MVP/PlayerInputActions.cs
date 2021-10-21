@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/src/zach/MVP/PlayerInputActions.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Source/Zach/MVP/PlayerInputActions.inputactions'
 
 using System;
 using System.Collections;
