@@ -1,13 +1,29 @@
+/*
+* Filename: boundaryTestOne.cs
+* Developer: James Lasso
+* Purpose: Boundary Tests
+*/
 using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
 
+/*
+* Runs boundary tests
+*
+* Member variables: none
+*/
 public class boundaryTests
 {
+    /* Function to check the upper bounds of a scoin value.
+    *
+    * Parameters: none
+    *
+    * Returns:
+    */
     [UnityTest]
     public IEnumerator powerUpAmountUpperBound()
     {
@@ -41,6 +57,12 @@ public class boundaryTests
         Assert.AreEqual(scoin.scoinBonus, 5);
     }
 
+    /* Function to check the lower bounds of scoin value.
+    *
+    * Parameters: none
+    *
+    * Returns:
+    */
     [UnityTest]
     public IEnumerator powerUpAmountLowerBound()
     {

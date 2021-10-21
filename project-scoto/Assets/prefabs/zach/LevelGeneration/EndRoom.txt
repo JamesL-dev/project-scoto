@@ -1,0 +1,3 @@
+Prefab: EndRoom
+Purpose: A subclass of the Room class, for dynamic binding.
+Interactions: This prefab is instantiated once per level at the end.

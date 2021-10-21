@@ -1,0 +1,3 @@
+Prefab: FireExplosion
+Purpose: Grenade explosion once it blows up
+Interactions: Damages enemies, bounces of enemies and walls.

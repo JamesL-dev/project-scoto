@@ -1,20 +1,34 @@
+/*
+ * Filename: LevelGenStressTests.cs
+ * Developer: Zachariah Preston
+ * Purpose: Stress tests for the level generation feature.
+ */
+using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
 
-public class LevelGenStressTests {
+
+/*
+ * Stress tests for the level generation feature.
+ */
+public class LevelGenStressTests
+{
+    /* Repeatedly generates larger and larger levels until the FPS gets below a critical value.
+     */
     [UnityTest]
-    public IEnumerator expand_level() {
+    public IEnumerator ExpandLevel()
+    {
         int level = 1;
         int cycles = 0;
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 100; i++)
+        {
             // Set the level number.
-            LevelGeneration.level_num = level;
+            LevelGeneration.SetLevelNum(level);
 
             // Load scene.
             SceneManager.LoadScene("Game");
@@ -23,7 +37,8 @@ public class LevelGenStressTests {
 
             // Check for FPS decrease.
             // If I set it a little lower than 10, Unity crashes before the FPS is detected.
-            if (1f / Time.deltaTime < 10f) {
+            if (1f / Time.deltaTime < 10f)
+            {
                 break;
             }
 
@@ -32,13 +47,18 @@ public class LevelGenStressTests {
         }
 
         // Print results.
-        if (1f / Time.deltaTime < 10f) {
-            GameObject level_generator = GameObject.Find("Level Generator");
-            Debug.Log("Less than 10 FPS reached | Cycles: " + cycles + " | Level: " + LevelGeneration.level_num + " | Rooms: " + level_generator.GetComponent<LevelGeneration>().room_count);
-        } else {
+        if (1f / Time.deltaTime < 10f)
+        {
+            GameObject levelGenerator = GameObject.Find("Level Generator");
+            Debug.Log("Less than 10 FPS reached | Cycles: " + cycles + " | Level: " + LevelGeneration.GetLevelNum() +
+                      " | Rooms: " + levelGenerator.GetComponent<LevelGeneration>().GetRoomCount());
+        }
+        else
+        {
             Debug.Log("100 cycles completed without critical FPS reached");
         }
 
         yield return null;
     }
 }
+
