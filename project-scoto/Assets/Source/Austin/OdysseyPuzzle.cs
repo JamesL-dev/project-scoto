@@ -9,7 +9,6 @@ using UnityEngine;
 
 /*
  * Class for odyssey puzzle functionality, inheriting from BasePuzzle.
- *
  */
 public class OdysseyPuzzle : BasePuzzle
 {
