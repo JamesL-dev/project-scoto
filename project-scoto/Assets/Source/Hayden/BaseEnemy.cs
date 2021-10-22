@@ -55,7 +55,7 @@ public class BaseEnemy : MonoBehaviour
 
     private void Start()
     {
-        m_walkSpeed = 5.0f;
+        m_walkSpeed = 2.0f;
         m_runSpeed = 8.0f;
         m_walkPointWait = 3.0f;
         m_damagePerHit = 10.0f;
@@ -68,7 +68,6 @@ public class BaseEnemy : MonoBehaviour
 
         Vector3 roomSize = m_roomIn.transform.Find("Floor").GetComponent<Collider>().bounds.size;
         m_walkPointRange = Mathf.Min(roomSize.x, roomSize.z) * 0.5f * 0.75f;
-        Debug.Log(m_walkPointRange);
 
         m_healthSlider = transform.Find("HealthBarCanvas/HealthBar").gameObject;
         m_animator = GetComponent<Animator>();
@@ -163,10 +162,10 @@ public class BaseEnemy : MonoBehaviour
         float randomZ = Random.Range(-m_walkPointRange, m_walkPointRange);
         float randomX = Random.Range(-m_walkPointRange, m_walkPointRange);
 
-        m_walkPoint = new Vector3(m_enemySpawner.transform.position.x + randomX, m_enemySpawner.transform.position.y, m_enemySpawner.transform.position.z + randomZ);
+        m_walkPoint = new Vector3(m_enemySpawner.transform.position.x + randomX, 0, m_enemySpawner.transform.position.z + randomZ);
 
-
-        if (Physics.Raycast(m_walkPoint, -transform.up, 2f, m_groundMask))
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(m_walkPoint, out hit, 1f, NavMesh.AllAreas))
         {
             m_walkPointSet = true;
         }

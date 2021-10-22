@@ -17,7 +17,10 @@ public class Door : MonoBehaviour
      */
     public void OpenDoor()
     {
-        Destroy(gameObject);
+        // Destroy(gameObject);
+        // GameObject.Find("Level Generator").GetComponent<LevelGeneration>().navmeshBaker.CreateLevelMesh();
+        gameObject.GetComponent<Renderer>().enabled = false;
+        gameObject.GetComponent<Collider>().enabled = false;
     }
 }
 
