@@ -18,6 +18,7 @@ using UnityEngine.AI;
  */
 public class Door : MonoBehaviour
 {
+    private bool m_isOpening = false;
     private bool m_isOpen = false;
     private float m_timer;
     private const float m_timerDuration = 0.25f;
@@ -33,12 +34,14 @@ public class Door : MonoBehaviour
      */
     private void Update()
     {
-        if (m_isOpen)
+        if (m_isOpening)
         {
             // Decrease the timer with speed relative to the timer duration variable.
             m_timer -= Time.deltaTime / m_timerDuration;
-            if (m_timer <= 0)
+            if (m_timer <= 0 && !m_isOpen)
             {
+                m_isOpen = true;
+                m_isOpening = false;
                 // When timer reaches zero, delete the door.
                 DisappearDoor();
             }
@@ -56,7 +59,7 @@ public class Door : MonoBehaviour
      */
     public void OpenDoor()
     {
-        m_isOpen = true;
+        m_isOpening = true;
         m_timer = 1f;
     }
     
