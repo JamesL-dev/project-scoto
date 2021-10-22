@@ -62,6 +62,7 @@ public class BaseEnemy : MonoBehaviour
 
         m_health = m_maxHealth;
         m_agent.speed = m_walkSpeed;
+        m_agent.autoTraverseOffMeshLink = false;
         m_numOfGrenadesIn = 0;
         m_isInPatrol = false;
         m_isDead = false;
@@ -113,6 +114,24 @@ public class BaseEnemy : MonoBehaviour
                 float fps = 1 / Time.deltaTime;
                 // should enemy be frozen if in grenade?
                 TakeDamage(dps / fps);
+            }
+        }
+    
+        if (m_agent.isOnOffMeshLink)
+        {
+            Debug.Log("is on offmeshlink");
+            OffMeshLinkData data = m_agent.currentOffMeshLinkData;
+
+            //calculate the final point of the link
+            Vector3 endPos = data.endPos + Vector3.up * m_agent.baseOffset;
+
+            //Move the agent to the end point
+            m_agent.transform.position = Vector3.MoveTowards(m_agent.transform.position, endPos, m_agent.speed * Time.deltaTime);
+
+            //when the agent reach the end point you should tell it, and the agent will "exit" the link and work normally after that
+            if (m_agent.transform.position == endPos)
+            {
+                m_agent.CompleteOffMeshLink();
             }
         }
     }
