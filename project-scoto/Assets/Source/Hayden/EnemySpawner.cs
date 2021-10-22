@@ -23,7 +23,7 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_levelGenerator.IsDone() && m_currEnemySpawnCount < m_totalEnemySpawnCount)
+        if (m_currEnemySpawnCount < m_totalEnemySpawnCount)
         {
             SpawnEnemy();
             m_currEnemySpawnCount++;

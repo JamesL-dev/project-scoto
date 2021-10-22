@@ -36,7 +36,6 @@ public class LevelGeneration : MonoBehaviour
      */
     private void Start()
     {
-        m_isDone = false;
         // Make start room via dynamic binding.
         Room startRoom = Instantiate(m_sr) as StartRoom;
         bool[] startRoomDoors = new bool[4] {true, false, false, false};
