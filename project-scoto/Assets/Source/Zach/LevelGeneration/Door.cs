@@ -17,7 +17,6 @@ public class Door : MonoBehaviour
      */
     public void OpenDoor()
     {
-        // Destroy(gameObject);
         GameObject link = new GameObject("link");
         link.transform.parent = transform;
         NavMeshLink meshLink = link.AddComponent<NavMeshLink>();

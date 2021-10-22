@@ -82,7 +82,7 @@ public class BaseEnemy : MonoBehaviour
     {
         if (!m_isDead)
         {
-                    //Check for sight and attack range
+                    //do raycast instead, so even if in another room enemy doesnt move if they cant see player
             m_playerInSightRange = Physics.CheckSphere(transform.position, m_sightRange, m_playerMask);
             m_playerInAttackRange = Physics.CheckSphere(transform.position, m_attackRange, m_playerMask);
             if (!m_playerInSightRange && !m_playerInAttackRange && !m_isInPatrol)
@@ -117,13 +117,18 @@ public class BaseEnemy : MonoBehaviour
             }
         }
     
-        if (m_agent.isOnOffMeshLink)
+        if (m_agent.isOnOffMeshLink && (m_animator.GetBool("isRunning") || m_animator.GetBool("isWalking")))
         {
-            Debug.Log("is on offmeshlink");
             OffMeshLinkData data = m_agent.currentOffMeshLinkData;
 
             //calculate the final point of the link
             Vector3 endPos = data.endPos + Vector3.up * m_agent.baseOffset;
+            if (m_animator.GetBool("isRunning"))
+            {
+                Vector3 playerCoords = m_player.transform.position;
+                playerCoords.y = transform.position.y;
+                transform.LookAt(playerCoords);
+            }
 
             //Move the agent to the end point
             m_agent.transform.position = Vector3.MoveTowards(m_agent.transform.position, endPos, m_agent.speed * Time.deltaTime);
@@ -217,7 +222,6 @@ public class BaseEnemy : MonoBehaviour
         }
     }
 
-
     private void Die()
     {
         m_animator.SetBool("isDying", true);
@@ -245,33 +249,6 @@ public class BaseEnemy : MonoBehaviour
         TakeDamage(100000);
     }
 
-    public void OnArrowHit(GameObject arrow)
-    {
-        // do sound
-        // do animation
-        // float arrowDamage = arrow.GetComponent<Arrow>().damage;
-        // TakeDamage(arrowDamage);
-    }
-
-    public void OnGrenadeHit(GameObject grenade)
-    {
-        // do sound
-        // do animation
-        int initialGrenadeDamage = 50;
-        // I NEED THE INITIAL GRENADE DAMAGE
-        TakeDamage(initialGrenadeDamage);
-    }
-
-    public void OnTridentHit(GameObject trident)
-    {
-        // do sound
-        // do animation
-        int tridentDamage = 5;
-        // I NEED THE TRIDENT DAMAGE
-        TakeDamage(tridentDamage);
-    }
-
-    
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "grenadeAOE")
@@ -344,7 +321,7 @@ public class BaseEnemy : MonoBehaviour
                 // Do Work
                 break;
             case WeaponType.Flashlight:
-                damage = this.GetHealth();
+                damage = 1000000;
                 break;
             case WeaponType.AOE:
                 // Do Work

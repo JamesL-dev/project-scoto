@@ -30,8 +30,6 @@ public class LevelGeneration : MonoBehaviour
 
     public List<List<Room>> m_roomMatrix = new List<List<Room>>();
 
-    public NavMeshBaker navmeshBaker = new NavMeshBaker();
-
     private const float m_mwScaling = 0.1f, m_mhScaling = 0.2f;
     private static int m_levelNum = 1;
     private int m_roomCount = 0;
@@ -80,12 +78,6 @@ public class LevelGeneration : MonoBehaviour
         endRoom.SetValues(0, m_roomMatrix[0].Count, endRoomDoors, 2);
         endRoom.Setup();
         m_roomCount++;
-
-
-        navmeshBaker.AddSurface(startRoom.gameObject);
-        navmeshBaker.AddSurface(endRoom.gameObject);
-        navmeshBaker.CreateLevelMesh();
-
 
         m_isDone = true;
 
@@ -302,8 +294,7 @@ public class LevelGeneration : MonoBehaviour
         tempRoom.SetRoomType(0);
         m_roomMatrix[x][z] = tempRoom;
 
-        // add navmesh surface
-        navmeshBaker.AddSurface(tempRoom.gameObject);
+
 
 
         // Increase room counter.
