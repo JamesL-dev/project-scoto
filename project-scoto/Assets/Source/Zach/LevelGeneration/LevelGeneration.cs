@@ -6,7 +6,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 
 /*
@@ -33,7 +32,6 @@ public class LevelGeneration : MonoBehaviour
     private const float m_mwScaling = 0.1f, m_mhScaling = 0.2f;
     private static int m_levelNum = 1;
     private int m_roomCount = 0;
-    private bool m_isDone = false;
     /* Initializes the level generation, and creates the start and end rooms.
      */
     private void Start()
@@ -78,19 +76,6 @@ public class LevelGeneration : MonoBehaviour
         endRoom.SetValues(0, m_roomMatrix[0].Count, endRoomDoors, 2);
         endRoom.Setup();
         m_roomCount++;
-
-        m_isDone = true;
-
-
-    }
-
-    public bool IsDone()
-    {
-        return m_isDone;
-    }
-
-    private void Update()
-    {
     }
 
     /* Generates the maze layout.
@@ -453,4 +438,3 @@ public class LevelGeneration : MonoBehaviour
         }
     }
 }
-
