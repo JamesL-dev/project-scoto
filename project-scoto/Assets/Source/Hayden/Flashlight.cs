@@ -50,7 +50,7 @@ public class Flashlight : MonoBehaviour
 
     private void Update()
     {
-        if (m_isFlashlightFocused)
+        if (m_isFlashlightFocused && m_isFlashlightOn)
         {
             m_focusedTime += Time.deltaTime;
             CheckRaycastEnemy();
@@ -134,6 +134,7 @@ public class Flashlight : MonoBehaviour
 
     private IEnumerator ToNormalTransition()
     {
+        m_isFlashlightFocused = false;
         StopCoroutine("ToFocusTransition");
         float totalChangeNeeded = m_normalFlashlightAngle - m_focusFlashlightAngle;
         float totalFovNeeded = m_normalFov - m_focusFov;
@@ -173,6 +174,11 @@ public class Flashlight : MonoBehaviour
             m_isFlashlightOn = false;
             m_light.enabled = false;
             m_baseLight.enabled = false;
+            if (m_isFlashlightFocused)
+            {
+                m_isFlashlightFocused = false;
+                StartCoroutine("ToNormalTransition");
+            }
             m_clickOffSound.Play();
         }
         else

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5588774951670214190}
   - component: {fileID: 3782002241604836208}
   - component: {fileID: 3459933559808279941}
-  - component: {fileID: 4837175135948438946}
+  - component: {fileID: 3119727749605430155}
   m_Layer: 0
   m_Name: Flashlight
   m_TagString: Untagged
@@ -248,7 +248,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4837175135948438946
+--- !u!114 &3119727749605430155
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
