@@ -26,12 +26,12 @@ public class LevelGeneration : MonoBehaviour
     public Room m_room;
     public StartRoom m_sr;
     public EndRoom m_er;
-
     public List<List<Room>> m_roomMatrix = new List<List<Room>>();
 
     private const float m_mwScaling = 0.1f, m_mhScaling = 0.2f;
     private static int m_levelNum = 1;
     private int m_roomCount = 0;
+
     /* Initializes the level generation, and creates the start and end rooms.
      */
     private void Start()
@@ -41,7 +41,6 @@ public class LevelGeneration : MonoBehaviour
         bool[] startRoomDoors = new bool[4] {true, false, false, false};
         startRoom.SetValues(0, 0, startRoomDoors, 1);
         startRoom.Setup();
-
         m_roomCount++;
 
         // Procedurally generate level layout.
@@ -277,9 +276,6 @@ public class LevelGeneration : MonoBehaviour
         tempRoom.SetPosition(x, z);
         tempRoom.SetRoomType(0);
         m_roomMatrix[x][z] = tempRoom;
-
-
-
 
         // Increase room counter.
         m_roomCount++;
