@@ -11,7 +11,6 @@ public class BaseEnemy : MonoBehaviour
 
     [SerializeField] protected float m_sightRange;
     [SerializeField] protected float m_attackRange;
-    [SerializeField] protected float m_walkPointRange;
 
 
     [SerializeField] protected LayerMask m_groundMask;
@@ -20,8 +19,11 @@ public class BaseEnemy : MonoBehaviour
     protected Transform m_player;
     protected Animator m_animator;
     protected NavMeshAgent m_agent;
+    protected float m_walkPointRange;
 
     protected GameObject m_healthSlider;
+    protected GameObject m_roomIn;
+    protected GameObject m_enemySpawner;
 
     protected Vector3 m_walkPoint;
     protected bool m_walkPointSet;
@@ -47,7 +49,8 @@ public class BaseEnemy : MonoBehaviour
     {
         m_player = GameObject.Find("Player").transform;
         m_agent = GetComponent<NavMeshAgent>();
-
+        m_roomIn = HaydenHelpers.FindParentWithTag(gameObject, "Room");
+        m_enemySpawner = transform.parent.gameObject;
     }
 
     private void Start()
@@ -59,9 +62,13 @@ public class BaseEnemy : MonoBehaviour
 
         m_health = m_maxHealth;
         m_agent.speed = m_walkSpeed;
+        m_agent.autoTraverseOffMeshLink = false;
         m_numOfGrenadesIn = 0;
         m_isInPatrol = false;
         m_isDead = false;
+
+        Vector3 roomSize = m_roomIn.transform.Find("Floor").GetComponent<Collider>().bounds.size;
+        m_walkPointRange = Mathf.Min(roomSize.x, roomSize.z) * 0.5f * 0.75f;
 
         m_healthSlider = transform.Find("HealthBarCanvas/HealthBar").gameObject;
         m_animator = GetComponent<Animator>();
@@ -75,7 +82,7 @@ public class BaseEnemy : MonoBehaviour
     {
         if (!m_isDead)
         {
-                    //Check for sight and attack range
+                    //do raycast instead, so even if in another room enemy doesnt move if they cant see player
             m_playerInSightRange = Physics.CheckSphere(transform.position, m_sightRange, m_playerMask);
             m_playerInAttackRange = Physics.CheckSphere(transform.position, m_attackRange, m_playerMask);
             if (!m_playerInSightRange && !m_playerInAttackRange && !m_isInPatrol)
@@ -107,6 +114,29 @@ public class BaseEnemy : MonoBehaviour
                 float fps = 1 / Time.deltaTime;
                 // should enemy be frozen if in grenade?
                 TakeDamage(dps / fps);
+            }
+        }
+    
+        if (m_agent.isOnOffMeshLink && (m_animator.GetBool("isRunning") || m_animator.GetBool("isWalking")))
+        {
+            OffMeshLinkData data = m_agent.currentOffMeshLinkData;
+
+            //calculate the final point of the link
+            Vector3 endPos = data.endPos + Vector3.up * m_agent.baseOffset;
+            if (m_animator.GetBool("isRunning"))
+            {
+                Vector3 playerCoords = m_player.transform.position;
+                playerCoords.y = transform.position.y;
+                transform.LookAt(playerCoords);
+            }
+
+            //Move the agent to the end point
+            m_agent.transform.position = Vector3.MoveTowards(m_agent.transform.position, endPos, m_agent.speed * Time.deltaTime);
+
+            //when the agent reach the end point you should tell it, and the agent will "exit" the link and work normally after that
+            if (m_agent.transform.position == endPos)
+            {
+                m_agent.CompleteOffMeshLink();
             }
         }
     }
@@ -156,10 +186,13 @@ public class BaseEnemy : MonoBehaviour
         float randomZ = Random.Range(-m_walkPointRange, m_walkPointRange);
         float randomX = Random.Range(-m_walkPointRange, m_walkPointRange);
 
-        m_walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+        m_walkPoint = new Vector3(m_enemySpawner.transform.position.x + randomX, 0, m_enemySpawner.transform.position.z + randomZ);
 
-        if (Physics.Raycast(m_walkPoint, -transform.up, 2f, m_groundMask))
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(m_walkPoint, out hit, 1f, NavMesh.AllAreas))
+        {
             m_walkPointSet = true;
+        }
     }
 
     static public BaseEnemy CheckIfEnemy(Collider collider)
@@ -189,7 +222,6 @@ public class BaseEnemy : MonoBehaviour
         }
     }
 
-
     private void Die()
     {
         m_animator.SetBool("isDying", true);
@@ -217,33 +249,6 @@ public class BaseEnemy : MonoBehaviour
         TakeDamage(100000);
     }
 
-    public void OnArrowHit(GameObject arrow)
-    {
-        // do sound
-        // do animation
-        // float arrowDamage = arrow.GetComponent<Arrow>().damage;
-        // TakeDamage(arrowDamage);
-    }
-
-    public void OnGrenadeHit(GameObject grenade)
-    {
-        // do sound
-        // do animation
-        int initialGrenadeDamage = 50;
-        // I NEED THE INITIAL GRENADE DAMAGE
-        TakeDamage(initialGrenadeDamage);
-    }
-
-    public void OnTridentHit(GameObject trident)
-    {
-        // do sound
-        // do animation
-        int tridentDamage = 5;
-        // I NEED THE TRIDENT DAMAGE
-        TakeDamage(tridentDamage);
-    }
-
-    
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "grenadeAOE")
@@ -316,7 +321,7 @@ public class BaseEnemy : MonoBehaviour
                 // Do Work
                 break;
             case WeaponType.Flashlight:
-                damage = this.GetHealth();
+                damage = 1000000;
                 break;
             case WeaponType.AOE:
                 // Do Work
@@ -326,6 +331,4 @@ public class BaseEnemy : MonoBehaviour
         }
         TakeDamage(damage);
     }
-
-
 }

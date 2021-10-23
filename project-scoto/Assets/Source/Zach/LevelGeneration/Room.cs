@@ -125,7 +125,7 @@ public class Room : MonoBehaviour
 
         // Create enemy spawner.
         m_enemySpawner = Instantiate(m_enemySpawner, transform);
-        m_enemySpawner.transform.position = (transform.position + new Vector3(0, 1, 0));
+        m_enemySpawner.transform.position = (transform.position + new Vector3(2, 1, 0));
 
         // Create pickup spawner.
         m_pickupSpawner = Instantiate(m_pickupSpawner, transform);
