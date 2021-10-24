@@ -21,7 +21,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected NavMeshAgent m_agent;
     protected float m_walkPointRange;
 
-    protected GameObject m_healthSlider;
+    protected HealthBar m_healthBar;
     protected GameObject m_roomIn;
     protected GameObject m_enemySpawner;
 
@@ -55,9 +55,8 @@ public abstract class BaseEnemy : MonoBehaviour
     private void Start()
     {
         Initialize();
-
-        m_healthSlider = transform.Find("HealthBarCanvas/HealthBar").gameObject;
-        m_healthSlider.SetActive(false);
+        m_healthBar = transform.Find("HealthBar").GetComponent<HealthBar>();
+        m_healthBar.SetActive(false);
         m_animator = GetComponent<Animator>();
         m_health = m_maxHealth;
         m_agent.autoTraverseOffMeshLink = false;
@@ -172,17 +171,21 @@ public abstract class BaseEnemy : MonoBehaviour
 
     static public BaseEnemy CheckIfEnemy(Collider collider)
     {
-        return collider.GetComponentInParent<BaseEnemy>();
+        BaseEnemy enemyScript = collider.gameObject.GetComponent<BaseEnemy>();
+        if (!enemyScript)
+        {
+            enemyScript = collider.GetComponentInParent<BaseEnemy>();
+        }
+        return enemyScript;
     }
     public void TakeDamage(float damage)
     {
-        m_healthSlider.SetActive(true);
+        m_healthBar.SetActive(true);
         m_health -= damage;
     
         if (m_health <= 0)
         {
             m_health = 0;
-
             Die();
         }
     }
@@ -200,11 +203,9 @@ public abstract class BaseEnemy : MonoBehaviour
     private void Die()
     {
         HaydenHelpers.SetAnimation(m_animator, "isDying");
-        m_healthSlider.SetActive(false);
+        m_healthBar.SetActive(false);
         m_isDead = true;
-        
         m_agent.speed = 0;
-        m_healthSlider.SetActive(false);
     }
 
     private void Attack()
@@ -217,11 +218,6 @@ public abstract class BaseEnemy : MonoBehaviour
         Vector3 playerCoords = m_player.transform.position;
         playerCoords.y = transform.position.y;
         transform.LookAt(playerCoords);
-    }
-
-    public void OnFlashlightHit()
-    {
-        TakeDamage(100000);
     }
     public void AlertObservers(string message)
     {
@@ -265,7 +261,6 @@ public abstract class BaseEnemy : MonoBehaviour
                 // Do Work
                 break;
             case WeaponType.Flashlight:
-                damage = 1000000;
                 break;
             case WeaponType.AOE:
                 // Do Work

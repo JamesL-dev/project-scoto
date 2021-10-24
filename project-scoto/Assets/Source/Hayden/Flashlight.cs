@@ -109,8 +109,7 @@ public class Flashlight : MonoBehaviour
             BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hitInfo.collider);
             if (enemy)
             {
-                // enemy.OnFlashlightHit();
-                enemy.HitEnemy(BaseEnemy.WeaponType.Flashlight, 1); // Damage doesnt matter. HitEnemy function sets it to its max health.
+                enemy.HitEnemy(BaseEnemy.WeaponType.Flashlight, 100000000);
             }
         }
     }
