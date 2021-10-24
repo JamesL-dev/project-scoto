@@ -28,6 +28,8 @@ public class Flashlight : MonoBehaviour
 
     private float m_focusedTime;
 
+    private HaydenHelpers m_helpers;
+
 
     private void Start()
     {
@@ -46,6 +48,9 @@ public class Flashlight : MonoBehaviour
         m_focusIntensity = m_normalIntensity * 3;
 
         m_baseLight = GameObject.Find("baseLightSource").GetComponent<Light>();
+
+        // just need an instance of my helper class so it can work good 
+        m_helpers = gameObject.AddComponent<HaydenHelpers>();
     }
 
     private void Update()
