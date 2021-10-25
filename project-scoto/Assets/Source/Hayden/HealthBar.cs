@@ -14,10 +14,6 @@ public class HealthBar : MonoBehaviour
         m_camera = GameObject.Find("Main Camera");
         m_slider = GameObject.Find("_HealthBar").GetComponent<Slider>();
         m_enemy = gameObject.GetComponentInParent<BaseEnemy>();
-
-        Debug.Log(m_enemy + " enemy");
-        Debug.Log(m_slider + " slider");
-
         transform.Find("HealthBarCanvas").GetComponent<Canvas>().worldCamera = m_camera.GetComponent<Camera>();
 
     }

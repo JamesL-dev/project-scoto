@@ -17,4 +17,23 @@ public class LightEnemy : BaseEnemy
         m_walkPointRange = Mathf.Min(roomSize.x, roomSize.z) * 0.5f * 0.75f;
 
     }
+
+    public override void AlertObservers(string message)
+    {
+        Debug.Log("alert observers is called!");
+        if (message.Equals("AttackAnimationEnded"))
+        {
+            if (m_playerInAttackRange)
+            {
+                // player.TakeDamage(m_damagePerHit);
+            }
+            
+        }
+
+        if (message.Equals("DeathAnimationEnded"))
+        {
+            GameObject.Destroy(gameObject, 1.0f);
+            SpawnEnemyLoot.SpawnLoot();
+        }
+    }
 }

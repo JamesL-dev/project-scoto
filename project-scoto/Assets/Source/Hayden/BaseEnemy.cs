@@ -219,8 +219,9 @@ public abstract class BaseEnemy : MonoBehaviour
         playerCoords.y = transform.position.y;
         transform.LookAt(playerCoords);
     }
-    public void AlertObservers(string message)
+    public virtual void AlertObservers(string message)
     {
+        Debug.Log("alert observers is called!");
         if (message.Equals("AttackAnimationEnded"))
         {
             if (m_playerInAttackRange)
