@@ -28,6 +28,8 @@ public class Flashlight : MonoBehaviour
 
     private float m_focusedTime;
 
+    private HaydenHelpers m_helpers;
+
 
     private void Start()
     {
@@ -46,6 +48,9 @@ public class Flashlight : MonoBehaviour
         m_focusIntensity = m_normalIntensity * 3;
 
         m_baseLight = GameObject.Find("baseLightSource").GetComponent<Light>();
+
+        // just need an instance of my helper class so it can work good 
+        m_helpers = gameObject.AddComponent<HaydenHelpers>();
     }
 
     private void Update()
@@ -104,8 +109,7 @@ public class Flashlight : MonoBehaviour
             BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hitInfo.collider);
             if (enemy)
             {
-                // enemy.OnFlashlightHit();
-                enemy.HitEnemy(BaseEnemy.WeaponType.Flashlight, 1); // Damage doesnt matter. HitEnemy function sets it to its max health.
+                enemy.HitEnemy(BaseEnemy.WeaponType.Flashlight, 100000000);
             }
         }
     }

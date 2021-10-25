@@ -9,20 +9,24 @@ public class HealthBar : MonoBehaviour
     private GameObject m_camera;
     private Slider m_slider;
     private BaseEnemy m_enemy;
-    void Start()
+    private void Start()
     {
         m_camera = GameObject.Find("Main Camera");
-        m_slider = transform.Find("HealthBar").GetComponent<Slider>();
+        m_slider = GameObject.Find("_HealthBar").GetComponent<Slider>();
         m_enemy = gameObject.GetComponentInParent<BaseEnemy>();
-
-        gameObject.GetComponent<Canvas>().worldCamera = m_camera.GetComponent<Camera>();
+        transform.Find("HealthBarCanvas").GetComponent<Canvas>().worldCamera = m_camera.GetComponent<Camera>();
 
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         transform.rotation = m_camera.transform.rotation;
         m_slider.value = m_enemy.GetHealthPercent();
+    }
+
+    public void SetActive(bool isActive)
+    {
+        gameObject.SetActive(isActive);
     }
 }
