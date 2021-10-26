@@ -15,6 +15,8 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private float m_focusFlashlightAngle;
     [SerializeField] private float m_focusZoomLvl;
 
+    [SerializeField] private InputActionMap m_inputActionMap;
+
 
     private Light m_baseLight;
     private float m_normalFov;
@@ -31,6 +33,27 @@ public class Flashlight : MonoBehaviour
     private HaydenHelpers m_helpers;
 
 
+    private void Awake()
+    {   
+        m_inputActionMap["FocusFlashlight"].performed += OnFocusFlashlight;
+        m_inputActionMap["NormalFlashlight"].performed += OnNormalFlashlight;
+        m_inputActionMap["ToggleFlashlight"].performed += OnToggleFlashlight;
+    }
+
+
+    void OnEnable()
+    {
+        m_inputActionMap["FocusFlashlight"].Enable();
+        m_inputActionMap["NormalFlashlight"].Enable();
+        m_inputActionMap["ToggleFlashlight"].Enable();
+    }
+
+    void OnDisable()
+    {
+        m_inputActionMap["FocusFlashlight"].Disable();
+        m_inputActionMap["NormalFlashlight"].Disable();
+        m_inputActionMap["ToggleFlashlight"].Disable();
+    }
     private void Start()
     {
         m_batteryLevel = m_maxBatteryLevel;
@@ -66,7 +89,7 @@ public class Flashlight : MonoBehaviour
             }
             if (m_batteryLevel == 0)
             {
-                OnNormalFlashlight();
+                OnNormalFlashlight(new InputAction.CallbackContext());
             }
         }
 
@@ -158,20 +181,20 @@ public class Flashlight : MonoBehaviour
         m_mainCamera.fieldOfView = m_normalFov;
         m_light.intensity = m_normalIntensity;
     }
-    private void OnFocusFlashlight()
+    private void OnFocusFlashlight(InputAction.CallbackContext context)
     {
         if (m_isFlashlightOn && m_batteryLevel != 0)
         {
             StartCoroutine("ToFocusTransition");
         }
     }
-    private void OnNormalFlashlight()
+    private void OnNormalFlashlight(InputAction.CallbackContext context)
     {
         m_isFlashlightFocused = false;
         StartCoroutine("ToNormalTransition");
     }
 
-    private void OnToggleFlashlight()
+    private void OnToggleFlashlight(InputAction.CallbackContext context)
     {
         if (m_isFlashlightOn)
         {
@@ -193,6 +216,4 @@ public class Flashlight : MonoBehaviour
             m_clickOnSound.Play();
         }
     }
-
-
 }
