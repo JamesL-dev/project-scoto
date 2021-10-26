@@ -836,16 +836,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00004002b2fb0a40ac903a21c5a1e54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxHealth: 200
-  m_damagePerHit: 0
-  m_sightRange: 6
-  m_attackRange: 3
   m_groundMask:
     serializedVersion: 2
     m_Bits: 64
   m_playerMask:
     serializedVersion: 2
     m_Bits: 128
+  m_walkSourceClip: {fileID: 0}
+  m_runSourceClip: {fileID: 0}
+  m_attackSourceClip: {fileID: 0}
+  m_dieSourceClip: {fileID: 0}
+  m_idleSourceClip: {fileID: 0}
 --- !u!195 &6546410325988052356
 NavMeshAgent:
   m_ObjectHideFlags: 0

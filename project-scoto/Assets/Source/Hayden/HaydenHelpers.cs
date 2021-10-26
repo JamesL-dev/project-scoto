@@ -11,6 +11,7 @@ public class HaydenHelpers : MonoBehaviour
     {
         instance = this;
     }
+
    public static GameObject FindParentWithTag(GameObject childObject, string tag)
     {
         Transform t = childObject.transform;

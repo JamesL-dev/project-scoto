@@ -150,6 +150,57 @@ MonoBehaviour:
   m_normalFlashlightAngle: 100
   m_focusFlashlightAngle: 30
   m_focusZoomLvl: 2
+  m_inputActionMap:
+    m_Name: Input
+    m_Id: 5a94e0ca-64ea-49b3-aa71-4d05d3145849
+    m_Asset: {fileID: 0}
+    m_Actions:
+    - m_Name: FocusFlashlight
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: 5705f392-284c-4862-8de9-eab064433dfe
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    - m_Name: NormalFlashlight
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: 104ea482-d32d-4d4f-b797-0e2a9f2e4066
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    - m_Name: ToggleFlashlight
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: a0c6e93e-75d4-48b2-84c2-38b7433368b9
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Bindings:
+    - m_Name: 
+      m_Id: ef0d65c5-c6b4-4332-a01f-edded4e2ab47
+      m_Path: <Mouse>/rightButton
+      m_Interactions: Press
+      m_Processors: 
+      m_Groups: 
+      m_Action: FocusFlashlight
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 5f63765e-823f-41c4-a1c5-1c4bdd179bc4
+      m_Path: <Mouse>/rightButton
+      m_Interactions: Press(behavior=1)
+      m_Processors: 
+      m_Groups: 
+      m_Action: NormalFlashlight
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 8b93423e-17e7-45a9-8b6d-abb2864f54f0
+      m_Path: <Keyboard>/f
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: ToggleFlashlight
+      m_Flags: 0
 --- !u!82 &3782002241604836208
 AudioSource:
   m_ObjectHideFlags: 0
