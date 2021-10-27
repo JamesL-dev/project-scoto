@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class Flashlight : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private int m_maxBatteryLevel;
+    [SerializeField] private float m_maxBatteryLevel;
     [SerializeField] private float m_timeBetwenFlashlightDeplete;
     [SerializeField] private int m_flashlightDepleteAmnt;
     [SerializeField] private AudioSource m_clickOnSound;
@@ -24,7 +24,7 @@ public class Flashlight : MonoBehaviour
     private float m_focusIntensity;
     private float m_focusFov;
     private Camera m_mainCamera;
-    private int m_batteryLevel;
+    private float m_batteryLevel;
     private bool m_isFlashlightOn;
     private bool m_isFlashlightFocused;
 
