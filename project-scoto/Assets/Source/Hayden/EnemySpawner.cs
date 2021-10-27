@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
         m_totalEnemySpawnCount = 1;
         m_currEnemySpawnCount = 0;
         m_heavySpawnRate = 25; // 25%
-        m_levelGenerator = GameObject.Find("Level Generator").GetComponent<LevelGeneration>();
+        m_levelGenerator = LevelGeneration.Inst();
 
     }
 

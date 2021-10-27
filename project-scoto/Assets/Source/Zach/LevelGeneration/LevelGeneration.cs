@@ -9,7 +9,7 @@ using UnityEngine;
 
 
 /*
- * Procedurally generates each level's layout and controls the creation of each room within the level.
+ * Singleton that procedurally generates each level's layout and controls the creation of each room within the level.
  *
  * Member variables:
  * m_room -- Room prefab for generating the layout.
@@ -21,7 +21,7 @@ using UnityEngine;
  * m_levelNum -- Class variable int for the current level number.
  * m_roomCount -- Integer for the current number of rooms in the level.
  */
-public class LevelGeneration : MonoBehaviour
+public sealed class LevelGeneration : MonoBehaviour
 {
     public Room m_room;
     public StartRoom m_sr;
@@ -45,10 +45,10 @@ public class LevelGeneration : MonoBehaviour
         m_roomCount++;
 
         // Procedurally generate level layout.
-        GenerateLayout(m_levelNum);
+        Inst().GenerateLayout(m_levelNum);
 
         // // DEBUG: Print visualization of level.
-        // print_level();
+        // Inst().PrintLevel();
   
         // Loop through matrix to finish building rooms.
         for (int x = 0; x < m_roomMatrix.Count; x++)
@@ -56,7 +56,7 @@ public class LevelGeneration : MonoBehaviour
             for (int z = 0; z < m_roomMatrix[x].Count; z++)
             {
                 // Identify treasure rooms.
-                if (IsTreasure(x, z))
+                if (Inst().IsTreasure(x, z))
                 {
                     m_roomMatrix[x][z].SetRoomType(3);
                 }
@@ -77,15 +77,15 @@ public class LevelGeneration : MonoBehaviour
         m_roomCount++;
     }
 
-    /* Gets a reference to the instance of the singleton.
+    /* Gets a reference to the instance of the singleton, creating the instance if necessary.
      *
      * Returns:
-     * LevelGeneration -- Reference to level generator.
+     * LevelGeneration -- Reference to the level generator.
      */
     public static LevelGeneration Inst() {
         if (m_instance == null)
         {
-            m_instance = new LevelGeneration();
+            m_instance = GameObject.Find("LevelGenerator").GetComponent<LevelGeneration>();
         }
         return m_instance;
     }
@@ -127,7 +127,7 @@ public class LevelGeneration : MonoBehaviour
         List<Vector3Int> mazePath = new List<Vector3Int>();
 
         // First, create room right after start room.
-        mazePath.Add(CreateRoom(mazeX, mazeZ));
+        mazePath.Add(Inst().CreateRoom(mazeX, mazeZ));
         bool[] tempDoors = m_roomMatrix[mazeX][mazeZ].GetDoors();
         tempDoors[2] = true;
         m_roomMatrix[mazeX][mazeZ].SetDoors(tempDoors);
@@ -205,7 +205,7 @@ public class LevelGeneration : MonoBehaviour
                 // Bad value.
                 throw new System.Exception("Invalid direction in generate_layout().");
             }
-            mazePath.Add(CreateRoom(mazeX, mazeZ));
+            mazePath.Add(Inst().CreateRoom(mazeX, mazeZ));
 
             // Add door in new room.
             tempDoors = m_roomMatrix[mazeX][mazeZ].GetDoors();
@@ -274,6 +274,10 @@ public class LevelGeneration : MonoBehaviour
         return m_roomCount;
     }
 
+    /* Makes the singleton's constructor static.
+     */
+    private LevelGeneration() {}
+
     /* Creates one room within the maze.
      *
      * Parameters:
@@ -317,7 +321,7 @@ public class LevelGeneration : MonoBehaviour
         {
             for (int z = 0; z < m_roomMatrix[x].Count; z++)
             {
-                printMatrix[z] += DrawDoors(x, z);
+                printMatrix[z] += Inst().DrawDoors(x, z);
             }
         }
 
