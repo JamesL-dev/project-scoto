@@ -28,8 +28,9 @@ public class LevelGeneration : MonoBehaviour
     public EndRoom m_er;
     public List<List<Room>> m_roomMatrix = new List<List<Room>>();
 
+    private static LevelGeneration m_instance;
     private const float m_mwScaling = 0.1f, m_mhScaling = 0.2f;
-    private static int m_levelNum = 1;
+    private int m_levelNum = 1;
     private int m_roomCount = 0;
 
     /* Initializes the level generation, and creates the start and end rooms.
@@ -74,6 +75,19 @@ public class LevelGeneration : MonoBehaviour
         endRoom.SetValues(0, m_roomMatrix[0].Count, endRoomDoors, 2);
         endRoom.Setup();
         m_roomCount++;
+    }
+
+    /* Gets a reference to the instance of the singleton.
+     *
+     * Returns:
+     * LevelGeneration -- Reference to level generator.
+     */
+    public static LevelGeneration Inst() {
+        if (m_instance == null)
+        {
+            m_instance = new LevelGeneration();
+        }
+        return m_instance;
     }
 
     /* Generates the maze layout.
@@ -222,7 +236,7 @@ public class LevelGeneration : MonoBehaviour
      * Parameters:
      * level -- Integer for the level number to set to.
      */
-    public static void SetLevelNum(int level)
+    public void SetLevelNum(int level)
     {
         if (level < 0)
         {
@@ -245,7 +259,7 @@ public class LevelGeneration : MonoBehaviour
      * Returns:
      * int -- Current level number.
      */
-    public static int GetLevelNum()
+    public int GetLevelNum()
     {
         return m_levelNum;
     }
