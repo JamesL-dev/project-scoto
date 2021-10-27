@@ -15,8 +15,7 @@ Room type list (WIP)
     [1] Start room
     [2] End room
     [3] Treasure room
-    Probably reserve 0 through 9 for special types
-    [10] ...
+    [4] ...
 */
 
 
@@ -36,7 +35,8 @@ Room type list (WIP)
  * m_roomType -- Integer for the type of room, used to decide what room parts to add.
  * m_wallPositions -- Vector3 for the preset positions of the 4 walls of a room.
  * m_wallRotations -- Vector3 for the preset rotations of the 4 walls of a room.
- * m_isCleared -- Boolean that stores if a room has been cleared or not. 
+ * m_isCleared -- Boolean that stores if a room has been cleared or not.
+ * m_roomSpread -- Integer for the distance between the center of each room.
  */
 public class Room : MonoBehaviour
 {
@@ -50,6 +50,7 @@ public class Room : MonoBehaviour
     protected int m_xPos = 0, m_zPos = 0, m_roomType = -1;
     protected Vector3[] m_wallPositions = new Vector3[4], m_wallRotations = new Vector3[4];
     protected bool m_isCleared = false;
+    protected const int m_roomSpread = 24;
 
     /* Sets preset values for wall positions and rotations.
      */
@@ -113,8 +114,8 @@ public class Room : MonoBehaviour
 
         // Set transform from positions.
         Vector3 roomPos = Vector3.zero;
-        roomPos.x = (m_xPos - ((mazeWidth - 1) / 2)) * 20;
-        roomPos.z = (m_zPos + 1) * 20;
+        roomPos.x = (m_xPos - ((mazeWidth - 1) / 2)) * m_roomSpread;
+        roomPos.z = (m_zPos + 1) * m_roomSpread;
         transform.position = roomPos;
 
         // Create room parts based on type (just check if type exists, for now)

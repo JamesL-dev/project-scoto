@@ -47,8 +47,8 @@ public class EndRoom : Room
 
         // Set transform from positions.
         Vector3 roomPos = Vector3.zero;
-        roomPos.x = (m_xPos - ((mazeWidth - 1) / 2)) * 20;
-        roomPos.z = (m_zPos + 1) * 20;
+        roomPos.x = (m_xPos - ((mazeWidth - 1) / 2)) * m_roomSpread;
+        roomPos.z = (m_zPos + 1) * m_roomSpread;
         transform.position = roomPos;
     }
 }
