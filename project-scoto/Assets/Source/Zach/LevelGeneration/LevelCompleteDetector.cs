@@ -24,7 +24,7 @@ public class LevelCompleteDetector : MonoBehaviour
         if (other.tag == "Player")
         {
             // Load next level.
-            LevelGeneration.SetLevelNum(LevelGeneration.GetLevelNum() + 1);
+            LevelGeneration.Inst().SetLevelNum(LevelGeneration.Inst().GetLevelNum() + 1);
             SceneManager.LoadScene("Game");
         }
     }
