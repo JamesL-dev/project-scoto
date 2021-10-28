@@ -1,8 +1,17 @@
+/*
+ * Filename: HeavyEnemy.cs
+ * Developer: Hayden Carroll
+ * Purpose: This file implements the HeavyEnemy subclass.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/*
+ * HeavyEnemy is a subclass of abstract BaseEnemy.
+ * This class contains implementation on top of BaseEnemy to create a concrete
+ * type.
+ */
 public class HeavyEnemy : BaseEnemy
 {
     protected override void Initialize()

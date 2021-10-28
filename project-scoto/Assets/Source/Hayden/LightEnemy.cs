@@ -1,8 +1,17 @@
+/*
+ * Filename: LightEnemy.cs
+ * Developer: Hayden Carroll
+ * Purpose: This file implements the LightEnemy subclass.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+/*
+ * LightEnemy is a subclass of abstract BaseEnemy.
+ * This class contains implementation on top of BaseEnemy to create a concrete
+ * type.
+ */
 public class LightEnemy : BaseEnemy
 {
     protected override void Initialize()
