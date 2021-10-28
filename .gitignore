@@ -4,6 +4,8 @@
 #
 [Ll]ibrary/
 ![Ll]ibrary/ShaderCache/
+# ignore EditorEncounteredVarients File
+[Ll]ibrary/ShaderCache/EditorEncounteredVariants
 [Tt]emp/
 [Oo]bj/
 [Bb]uild/
