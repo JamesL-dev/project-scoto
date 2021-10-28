@@ -13,8 +13,8 @@ using UnityEngine;
  *
  * Member variables:
  * m_room -- Room prefab for generating the layout.
- * m_sr -- StartRoom prefab for generating the start room.
- * m_er -- EndRoom prefab for generating the end room.
+ * m_startRoom -- StartRoom prefab for generating the start room.
+ * m_endRoom -- EndRoom prefab for generating the end room.
  * m_roomMatrix -- 2D List of Room prefabs to store the layout.
  * m_mwScaling -- Const float for the maze width scaling as the level number increases.
  * m_mhScaling -- Const float for the maze height scaling as the level number increases.
@@ -24,8 +24,8 @@ using UnityEngine;
 public sealed class LevelGeneration : MonoBehaviour
 {
     public Room m_room;
-    public StartRoom m_sr;
-    public EndRoom m_er;
+    public StartRoom m_startRoom;
+    public EndRoom m_endRoom;
     public List<List<Room>> m_roomMatrix = new List<List<Room>>();
 
     private static LevelGeneration m_instance;
@@ -38,7 +38,7 @@ public sealed class LevelGeneration : MonoBehaviour
     private void Start()
     {
         // Make start room via dynamic binding.
-        Room startRoom = Instantiate(m_sr) as StartRoom;
+        Room startRoom = Instantiate(m_startRoom) as StartRoom;
         bool[] startRoomDoors = new bool[4] {true, false, false, false};
         startRoom.SetValues(0, 0, startRoomDoors, 1);
         startRoom.Setup();
@@ -70,7 +70,7 @@ public sealed class LevelGeneration : MonoBehaviour
         }
 
         // Make end room via dynamic binding.
-        Room endRoom = Instantiate(m_er) as EndRoom;
+        Room endRoom = Instantiate(m_endRoom) as EndRoom;
         bool[] endRoomDoors = new bool[4] {false, false, true, false};
         endRoom.SetValues(0, m_roomMatrix[0].Count, endRoomDoors, 2);
         endRoom.Setup();

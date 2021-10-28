@@ -9,13 +9,15 @@ using UnityEngine;
 
 
 /*
-Room type list (WIP)
+Room type list
     [-1] Undefined
     [0] Empty
-    [1] Start room
-    [2] End room
-    [3] Treasure room
-    [4] ...
+    [1] Start
+    [2] End
+    [3] Treasure
+    [4] Small
+    [5] Medium
+    [6] Large
 */
 
 
@@ -50,7 +52,7 @@ public class Room : MonoBehaviour
     protected int m_xPos = 0, m_zPos = 0, m_roomType = -1;
     protected Vector3[] m_wallPositions = new Vector3[4], m_wallRotations = new Vector3[4];
     protected bool m_isCleared = false;
-    protected const int m_roomSpread = 24;
+    protected const int m_roomSpread = 44;
 
     /* Sets preset values for wall positions and rotations.
      */
@@ -67,9 +69,7 @@ public class Room : MonoBehaviour
         // DEBUG: Detect if pickup is deleted.
         if (m_opener == null && !m_isCleared)
         {
-            Debug.Log("Opener deleted in room (" + m_xPos + ", " + m_zPos + ")");
             m_isCleared = true;
-
             for (int i = 0; i < 4; i++)
             {
                 if (m_doorList[i])
