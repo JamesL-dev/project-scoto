@@ -141,14 +141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a18d740aa49762e43b8e90b8da647cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxBatteryLevel: 100
-  m_timeBetwenFlashlightDeplete: 1
-  m_flashlightDepleteAmnt: 5
   m_clickOnSound: {fileID: 3782002241604836208}
   m_clickOffSound: {fileID: 3459933559808279941}
   m_light: {fileID: 3645812484220129344}
   m_normalFlashlightAngle: 100
-  m_focusFlashlightAngle: 30
+  m_focusFlashlightAngle: 50
   m_focusZoomLvl: 2
   m_inputActionMap:
     m_Name: Input

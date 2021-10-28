@@ -13,23 +13,33 @@ public class EnemySpawner : MonoBehaviour
     private int m_currEnemySpawnCount;
     private int m_heavySpawnRate;
     private LevelGeneration m_levelGenerator;
+    private bool m_spawnedEnemies;
 
     void Start()
     {
-        m_totalEnemyToSpawn = 1;
+        m_totalEnemyToSpawn = 2;
         m_currEnemySpawnCount = 0;
         m_heavySpawnRate = 25; // 25%
         m_levelGenerator = LevelGeneration.Inst();
-
+        m_spawnedEnemies = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!m_spawnedEnemies)
+        {
+            SpawnEnemies();
+        }
+    }
+
+    void SpawnEnemies()
+    {
         if (m_currEnemySpawnCount < m_totalEnemyToSpawn)
         {
             SpawnEnemy();
         }
+        m_spawnedEnemies = true;
     }
 
     void SpawnEnemy()
