@@ -1,13 +1,20 @@
+/*
+ * Filename: EnemySpawner.cs
+ * Developer: Hayden Carroll
+ * Purpose: This file implements the EnemySpawner class.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * An Abstract Factory enemy spawner that spawns a BaseEnemy
+   of concrete type (either HeavyEnemy or LightEnemy)
+ */
 public class EnemySpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-
-    public GameObject m_lightEnemy;
-    public GameObject m_heavyEnemy;
+    [SerializeField] private GameObject m_lightEnemy;
+    [SerializeField] private GameObject m_heavyEnemy;
 
     private int m_totalEnemyToSpawn;
     private int m_currEnemySpawnCount;
@@ -15,25 +22,37 @@ public class EnemySpawner : MonoBehaviour
     private LevelGeneration m_levelGenerator;
     private bool m_spawnedEnemies;
 
-    void Start()
+    /*
+    * This function is only to be used by a BaseEnemy instance. On the death of
+    * an enemy, the enemy will call this function to decrement the total count
+    * of enemies.
+    */
+    public void DecrementEnemy()
     {
-        m_totalEnemyToSpawn = 2;
-        m_currEnemySpawnCount = 0;
-        m_heavySpawnRate = 25; // 25%
-        m_levelGenerator = LevelGeneration.Inst();
-        m_spawnedEnemies = false;
-    }
+        m_currEnemySpawnCount--;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!m_spawnedEnemies)
+        if (m_currEnemySpawnCount < 0)
         {
-            SpawnEnemies();
+            m_currEnemySpawnCount = 0;
         }
     }
 
-    void SpawnEnemies()
+    /*
+    * Gets the current count of how many enemies are still alive that were 
+    * spawned by the spawner
+    *
+    * Returns:
+    * int - number of enemies still alive
+    */
+    public int GetEnemyCount()
+    {
+        return m_currEnemySpawnCount;
+    }
+
+    /*
+    * Spawns an indeterminate amount of enemies
+    */
+    public void SpawnEnemies()
     {
         if (m_currEnemySpawnCount < m_totalEnemyToSpawn)
         {
@@ -42,7 +61,10 @@ public class EnemySpawner : MonoBehaviour
         m_spawnedEnemies = true;
     }
 
-    void SpawnEnemy()
+    /*
+    * Spawns an enemy
+    */
+    private void SpawnEnemy()
     {
         int isHeavyEnemySpawn = Random.Range(1, 100);
         if (isHeavyEnemySpawn <= m_heavySpawnRate)
@@ -56,6 +78,24 @@ public class EnemySpawner : MonoBehaviour
         m_currEnemySpawnCount++;
     }
 
+    private void Start()
+    {
+        m_totalEnemyToSpawn = 2;
+        m_currEnemySpawnCount = 0;
+        m_heavySpawnRate = 25; // 25%
+        m_levelGenerator = LevelGeneration.Inst();
+        m_spawnedEnemies = false;
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (!m_spawnedEnemies)
+        {
+            SpawnEnemies();
+        }
+    }
+
     private void SpawnLightEnemy()
     {
         Instantiate(m_lightEnemy, transform);
@@ -64,20 +104,5 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnHeavyEnemy()
     {
         Instantiate(m_heavyEnemy, transform);
-    }
-
-    public void DecrementEnemy()
-    {
-        m_currEnemySpawnCount--;
-
-        if (m_currEnemySpawnCount < 0)
-        {
-            m_currEnemySpawnCount = 0;
-        }
-    }
-
-    public int GetEnemyCount()
-    {
-        return m_currEnemySpawnCount;
     }
 }

@@ -1,23 +1,26 @@
+/*
+ * Filename: Flashlight.cs
+ * Developer: Hayden Carroll
+ * Purpose: This file implements the Flashlight class.
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
+/*
+ * Implements all logic for the player flashlight
+ */
 public class Flashlight : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField] private AudioSource m_clickOnSound;
+    [SerializeField] private AudioSource m_clickOffSound;
+    private Light m_light;
+    [SerializeField] private InputActionMap m_inputActionMap;
+
     private float m_maxBatteryLevel;
     private float m_timeBetwenFlashlightDeplete;
     private float m_flashlightDepleteAmnt;
-    [SerializeField] private AudioSource m_clickOnSound;
-    [SerializeField] private AudioSource m_clickOffSound;
-    [SerializeField] private Light m_light;
-    [SerializeField] private float m_normalFlashlightAngle;
-    [SerializeField] private float m_focusFlashlightAngle;
-    [SerializeField] private float m_focusZoomLvl;
-
-    [SerializeField] private InputActionMap m_inputActionMap;
-
-
     private Light m_baseLight;
     private float m_normalFov;
     private float m_normalIntensity;
@@ -27,10 +30,59 @@ public class Flashlight : MonoBehaviour
     private float m_batteryLevel;
     private bool m_isFlashlightOn;
     private bool m_isFlashlightFocused;
-
     private float m_focusedTime;
-
+    private float m_normalFlashlightAngle;
+    private float m_focusFlashlightAngle;
+    private float m_focusZoomLvl;
     private HaydenHelpers m_helpers;
+
+    /* Adds a certain amount of charge to the flashlight battery
+    * 
+    * Parameters:
+    * chargeAmount - amount to add to flashlight battery
+    *
+    * Returns:
+    * bool - True if charge was added to battery, False otherwise
+    */
+    public bool AddBattery(float chargeAmount)
+    {
+        // failed to add charge to battery, it is at max
+        if (m_batteryLevel == m_maxBatteryLevel)
+        {
+            return false;
+        }
+        m_batteryLevel += chargeAmount;
+        if (m_batteryLevel > m_maxBatteryLevel)
+        {
+            m_batteryLevel = m_maxBatteryLevel;
+        }
+        return true;
+    }
+
+    /* Gets the current percent of the battery
+    * 
+    * Returns:
+    * float - battery percent. Should range from [0, 1]
+    */
+    public float GetBatteryPercent()
+    {
+        return m_batteryLevel / m_maxBatteryLevel;
+    }
+
+    private void OnEnable()
+    {
+        m_inputActionMap["FocusFlashlight"].Enable();
+        m_inputActionMap["NormalFlashlight"].Enable();
+        m_inputActionMap["ToggleFlashlight"].Enable();
+    }
+
+    private void OnDisable()
+    {
+        m_inputActionMap["FocusFlashlight"].Disable();
+        m_inputActionMap["NormalFlashlight"].Disable();
+        m_inputActionMap["ToggleFlashlight"].Disable();
+    }
+
 
 
     private void Awake()
@@ -40,26 +92,15 @@ public class Flashlight : MonoBehaviour
         m_inputActionMap["ToggleFlashlight"].performed += OnToggleFlashlight;
     }
 
-
-    void OnEnable()
-    {
-        m_inputActionMap["FocusFlashlight"].Enable();
-        m_inputActionMap["NormalFlashlight"].Enable();
-        m_inputActionMap["ToggleFlashlight"].Enable();
-    }
-
-    void OnDisable()
-    {
-        m_inputActionMap["FocusFlashlight"].Disable();
-        m_inputActionMap["NormalFlashlight"].Disable();
-        m_inputActionMap["ToggleFlashlight"].Disable();
-    }
     private void Start()
     {
         m_maxBatteryLevel = 100.0f;
         m_timeBetwenFlashlightDeplete = 0.125f;
-        m_flashlightDepleteAmnt = 0.0f; // 0.25 works good
-
+        m_flashlightDepleteAmnt = 0.25f; // 0.25 works good
+        m_focusZoomLvl = 2.0f;
+        m_normalFlashlightAngle = 100.0f;
+        m_focusFlashlightAngle = 30.0f;
+        m_light = transform.Find("lightSource").GetComponent<Light>();
         m_batteryLevel = m_maxBatteryLevel;
         m_isFlashlightOn = true;
         m_light.enabled = true;
@@ -98,25 +139,7 @@ public class Flashlight : MonoBehaviour
         }
 
     }
-    public bool AddBattery(int chargeAmount)
-    {
-        // failed to add charge to battery, it is at max
-        if (m_batteryLevel == m_maxBatteryLevel)
-        {
-            return false;
-        }
-        m_batteryLevel += chargeAmount;
-        if (m_batteryLevel > m_maxBatteryLevel)
-        {
-            m_batteryLevel = m_maxBatteryLevel;
-        }
-        return true;
-    }
 
-    public float CheckBatteryPercent()
-    {
-        return m_batteryLevel / m_maxBatteryLevel;
-    }
     private void DepleteBattery()
     {
         if (m_batteryLevel == 0) {return;};
@@ -126,7 +149,7 @@ public class Flashlight : MonoBehaviour
             m_batteryLevel = 0;
         }
     }
-    
+
     private void CheckRaycastEnemy()
     {
         RaycastHit hitInfo;
@@ -140,6 +163,7 @@ public class Flashlight : MonoBehaviour
             }
         }
     }
+
     private IEnumerator ToFocusTransition()
     {
         StopCoroutine("ToNormalTransition");
@@ -185,6 +209,7 @@ public class Flashlight : MonoBehaviour
         m_mainCamera.fieldOfView = m_normalFov;
         m_light.intensity = m_normalIntensity;
     }
+
     private void OnFocusFlashlight(InputAction.CallbackContext context)
     {
         if (m_isFlashlightOn && m_batteryLevel != 0)
@@ -192,6 +217,7 @@ public class Flashlight : MonoBehaviour
             StartCoroutine("ToFocusTransition");
         }
     }
+
     private void OnNormalFlashlight(InputAction.CallbackContext context)
     {
         m_isFlashlightFocused = false;
