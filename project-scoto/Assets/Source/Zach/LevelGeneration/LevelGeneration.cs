@@ -23,7 +23,7 @@ using UnityEngine;
  */
 public sealed class LevelGeneration : MonoBehaviour
 {
-    public Room m_room;
+    public Room m_room, m_smallRoom, m_mediumRoom, m_largeRoom;
     public StartRoom m_startRoom;
     public EndRoom m_endRoom;
     public List<List<Room>> m_roomMatrix = new List<List<Room>>();
@@ -289,8 +289,7 @@ public sealed class LevelGeneration : MonoBehaviour
      */
     private Vector3Int CreateRoom(int x, int z)
     {
-        // Create room at position.
-        Room tempRoom = Instantiate(m_room) as Room;
+        Room tempRoom = Instantiate(m_smallRoom) as Room;
         tempRoom.SetPosition(x, z);
         tempRoom.SetRoomType(0);
         m_roomMatrix[x][z] = tempRoom;

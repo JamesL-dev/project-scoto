@@ -157,13 +157,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_enemySpawner: {fileID: 2431908015677443543, guid: 31e1fdc17033e99458531fb31e258a07, type: 3}
   m_pickupSpawner: {fileID: 8652938860529067673, guid: eb65a833ef7a3984d902b21a0806ff98, type: 3}
-  m_wall: {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
+  m_wall: {fileID: 7899368939528311498, guid: 13c7294eae8f8584a9826ef855a37afe, type: 3}
   m_wallDoor: {fileID: 4541664134235730180, guid: a8e71e74c993bc84993cd212d033d89d, type: 3}
   m_wallList:
-  - {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
-  - {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
-  - {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
-  - {fileID: 7899368939528311498, guid: 138bdf68e41e64043883469e64755f2c, type: 3}
+  - {fileID: 7899368939528311498, guid: 13c7294eae8f8584a9826ef855a37afe, type: 3}
+  - {fileID: 7899368939528311498, guid: 13c7294eae8f8584a9826ef855a37afe, type: 3}
+  - {fileID: 7899368939528311498, guid: 13c7294eae8f8584a9826ef855a37afe, type: 3}
+  - {fileID: 7899368939528311498, guid: 13c7294eae8f8584a9826ef855a37afe, type: 3}
   m_opener: {fileID: 3409597266733467619, guid: 0eeead4cf15ad7c4688b1558621da7ef, type: 3}
 --- !u!114 &1914089553225579168
 MonoBehaviour:
