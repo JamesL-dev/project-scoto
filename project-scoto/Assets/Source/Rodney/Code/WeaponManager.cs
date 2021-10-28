@@ -65,17 +65,18 @@ public class WeaponManager : MonoBehaviour
 
         if(!m_firingWeapons && m_showWeapons) 
         {
+            float ChangeWeaponVal = m_fireWeapon.ReadValue<float>();
             // IF ABLE TO FIRE WEAPONS 
-            if(m_fireWeapon.ReadValue<float>() != 0) 
+            if(ChangeWeaponVal != 0 || (Demo.On() && Demo.Attack() != 0)) 
             {
                 GameObject Object = GameObject.FindGameObjectWithTag("MainCamera");
                 m_weapon[m_currWeapon].Fire(Object.transform.position, Object.transform.rotation);
                 m_timer = m_weapon[m_currWeapon].Time();    
                 m_firingWeapons = true;
-                Demo.ResetTimer();
+                
+                if(ChangeWeaponVal != 0){ Demo.ResetTimer(); }
             }
             m_previousIndex = m_currWeapon;
-            float ChangeWeaponVal;
 
             if((ChangeWeaponVal = m_changeWeapon.ReadValue<float>()) != 0)
             {

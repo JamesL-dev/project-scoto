@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
         {
             m_movementValue = Demo.Move();
             m_jumpValue = Demo.Jump();
-            m_mouseValue = Vector2.zero;
+            m_mouseValue = Demo.Mouse();
             m_sprintingValue = Demo.Sprint();
         }
 
