@@ -49,9 +49,8 @@ public class LevelGenStressTests
         // Print results.
         if (1f / Time.deltaTime < 10f)
         {
-            GameObject levelGenerator = GameObject.Find("Level Generator");
             Debug.Log("Less than 10 FPS reached | Cycles: " + cycles + " | Level: " + LevelGeneration.Inst().GetLevelNum() +
-                      " | Rooms: " + levelGenerator.GetComponent<LevelGeneration>().GetRoomCount());
+                      " | Rooms: " + LevelGeneration.Inst().GetRoomCount());
         }
         else
         {
