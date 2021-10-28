@@ -183,7 +183,6 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected virtual void OnFlashlightHit()
     {
-        m_flashlightHit = true;
         m_state = EnemyState.Idle;
         m_agent.speed = 0;
         
@@ -194,10 +193,10 @@ public abstract class BaseEnemy : MonoBehaviour
         Vector3 difference = transform.position - playerCoords;
         if (difference.magnitude < 10.0f)
         {
-            m_state = EnemyState.Idle;
+            m_state = EnemyState.Running;
             transform.Translate(Vector3.back * m_runSpeed * Time.deltaTime);
         }
-        HaydenHelpers.StartClock(1.0f, () => m_flashlightHit = false);
+        m_flashlightHit = false;
 
     }
     protected virtual void ChasePlayer()

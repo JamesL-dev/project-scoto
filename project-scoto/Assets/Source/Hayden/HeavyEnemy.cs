@@ -16,6 +16,7 @@ public class HeavyEnemy : BaseEnemy
         m_sightRange = 10.0f;
         m_attackWait = 2.0f;
 
+
         Vector3 roomSize = m_roomIn.transform.Find("Floor").GetComponent<Collider>().bounds.size;
         m_walkPointRange = Mathf.Min(roomSize.x, roomSize.z) * 0.5f * 0.75f;
 
