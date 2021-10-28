@@ -5,9 +5,9 @@ using UnityEngine.InputSystem;
 public class Flashlight : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private float m_maxBatteryLevel;
-    [SerializeField] private float m_timeBetwenFlashlightDeplete;
-    [SerializeField] private int m_flashlightDepleteAmnt;
+    private float m_maxBatteryLevel;
+    private float m_timeBetwenFlashlightDeplete;
+    private float m_flashlightDepleteAmnt;
     [SerializeField] private AudioSource m_clickOnSound;
     [SerializeField] private AudioSource m_clickOffSound;
     [SerializeField] private Light m_light;
@@ -56,6 +56,10 @@ public class Flashlight : MonoBehaviour
     }
     private void Start()
     {
+        m_maxBatteryLevel = 100.0f;
+        m_timeBetwenFlashlightDeplete = 0.125f;
+        m_flashlightDepleteAmnt = 0.0f; // 0.25 works good
+
         m_batteryLevel = m_maxBatteryLevel;
         m_isFlashlightOn = true;
         m_light.enabled = true;
@@ -132,7 +136,7 @@ public class Flashlight : MonoBehaviour
             BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hitInfo.collider);
             if (enemy)
             {
-                enemy.HitEnemy(BaseEnemy.WeaponType.Flashlight, 100000000);
+                enemy.HitEnemy(BaseEnemy.WeaponType.Flashlight, 0);
             }
         }
     }

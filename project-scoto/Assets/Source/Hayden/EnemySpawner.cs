@@ -16,7 +16,7 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        m_totalEnemyToSpawn = 1;
+        m_totalEnemyToSpawn = 2;
         m_currEnemySpawnCount = 0;
         m_heavySpawnRate = 25; // 25%
         m_levelGenerator = LevelGeneration.Inst();

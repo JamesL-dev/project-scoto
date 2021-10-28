@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public abstract class BaseEnemy : MonoBehaviour
 {   
     protected float m_maxHealth;
+
     protected float m_damagePerHit;
 
     protected float m_sightRange;
@@ -49,6 +50,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected bool m_patrolWaiting;
     protected bool m_attackWaiting;
     protected float m_health;
+    protected bool m_flashlightHit;
 
     protected EnemyState m_state;
 
@@ -83,6 +85,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
         m_runSource.loop = true;
         m_walkSource.loop = true;
+        m_flashlightHit = false;
     }
 
     protected virtual void Update()
@@ -97,6 +100,10 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             m_state = EnemyState.Dying;
             Die();
+        }
+        else if (m_flashlightHit)
+        {
+            OnFlashlightHit();
         }
         else if (m_agent.isOnOffMeshLink)
         {
@@ -174,6 +181,25 @@ public abstract class BaseEnemy : MonoBehaviour
         m_state = EnemyState.Attacking;
     }
 
+    protected virtual void OnFlashlightHit()
+    {
+        m_flashlightHit = true;
+        m_state = EnemyState.Idle;
+        m_agent.speed = 0;
+        
+        Vector3 playerCoords = m_player.transform.position;
+        playerCoords.y = transform.position.y;
+        transform.LookAt(playerCoords);
+
+        Vector3 difference = transform.position - playerCoords;
+        if (difference.magnitude < 10.0f)
+        {
+            m_state = EnemyState.Idle;
+            transform.Translate(Vector3.back * m_runSpeed * Time.deltaTime);
+        }
+        HaydenHelpers.StartClock(1.0f, () => m_flashlightHit = false);
+
+    }
     protected virtual void ChasePlayer()
     {
         m_state = EnemyState.Running;
@@ -310,7 +336,10 @@ public abstract class BaseEnemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        m_healthBar.SetActive(true);
+        if (damage > 0)
+        {
+            m_healthBar.SetActive(true);
+        }
         m_health -= damage;
     
         if (m_health <= 0)
@@ -353,6 +382,7 @@ public abstract class BaseEnemy : MonoBehaviour
                 // Do Work
                 break;
             case WeaponType.Flashlight:
+                m_flashlightHit = true;
                 break;
             case WeaponType.AOE:
                 // Do Work
