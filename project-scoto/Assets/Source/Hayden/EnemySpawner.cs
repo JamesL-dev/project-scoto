@@ -9,14 +9,14 @@ public class EnemySpawner : MonoBehaviour
     public GameObject m_lightEnemy;
     public GameObject m_heavyEnemy;
 
-    private int m_totalEnemySpawnCount;
+    private int m_totalEnemyToSpawn;
     private int m_currEnemySpawnCount;
     private int m_heavySpawnRate;
     private LevelGeneration m_levelGenerator;
 
     void Start()
     {
-        m_totalEnemySpawnCount = 1;
+        m_totalEnemyToSpawn = 1;
         m_currEnemySpawnCount = 0;
         m_heavySpawnRate = 25; // 25%
         m_levelGenerator = LevelGeneration.Inst();
@@ -26,10 +26,9 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (m_currEnemySpawnCount < m_totalEnemySpawnCount)
+        if (m_currEnemySpawnCount < m_totalEnemyToSpawn)
         {
             SpawnEnemy();
-            m_currEnemySpawnCount++;
         }
     }
 
@@ -44,6 +43,7 @@ public class EnemySpawner : MonoBehaviour
         {
             SpawnLightEnemy();
         }
+        m_currEnemySpawnCount++;
     }
 
     private void SpawnLightEnemy()
@@ -54,5 +54,20 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnHeavyEnemy()
     {
         Instantiate(m_heavyEnemy, transform);
+    }
+
+    public void DecrementEnemy()
+    {
+        m_currEnemySpawnCount--;
+
+        if (m_currEnemySpawnCount < 0)
+        {
+            m_currEnemySpawnCount = 0;
+        }
+    }
+
+    public int GetEnemyCount()
+    {
+        return m_currEnemySpawnCount;
     }
 }

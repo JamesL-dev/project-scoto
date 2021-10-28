@@ -18,6 +18,5 @@ public class BatteryBar : MonoBehaviour
     private void Update()
     {
         m_slider.value = m_flashlight.CheckBatteryPercent();
-        Debug.Log(m_flashlight.CheckBatteryPercent());
     }
 }

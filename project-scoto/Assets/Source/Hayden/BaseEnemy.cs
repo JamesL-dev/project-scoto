@@ -126,6 +126,7 @@ public abstract class BaseEnemy : MonoBehaviour
         m_state = EnemyState.Dying;
         m_healthBar.SetActive(false);
         m_agent.speed = 0;
+
     }
 
     protected virtual void AfterDeath()
@@ -133,6 +134,7 @@ public abstract class BaseEnemy : MonoBehaviour
         m_state = EnemyState.Dead;
         SpawnEnemyLoot.SpawnLoot();
         GameObject.Destroy(gameObject, 1.0f);
+        m_enemySpawner.GetComponent<EnemySpawner>().DecrementEnemy();
     }
     protected virtual void MoveThroughDoor()
     {
