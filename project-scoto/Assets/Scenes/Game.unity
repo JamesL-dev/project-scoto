@@ -1347,12 +1347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedaf979f160a5d44be1228de761de35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_room: {fileID: 8221912916405124795, guid: 27340ba6f91c86e4db4a282f553a17cf, type: 3}
-  m_smallRoom: {fileID: 8221912916405124795, guid: 27340ba6f91c86e4db4a282f553a17cf, type: 3}
-  m_mediumRoom: {fileID: 8221912916405124795, guid: 588a88d58bdf0ba4ba67267cc310cd7a, type: 3}
-  m_largeRoom: {fileID: 8221912916405124795, guid: 8d087b90aad96fa4d8d645e1a774f91a, type: 3}
-  m_startRoom: {fileID: -3615680084213463576, guid: 3f4a4410f431bf548b95d4b0d97624fa, type: 3}
-  m_endRoom: {fileID: -5465335692254668585, guid: dcaf79274d3493140a13b83c10b28fea, type: 3}
+  m_protoRoom: {fileID: 1273511311950303163, guid: 77e289e60a2707045bf87fda97831b79, type: 3}
 --- !u!1 &1747505993
 GameObject:
   m_ObjectHideFlags: 0

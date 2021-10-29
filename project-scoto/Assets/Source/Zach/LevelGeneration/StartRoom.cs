@@ -13,14 +13,17 @@ using UnityEngine;
  */
 public class StartRoom : Room
 {
-    /* Sets up the start room by creating walls, doors, and room parts and spawning the player.
+    /* Sets up the room by creating walls and doors and spawning the player.
      *
      * Parameters:
-     * mazeWidth -- Integer for the width of the maze.
-     * mazeHeight -- Integer for the height of the maze.
+     * d -- Door list from prototype room.
+     * t -- Room type from prototype room.
      */
-    public override void Setup(int mazeWidth = 0, int mazeHeight = 0)
+    public override void Init(bool[] d, int t)
     {
+        // Store the door list.
+        m_doorList = d;
+
         // Generate walls.
         for (int i = 0; i < 4; i++)
         {
@@ -28,15 +31,17 @@ public class StartRoom : Room
             GameObject tempWall;
             if (m_doorList[i])
             {
+                // Wall with a door.
                 tempWall = Instantiate(m_wallDoor, this.transform);
-                tempWall.transform.position = m_wallPositions[i];
+                tempWall.transform.position += m_wallPositions[i];
                 tempWall.transform.eulerAngles = m_wallRotations[i];
                 tempWall.tag = m_wallDoor.tag;
             }
             else
             {
+                // Plain wall.
                 tempWall = Instantiate(m_wall, this.transform);
-                tempWall.transform.position = m_wallPositions[i];
+                tempWall.transform.position += m_wallPositions[i];
                 tempWall.transform.eulerAngles = m_wallRotations[i];
                 tempWall.tag = m_wall.tag;
             }
@@ -44,7 +49,7 @@ public class StartRoom : Room
             // Add wall to array.
             m_wallList[i] = tempWall;
         }
-        
+
         // DEBUG: Create test opener.
         m_opener = Instantiate(m_opener, transform);
         m_opener.transform.position = (transform.position + new Vector3(0, 1, 0));
