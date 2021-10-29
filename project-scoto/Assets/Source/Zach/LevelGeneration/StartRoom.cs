@@ -16,8 +16,8 @@ public class StartRoom : Room
     /* Sets up the room by creating walls and doors and spawning the player.
      *
      * Parameters:
-     * d -- Door list from prototype room.
-     * t -- Room type from prototype room.
+     * d -- Door list from ProtoRoom.
+     * t -- Room type from ProtoRoom.
      */
     public override void Init(bool[] d, int t)
     {

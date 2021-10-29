@@ -1,0 +1,18 @@
+Dynamic binding:
+  -  The Room class has a virtual Init method for setting up the room. The class has two subclasses, StartRoom and
+EndRoom, which have override Init methods to optionally add changes compared to the default, such as the StartRoom
+spawning the player.
+  -  The ProtoRoom class has a Room object that can be set to the script of a StartRoom, EndRoom, or regular Room
+GameObject. So, it dynamically binds the object based on whichever room is being created. This is demonstrated with
+the previously-mentioned Init method, where the actual version of the method being called is dependent on the
+binding.
+
+Design patterns:
+  -  The LevelGeneration class is a singleton. It has a single static instance of itself, which is created via lazy
+instantiation with Inst(), and the constructor is set to private so that no other instances can be made. Any calls
+to this class's methods are called through the static instance, LevelGeneration.Inst().SetLevelNum() for example.
+  -  The ProtoRoom is an abstract factory. Its name is misleading because I had assumed before making it that it
+would become a prototype, but it turned out that abstract factory was most similar to its purpose. Instead of
+creating rooms directly, the level generator only creates ProtoRooms, which then create different types of rooms.
+This allows me to more effectively control the creation of GameObjects when multiple of them have the same class or
+when classes have subclasses.

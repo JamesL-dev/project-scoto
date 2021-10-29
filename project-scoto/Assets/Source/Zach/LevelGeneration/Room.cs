@@ -18,7 +18,7 @@ using UnityEngine;
  * m_opener -- GameObject for a test pickup to open doors.
  * m_wallPositions -- Vector3 for the preset positions of the 4 walls of a room.
  * m_wallRotations -- Vector3 for the preset rotations of the 4 walls of a room.
- * m_doorList -- Array of booleans copied from the room's prototype.
+ * m_doorList -- Array of booleans copied from the room's factory.
  * m_isCleared -- Boolean that stores if a room has been cleared or not.
  * m_timer -- Integer for the number of frames since the room was created.
  */
@@ -74,8 +74,8 @@ public class Room : MonoBehaviour
     /* Sets up the room by creating walls and doors and spawning the player.
      *
      * Parameters:
-     * d -- Door list from prototype room.
-     * t -- Room type from prototype room.
+     * d -- Door list from ProtoRoom.
+     * t -- Room type from ProtoRoom.
      */
     public virtual void Init(bool[] d, int t)
     {

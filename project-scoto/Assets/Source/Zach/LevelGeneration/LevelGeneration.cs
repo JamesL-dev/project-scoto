@@ -12,7 +12,7 @@ using UnityEngine;
  * Singleton that procedurally generates each level's layout and controls the creation of each room within the level.
  *
  * Member variables:
- * m_protoRoom -- Prototype room prefab for generating the layout.
+ * m_protoRoom -- Abstract factory prefab for generating the layout.
  * m_roomMatrix -- 2D List of ProtoRoom prefabs to store the layout.
  * m_instance -- Static intance of itself for the Singleton pattern.
  * m_mwScaling -- Const float for the maze width scaling as the level number increases.

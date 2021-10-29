@@ -1,4 +1,4 @@
 Prefab: ProtoRoom
-Purpose: A prototype room used for generating the maze layout.
+Purpose: An abstract factory used for generating the maze layout.
 Interactions: This prefab is instantiated during the first part of the level generation. Every room is first
-created as a prototype room, which then creates the actual room.
+created as a ProtoRoom, which then creates the actual room.

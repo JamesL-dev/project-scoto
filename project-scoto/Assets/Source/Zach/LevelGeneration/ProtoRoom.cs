@@ -1,7 +1,7 @@
 /*
  * Filename: ProtoRoom.cs
  * Developer: Zachariah Preston
- * Purpose: Prototype room for the maze generation that later creates an actual room.
+ * Purpose: Abstract factory for the maze generation that later creates an actual room.
  */
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +21,7 @@ Room type list
 
 
 /*
- * Prototype room for the maze generation that later creates an actual room.
+ * Abstract factory for the maze generation that later creates an actual room.
  *
  * Member variables:
  * m_startRoom -- GameObject for the start room prefab.
@@ -46,7 +46,7 @@ public class ProtoRoom : MonoBehaviour
     private bool[] m_doorList = new bool[] {false, false, false, false};
     private const int m_roomSpread = 44;
 
-    /* Sets up the prototype room by setting position and choosing which room to instantiate.
+    /* Sets up the abstract factory by setting position and choosing which room to instantiate.
      *
      * Parameters:
      * mazeWidth -- Integer for the width of the maze.
@@ -62,7 +62,7 @@ public class ProtoRoom : MonoBehaviour
         // Create room based on type.
         if (GetRoomType() < 0)
         {
-            Debug.LogError("Error: Prototype room has undefined type in setup().");
+            Debug.LogError("Error: ProtoRoom has undefined type in Init().");
         }
         else if (GetRoomType() == 0)
         {
