@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     
     /* Sets up the input actions.
      */
-    private void Awake()
+    void Awake()
     {
         m_playerInputActions = new PlayerInputActions();
         m_movement = m_playerInputActions.Player.Movement;
@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
     /* Enambles the input actions when the player is enabled.
      */
-    private void OnEnable()
+    void OnEnable()
     {
         m_movement.Enable();
         m_jumping.Enable();
@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
 
     /* Disables the input actions when the player is disabled.
      */
-    private void OnDisable()
+    void OnDisable()
     {
         m_movement.Disable();
         m_jumping.Disable();
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
     /* Gets the inputs for the player (either from the input actions or the demo) and rotates the player camera.
      */
-    private void Update()
+    void Update()
     {
         // Get inputs from input actions.
         m_movementValue = m_movement.ReadValue<Vector2>();
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
 
     /* Moves the player.
      */
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         MovePlayer();
     }

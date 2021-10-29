@@ -53,8 +53,8 @@ public sealed class LevelGeneration : MonoBehaviour
         endRoom.SetDoors(new bool[4] {false, false, true, false});
         m_roomCount++;
 
-        // DEBUG: Print visualization of level.
-        Inst().PrintLevel();
+        // // DEBUG: Print visualization of level.
+        // Inst().PrintLevel();
 
 
         //////////////// PART 2: Initialize rooms ////////////////

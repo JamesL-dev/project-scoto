@@ -19,7 +19,7 @@ public class LevelCompleteDetector : MonoBehaviour
      * Parameters:
      * other -- Collider for the GameObject that activated the trigger. Checks if it's the player.
      */
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {

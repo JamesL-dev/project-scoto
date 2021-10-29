@@ -26,14 +26,14 @@ public class Door : MonoBehaviour
 
     /* Sets the shader to transparent.
      */
-    private void Awake()
+    void Awake()
     {
         GetComponent<MeshRenderer>().material.shader = Shader.Find("Transparent/Diffuse");
     }
 
     /* If the door is opened, fades it away and then delete it.
      */
-    private void Update()
+    void Update()
     {
         if (m_isOpening)
         {
