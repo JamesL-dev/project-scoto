@@ -1,0 +1,4 @@
+Prefab: MediumWall
+Purpose: A wall without a door in a medium room instance.
+Interactions: This prefab is instantiated whenever a medium room has a wall with no door. GameObjects cannot pass
+through it.

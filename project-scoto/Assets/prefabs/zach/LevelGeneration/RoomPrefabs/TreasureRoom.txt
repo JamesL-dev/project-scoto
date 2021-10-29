@@ -1,0 +1,4 @@
+Prefab: TreasureRoom
+Purpose: An instance of a treasure room for generating the maze.
+Interactions: This prefab is instantiated during the level generation process every time that a dead-edn is reached.
+It creates four walls and a treasure.

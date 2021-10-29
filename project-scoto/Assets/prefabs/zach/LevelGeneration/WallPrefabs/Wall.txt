@@ -1,3 +1,0 @@
-Prefab: Wall
-Purpose: A wall without a door in a room instance.
-Interactions: This prefab is instantiated whenever a room has a wall with no door. GameObjects cannot pass through it.

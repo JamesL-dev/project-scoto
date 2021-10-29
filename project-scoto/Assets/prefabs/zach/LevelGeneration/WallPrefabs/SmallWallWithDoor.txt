@@ -1,0 +1,4 @@
+Prefab: SmallWallWithDoor
+Purpose: A wall with a door in a small room instance.
+Interactions: This prefab is instantiated whenever a small room has a wall with a door. GameObjects cannot pass
+through it. When all enemies within the room are defeated, the door will open.

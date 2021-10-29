@@ -1,0 +1,4 @@
+Prefab: MediumRoom
+Purpose: An instance of a medium room for generating the maze.
+Interactions: This prefab can be instantiated multiple times during the level generation process. It creates four
+walls and any enemies, pickups, etc. within the room.
