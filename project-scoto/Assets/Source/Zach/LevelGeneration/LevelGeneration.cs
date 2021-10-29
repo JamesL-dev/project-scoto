@@ -12,10 +12,9 @@ using UnityEngine;
  * Singleton that procedurally generates each level's layout and controls the creation of each room within the level.
  *
  * Member variables:
- * m_room -- Room prefab for generating the layout.
- * m_startRoom -- StartRoom prefab for generating the start room.
- * m_endRoom -- EndRoom prefab for generating the end room.
- * m_roomMatrix -- 2D List of Room prefabs to store the layout.
+ * m_protoRoom -- Prototype room prefab for generating the layout.
+ * m_roomMatrix -- 2D List of ProtoRoom prefabs to store the layout.
+ * m_instance -- Static intance of itself for the Singleton pattern.
  * m_mwScaling -- Const float for the maze width scaling as the level number increases.
  * m_mhScaling -- Const float for the maze height scaling as the level number increases.
  * m_levelNum -- Class variable int for the current level number.
@@ -23,58 +22,78 @@ using UnityEngine;
  */
 public sealed class LevelGeneration : MonoBehaviour
 {
-    public Room m_room;
-    public StartRoom m_startRoom;
-    public EndRoom m_endRoom;
-    public List<List<Room>> m_roomMatrix = new List<List<Room>>();
+    public ProtoRoom m_protoRoom;
+    public List<List<ProtoRoom>> m_roomMatrix = new List<List<ProtoRoom>>();
 
     private static LevelGeneration m_instance;
     private const float m_mwScaling = 0.1f, m_mhScaling = 0.2f;
     private int m_levelNum = 1;
     private int m_roomCount = 0;
 
-    /* Initializes the level generation, and creates the start and end rooms.
+    /* Generates the level.
      */
-    private void Start()
+    void Start()
     {
-        // Make start room via dynamic binding.
-        Room startRoom = Instantiate(m_startRoom) as StartRoom;
-        bool[] startRoomDoors = new bool[4] {true, false, false, false};
-        startRoom.SetValues(0, 0, startRoomDoors, 1);
-        startRoom.Setup();
-        m_roomCount++;
+        //////////////// PART 1: Generate level ////////////////
 
-        // Procedurally generate level layout.
+        // Procedurally generate maze layout.
         Inst().GenerateLayout(m_levelNum);
 
-        // // DEBUG: Print visualization of level.
-        // Inst().PrintLevel();
+        // Make start room.
+        ProtoRoom startRoom = Instantiate(m_protoRoom) as ProtoRoom;
+        startRoom.SetPosition((m_roomMatrix.Count - 1) / 2, -1);
+        startRoom.SetRoomType(0);
+        startRoom.SetDoors(new bool[4] {true, false, false, false});
+        m_roomCount++;
+
+        // Make end room.
+        ProtoRoom endRoom = Instantiate(m_protoRoom) as ProtoRoom;
+        endRoom.SetPosition((m_roomMatrix.Count - 1) / 2, m_roomMatrix[0].Count);
+        endRoom.SetRoomType(1);
+        endRoom.SetDoors(new bool[4] {false, false, true, false});
+        m_roomCount++;
+
+        // DEBUG: Print visualization of level.
+        Inst().PrintLevel();
+
+
+        //////////////// PART 2: Initialize rooms ////////////////
   
-        // Loop through matrix to finish building rooms.
+        // Loop through matrix to initialize rooms.
         for (int x = 0; x < m_roomMatrix.Count; x++)
         {
             for (int z = 0; z < m_roomMatrix[x].Count; z++)
             {
-                // Identify treasure rooms.
-                if (Inst().IsTreasure(x, z))
-                {
-                    m_roomMatrix[x][z].SetRoomType(3);
-                }
-            
-                // Set up rooms.
+                // Check if room exists at this location.
                 if (m_roomMatrix[x][z] != null)
                 {
-                    m_roomMatrix[x][z].Setup(m_roomMatrix.Count, m_roomMatrix[x].Count);
+                    // Choose room types.
+                    if (Inst().IsTreasure(x, z))
+                    {
+                        // If it's a dead-end, make it a treasure room.
+                        m_roomMatrix[x][z].SetRoomType(2);
+                    }
+                    else
+                    {
+                        // Otherwise, randomly pick a size.
+                        int size = Random.Range(3, 6); // returns 3, 4, or 5
+                        m_roomMatrix[x][z].SetRoomType(size);
+                    }
+                
+                    // Set up rooms.
+                    if (m_roomMatrix[x][z] != null)
+                    {
+                        m_roomMatrix[x][z].Init(m_roomMatrix.Count);
+                    }
                 }
             }
         }
+        
+        // Initialize start room via dynamic binding.
+        startRoom.Init(m_roomMatrix.Count);
 
-        // Make end room via dynamic binding.
-        Room endRoom = Instantiate(m_endRoom) as EndRoom;
-        bool[] endRoomDoors = new bool[4] {false, false, true, false};
-        endRoom.SetValues(0, m_roomMatrix[0].Count, endRoomDoors, 2);
-        endRoom.Setup();
-        m_roomCount++;
+        // Initialize end room via dynamic binding.
+        endRoom.Init(m_roomMatrix.Count);
     }
 
     /* Gets a reference to the instance of the singleton, creating the instance if necessary.
@@ -90,12 +109,59 @@ public sealed class LevelGeneration : MonoBehaviour
         return m_instance;
     }
 
+    /* Sets the level number.
+     *
+     * Parameters:
+     * level -- Integer for the level number to set to.
+     */
+    public void SetLevelNum(int level)
+    {
+        if (level < 0)
+        {
+            Debug.LogWarning("Warning: Level number is less than 0, setting to 0 instead.");
+            m_levelNum = 0;
+        }
+        else if (level > 100)
+        {
+            Debug.LogWarning("Warning: Level number is over 100, setting to 100 instead.");
+            m_levelNum = 100;
+        }
+        else
+        {
+            m_levelNum = level;
+        }
+    }
+
+    /* Gets the level number.
+     *
+     * Returns:
+     * int -- Current level number.
+     */
+    public int GetLevelNum()
+    {
+        return m_levelNum;
+    }
+
+    /* Gets the room count.
+     *
+     * Returns:
+     * int -- Current number of rooms.
+     */
+    public int GetRoomCount()
+    {
+        return m_roomCount;
+    }
+
+    /* Makes the singleton's constructor static.
+     */
+    private LevelGeneration() {}
+
     /* Generates the maze layout.
      *
      * Parameters:
      * level -- Integer for the level number to generate for.
      */
-    public void GenerateLayout(int level)
+    private void GenerateLayout(int level)
     {
         // Choose the width-height variance.
         float sizeSeed = Random.value;
@@ -114,7 +180,7 @@ public sealed class LevelGeneration : MonoBehaviour
         // Set up empty level layout.
         for (int x = 0; x < mazeWidth; x++)
         {
-            m_roomMatrix.Add(new List<Room>());
+            m_roomMatrix.Add(new List<ProtoRoom>());
             for (int z = 0; z < mazeHeight; z++)
             {
                 m_roomMatrix[x].Add(null);
@@ -231,53 +297,6 @@ public sealed class LevelGeneration : MonoBehaviour
         }
     }
 
-    /* Sets the level number.
-     *
-     * Parameters:
-     * level -- Integer for the level number to set to.
-     */
-    public void SetLevelNum(int level)
-    {
-        if (level < 0)
-        {
-            Debug.LogWarning("Warning: Level number is less than 0, setting to 0 instead.");
-            m_levelNum = 0;
-        }
-        else if (level > 100)
-        {
-            Debug.LogWarning("Warning: Level number is over 100, setting to 100 instead.");
-            m_levelNum = 100;
-        }
-        else
-        {
-            m_levelNum = level;
-        }
-    }
-
-    /* Gets the level number.
-     *
-     * Returns:
-     * int -- Current level number.
-     */
-    public int GetLevelNum()
-    {
-        return m_levelNum;
-    }
-
-    /* Gets the room count.
-     *
-     * Returns:
-     * int -- Current number of rooms.
-     */
-    public int GetRoomCount()
-    {
-        return m_roomCount;
-    }
-
-    /* Makes the singleton's constructor static.
-     */
-    private LevelGeneration() {}
-
     /* Creates one room within the maze.
      *
      * Parameters:
@@ -289,10 +308,8 @@ public sealed class LevelGeneration : MonoBehaviour
      */
     private Vector3Int CreateRoom(int x, int z)
     {
-        // Create room at position.
-        Room tempRoom = Instantiate(m_room) as Room;
+        ProtoRoom tempRoom = Instantiate(m_protoRoom) as ProtoRoom;
         tempRoom.SetPosition(x, z);
-        tempRoom.SetRoomType(0);
         m_roomMatrix[x][z] = tempRoom;
 
         // Increase room counter.
@@ -303,6 +320,34 @@ public sealed class LevelGeneration : MonoBehaviour
         tempPos.x = x;
         tempPos.z = z;
         return tempPos;
+    }
+
+    /* Determines if a room is a dead-end and should be a treasure room.
+     *
+     * Parameters:
+     * x -- Integer for the room's x position within the level layout grid.
+     * z -- Integer for the room's z position within the level layout grid.
+     *
+     * Returns:
+     * bool -- If the room should be a treasure room or not.
+     */
+    private bool IsTreasure(int x, int z)
+    {
+        // Test if the room exists.
+        if (m_roomMatrix[x][z] != null)
+        {
+            // If so, return true if the room has exactly one door.
+            bool[] doors = m_roomMatrix[x][z].GetDoors();
+            return (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == true ||
+                    doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == false ||
+                    doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == false ||
+                    doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == false);
+        }
+        else
+        {
+            // If not, return false.
+            return false;
+        }
     }
 
     /* DEBUG: Prints the maze to the console.
@@ -420,34 +465,6 @@ public sealed class LevelGeneration : MonoBehaviour
         else
         {
             return "[  ] ";
-        }
-    }
-
-    /* Determines if a room is a dead-end and should be a treasure room.
-     *
-     * Parameters:
-     * x -- Integer for the room's x position within the level layout grid.
-     * z -- Integer for the room's z position within the level layout grid.
-     *
-     * Returns:
-     * bool -- If the room should be a treasure room or not.
-     */
-    private bool IsTreasure(int x, int z)
-    {
-        // Test if the room exists.
-        if (m_roomMatrix[x][z] != null)
-        {
-            // If so, return true if the room has exactly one door.
-            bool[] doors = m_roomMatrix[x][z].GetDoors();
-            return (doors[0] == false && doors[1] == false && doors[2] == false && doors[3] == true ||
-                    doors[0] == false && doors[1] == false && doors[2] == true && doors[3] == false ||
-                    doors[0] == false && doors[1] == true && doors[2] == false && doors[3] == false ||
-                    doors[0] == true && doors[1] == false && doors[2] == false && doors[3] == false);
-        }
-        else
-        {
-            // If not, return false.
-            return false;
         }
     }
 }

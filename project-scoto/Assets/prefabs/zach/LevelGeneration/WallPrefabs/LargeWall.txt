@@ -1,0 +1,4 @@
+Prefab: LargeWall
+Purpose: A wall without a door in a large room instance.
+Interactions: This prefab is instantiated whenever a large room has a wall with no door. GameObjects cannot pass
+through it.

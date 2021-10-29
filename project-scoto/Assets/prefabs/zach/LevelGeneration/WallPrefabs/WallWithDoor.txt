@@ -1,4 +1,0 @@
-Prefab: WallWithDoor
-Purpose: A wall with a door in a room instance.
-Interactions: This prefab is instantiated whenever a room has a wall with a door. GameObjects cannot pass through it.
-When all enemies within the room are defeated, the door will open.

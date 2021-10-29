@@ -1,0 +1,4 @@
+Prefab: SmallWall
+Purpose: A wall without a door in a small room instance.
+Interactions: This prefab is instantiated whenever a small room has a wall with no door. GameObjects cannot pass
+through it.
