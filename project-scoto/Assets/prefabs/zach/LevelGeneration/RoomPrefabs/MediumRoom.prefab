@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2704893925004477637}
   - component: {fileID: 8221912916405124795}
-  - component: {fileID: 6088768019083111423}
   m_Layer: 6
   m_Name: MediumRoom
   m_TagString: Room
@@ -47,8 +46,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 328ab668cef1abc4ab61a54ab4f7f075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_enemySpawner: {fileID: 2431908015677443543, guid: 31e1fdc17033e99458531fb31e258a07, type: 3}
-  m_pickupSpawner: {fileID: 8652938860529067673, guid: eb65a833ef7a3984d902b21a0806ff98, type: 3}
   m_wall: {fileID: 7899368939528311498, guid: e6fd9e2664877074e91626b94b03e26a, type: 3}
   m_wallDoor: {fileID: 4541664134235730180, guid: ebf1e3f9654d6544cae8568ee9e66056, type: 3}
   m_wallList:
@@ -57,35 +54,6 @@ MonoBehaviour:
   - {fileID: 7899368939528311498, guid: e6fd9e2664877074e91626b94b03e26a, type: 3}
   - {fileID: 7899368939528311498, guid: e6fd9e2664877074e91626b94b03e26a, type: 3}
   m_opener: {fileID: 3409597266733467619, guid: 0eeead4cf15ad7c4688b1558621da7ef, type: 3}
---- !u!114 &6088768019083111423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2704893925004477638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1579f010ecce3ad47b7b09806317c522, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AgentTypeID: 0
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: dc202a93d77c60742bab76db94b43b61, type: 2}
 --- !u!1 &2704893925704699748
 GameObject:
   m_ObjectHideFlags: 0

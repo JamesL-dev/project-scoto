@@ -44,6 +44,7 @@ public sealed class LevelGeneration : MonoBehaviour
         startRoom.SetPosition((m_roomMatrix.Count - 1) / 2, -1);
         startRoom.SetRoomType(0);
         startRoom.SetDoors(new bool[4] {true, false, false, false});
+        startRoom.transform.parent = transform;
         m_roomCount++;
 
         // Make end room.
@@ -51,6 +52,7 @@ public sealed class LevelGeneration : MonoBehaviour
         endRoom.SetPosition((m_roomMatrix.Count - 1) / 2, m_roomMatrix[0].Count);
         endRoom.SetRoomType(1);
         endRoom.SetDoors(new bool[4] {false, false, true, false});
+        endRoom.transform.parent = transform;
         m_roomCount++;
 
         // // DEBUG: Print visualization of level.
@@ -94,6 +96,8 @@ public sealed class LevelGeneration : MonoBehaviour
 
         // Initialize end room via dynamic binding.
         endRoom.Init(m_roomMatrix.Count);
+
+        NavMeshBaker.CreateLevelMesh();
     }
 
     /* Gets a reference to the instance of the singleton, creating the instance if necessary.
@@ -311,6 +315,7 @@ public sealed class LevelGeneration : MonoBehaviour
         ProtoRoom tempRoom = Instantiate(m_protoRoom) as ProtoRoom;
         tempRoom.SetPosition(x, z);
         m_roomMatrix[x][z] = tempRoom;
+        tempRoom.transform.parent = transform;
 
         // Increase room counter.
         m_roomCount++;

@@ -70,17 +70,9 @@ public class Door : MonoBehaviour
     */
     public void DisappearDoor()
     {
-        GameObject link = new GameObject("link");
-        link.transform.parent = transform;
-        NavMeshLink meshLink = link.AddComponent<NavMeshLink>();
-
-        meshLink.startPoint = new Vector3(0.0f, -2.5f,  1f);
-        meshLink.startPoint += transform.position;
-        meshLink.endPoint = new Vector3(0.0f, -2.5f, -1f);
-        meshLink.endPoint += transform.position;
-        meshLink.width = 2;
         gameObject.GetComponent<Renderer>().enabled = false;
         gameObject.GetComponent<Collider>().enabled = false;
+        NavMeshBaker.CreateLevelMesh();
     }
 }
 
