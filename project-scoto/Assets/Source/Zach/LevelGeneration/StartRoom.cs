@@ -16,8 +16,8 @@ public class StartRoom : Room
     /* Sets up the room by creating walls and doors and spawning the player.
      *
      * Parameters:
-     * d -- Door list from prototype room.
-     * t -- Room type from prototype room.
+     * d -- Door list from ProtoRoom.
+     * t -- Room type from ProtoRoom.
      */
     public override void Init(bool[] d, int t)
     {
@@ -49,10 +49,6 @@ public class StartRoom : Room
             // Add wall to array.
             m_wallList[i] = tempWall;
         }
-
-        // DEBUG: Create test opener.
-        m_opener = Instantiate(m_opener, transform);
-        m_opener.transform.position = (transform.position + new Vector3(0, 1, 0));
 
         // Spawn player.
         GameObject player = GameObject.Find("Player");

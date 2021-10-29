@@ -18,18 +18,19 @@ using UnityEngine;
  * m_opener -- GameObject for a test pickup to open doors.
  * m_wallPositions -- Vector3 for the preset positions of the 4 walls of a room.
  * m_wallRotations -- Vector3 for the preset rotations of the 4 walls of a room.
- * m_doorList -- Array of booleans copied from the room's prototype.
+ * m_doorList -- Array of booleans copied from the room's factory.
  * m_isCleared -- Boolean that stores if a room has been cleared or not.
+ * m_timer -- Integer for the number of frames since the room was created.
  */
 public class Room : MonoBehaviour
 {
     public GameObject m_wall, m_wallDoor;
     public GameObject[] m_wallList = new GameObject[4];
-    public GameObject m_opener; // DEBUG
 
     protected Vector3[] m_wallPositions = new Vector3[4], m_wallRotations = new Vector3[4];
     protected bool[] m_doorList = new bool[] {false, false, false, false};
     protected bool m_isCleared = false;
+    protected int m_timer = 0;
 
     /* Sets preset values for wall positions and rotations.
      */
@@ -43,16 +44,29 @@ public class Room : MonoBehaviour
      */
     void Update()
     {
-        // DEBUG: Detect if pickup is deleted.
-        if (m_opener == null && !m_isCleared)
+        // Wait for a bit after the room is created so that the doors don't open before the enemies have spawned.
+        if (m_timer < 30)
+        {
+            m_timer++;
+            return;
+        }
+
+        // Detect if all enemies are defeated.
+        int enemyCount = 0;
+        EnemySpawner enemySpawner = GetComponentInChildren<EnemySpawner>();
+        if (enemySpawner != null)
+        {
+            enemyCount = enemySpawner.GetEnemyCount();
+        }
+
+        // If so, open the doors.
+        if (enemyCount == 0 && !m_isCleared)
         {
             m_isCleared = true;
             for (int i = 0; i < 4; i++)
             {
                 if (m_doorList[i])
-                {
                     m_wallList[i].GetComponentInChildren<Door>().OpenDoor();
-                }
             }
         }
     }
@@ -60,8 +74,8 @@ public class Room : MonoBehaviour
     /* Sets up the room by creating walls and doors and spawning the player.
      *
      * Parameters:
-     * d -- Door list from prototype room.
-     * t -- Room type from prototype room.
+     * d -- Door list from ProtoRoom.
+     * t -- Room type from ProtoRoom.
      */
     public virtual void Init(bool[] d, int t)
     {
@@ -103,10 +117,6 @@ public class Room : MonoBehaviour
             // Add wall to array.
             m_wallList[i] = tempWall;
         }
-
-        // DEBUG: Create test opener.
-        m_opener = Instantiate(m_opener, transform);
-        m_opener.transform.position = (transform.position + new Vector3(0, 1, 0));
     }
 
     /* Sets preset values for wall positions and rotations.
