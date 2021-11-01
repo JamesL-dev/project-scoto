@@ -17,20 +17,20 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] protected LayerMask m_groundMask;
     [SerializeField] protected LayerMask m_playerMask;
     [SerializeField] protected AudioClip m_walkSourceClip;
-    [SerializeField] protected AudioClip m_runSourceClip;
     [SerializeField] protected AudioClip m_attackSourceClip;
     [SerializeField] protected AudioClip m_dieSourceClip;
     [SerializeField] protected AudioClip m_idleSourceClip;
+    [SerializeField] protected AudioClip m_hurtSourceClip;
 
     protected float m_maxHealth;
     protected float m_damagePerHit;
     protected float m_sightRange;
     protected float m_attackRange;
     protected AudioSource m_walkSource;
-    protected AudioSource m_runSource;
     protected AudioSource m_dieSource;
     protected AudioSource m_idleSource;
     protected AudioSource m_attackSource;
+    protected AudioSource m_hurtSource;
     protected Transform m_player;
     protected Animator m_animator;
     protected NavMeshAgent m_agent;
@@ -83,37 +83,6 @@ public abstract class BaseEnemy : MonoBehaviour
     public float GetAttackRange() {return m_attackRange;}
 
     /*
-    * This function is ONLY to be used for animation purposes. On certain
-    * animation events (like right after the death animation ends), a call to
-    * this function will be made to allow a certain action to occur, 
-      (like triggering the AfterDeath() method)
-    *
-    * Parameters:
-    * message - the message the animation sends to cause an action to occur
-    */
-    public virtual void AlertObservers(string message)
-    {
-        if (message.Equals("EnemyAttacked"))
-        {
-            if (m_playerInAttackRange)
-            {
-                // player.TakeDamage(m_damagePerHit);
-            }
-        }
-
-        if (message.Equals("AttackAnimationEnded"))
-        {
-            m_attackWaiting = true;
-            HaydenHelpers.StartClock(m_attackWait, () => m_attackWaiting = false);
-        }
-
-        if (message.Equals("DeathAnimationEnded"))
-        {
-           AfterDeath();
-        }
-    }
-
-    /*
     * Determines if a collider belongs to an enemy
     *
     * Returns:
@@ -164,6 +133,7 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             m_health = m_maxHealth;
         }
+        m_healthBar.SetHealth(GetHealthPercent());
     }
 
     /*
@@ -175,16 +145,23 @@ public abstract class BaseEnemy : MonoBehaviour
     */
     public void HitEnemy(WeaponType weaponType, float damage)
     {
+        TakeDamage(damage);
         switch(weaponType)
         {
             case WeaponType.Arrow:
-                // Do Work
+                if (m_state != EnemyState.Dying)
+                {
+                    m_hurtSource.Play();
+                }
                 break;
             case WeaponType.Grenade:
                 // Do Work
                 break;
             case WeaponType.Trident:
-                // Do Work
+                if (m_state != EnemyState.Dying)
+                {
+                    m_hurtSource.Play();
+                }
                 break;
             case WeaponType.Flashlight:
                 m_flashlightHit = true;
@@ -195,7 +172,6 @@ public abstract class BaseEnemy : MonoBehaviour
             default:
                 break;
         }
-        TakeDamage(damage);
     }
 
     /*
@@ -217,6 +193,7 @@ public abstract class BaseEnemy : MonoBehaviour
         Idle,
         Walking,
         Running,
+        Roaring,
         Attacking,
         Dying,
         Dead
@@ -233,9 +210,21 @@ public abstract class BaseEnemy : MonoBehaviour
         m_enemySpawner = transform.parent.gameObject;
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
         Initialize();
+        m_walkSource = gameObject.AddComponent<AudioSource>();
+        m_idleSource = gameObject.AddComponent<AudioSource>();
+        m_attackSource = gameObject.AddComponent<AudioSource>();
+        m_dieSource = gameObject.AddComponent<AudioSource>();
+        m_hurtSource = gameObject.AddComponent<AudioSource>();
+
+        m_walkSource.clip = m_walkSourceClip;
+        m_idleSource.clip = m_idleSourceClip;
+        m_attackSource.clip = m_attackSourceClip;
+        m_dieSource.clip = m_dieSourceClip;
+        m_hurtSource.clip = m_hurtSourceClip;
+
         m_healthBar = transform.Find("HealthBar").GetComponent<HealthBar>();
         m_healthBar.SetActive(false);
         m_animator = GetComponent<Animator>();
@@ -245,9 +234,24 @@ public abstract class BaseEnemy : MonoBehaviour
         m_attackWaiting = false;
         m_agent.speed = m_walkSpeed;
         m_state = EnemyState.Idle;
+        Vector3 roomSize = m_roomIn.transform.Find("Floor").GetComponent<Collider>().bounds.size;
+        m_walkPointRange = Mathf.Min(roomSize.x, roomSize.z) * 0.5f * 0.75f;
 
-        m_runSource.loop = true;
-        m_walkSource.loop = true;
+        m_walkSource.volume = 0.5f;
+        m_walkSource.spatialBlend = 1.0f;
+        m_walkSource.maxDistance = 25.0f;
+        m_walkSource.rolloffMode = AudioRolloffMode.Linear;
+
+        m_hurtSource.volume = 0.5f;
+        m_hurtSource.spatialBlend = 1.0f;
+        m_hurtSource.maxDistance = 25.0f;
+        m_hurtSource.rolloffMode = AudioRolloffMode.Linear;
+
+        m_dieSource.volume = 0.5f;
+        m_dieSource.spatialBlend = 1.0f;
+        m_dieSource.maxDistance = 25.0f;
+        m_dieSource.rolloffMode = AudioRolloffMode.Linear;
+
         m_flashlightHit = false;
     }
 
@@ -256,8 +260,6 @@ public abstract class BaseEnemy : MonoBehaviour
         m_playerInSightRange = Physics.CheckSphere(transform.position, m_sightRange, m_playerMask);
         m_playerInAttackRange = Physics.CheckSphere(transform.position, m_attackRange, m_playerMask);
 
-        m_runSource.Pause();
-        m_walkSource.Pause();
 
         if (m_health <= 0)
         {
@@ -267,13 +269,6 @@ public abstract class BaseEnemy : MonoBehaviour
         else if (m_flashlightHit)
         {
             OnFlashlightHit();
-        }
-        else if (m_agent.isOnOffMeshLink)
-        {
-            if (m_state == EnemyState.Walking || m_state == EnemyState.Running)
-            {
-                MoveThroughDoor();
-            }
         }
         else if (m_playerInAttackRange)
         {
@@ -296,6 +291,7 @@ public abstract class BaseEnemy : MonoBehaviour
         m_state = EnemyState.Dying;
         m_healthBar.SetActive(false);
         m_agent.speed = 0;
+        
 
     }
 
@@ -400,6 +396,7 @@ public abstract class BaseEnemy : MonoBehaviour
             m_patrolWaiting = true;
             m_agent.speed = 0;
             m_state = EnemyState.Idle;
+            m_agent.SetDestination(transform.position);
 
             // sets patrolwaiting to false after certain amount of time
             HaydenHelpers.StartClock(m_walkPointWait, () => m_patrolWaiting = false);
@@ -412,7 +409,6 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             case EnemyState.Dying:
                 HaydenHelpers.SetAnimation(m_animator, "isDying");
-                m_dieSource.Play();
                 // Die Animations and sound
                 break;
             case EnemyState.Attacking:
@@ -421,16 +417,11 @@ public abstract class BaseEnemy : MonoBehaviour
                 // Attack animations and sound
                 break;
             case EnemyState.Running:
-                if (!m_runSource.isPlaying)
-                {
-                    m_runSource.Play();
-                }
                 HaydenHelpers.SetAnimation(m_animator, "isRunning");
                 // running animations and sound
                 break;
             case EnemyState.Walking:
                 HaydenHelpers.SetAnimation(m_animator, "isWalking");
-                m_walkSource.Play();
                 // walking animations and sound
                 break;
             case EnemyState.Idle:
@@ -453,6 +444,50 @@ public abstract class BaseEnemy : MonoBehaviour
         if (NavMesh.SamplePosition(m_walkPoint, out hit, 1f, NavMesh.AllAreas))
         {
             m_walkPointSet = true;
+        }
+    }
+
+    /*
+    * This function is ONLY to be used for animation purposes. On certain
+    * animation events (like right after the death animation ends), a call to
+    * this function will be made to allow a certain action to occur, 
+      (like triggering the AfterDeath() method)
+    *
+    * Parameters:
+    * message - the message the animation sends to cause an action to occur
+    */
+    protected virtual void AlertObservers(string message)
+    {
+        if (message.Equals("EnemyAttacked"))
+        {
+            if (m_playerInAttackRange)
+            {
+                // player.TakeDamage(m_damagePerHit);
+            }
+        }
+
+        if (message.Equals("FootTouchedFloor"))
+        {
+            m_walkSource.Play();
+        }
+
+        if (message.Equals("AttackAnimationEnded"))
+        {
+            m_attackWaiting = true;
+            HaydenHelpers.StartClock(m_attackWait, () => m_attackWaiting = false);
+        }
+
+        if (message.Equals("DeathAnimationEnded"))
+        {
+           AfterDeath();
+        }
+
+        if (message.Equals("DeathAnimationStarted"))
+        {
+            if (!m_dieSource.isPlaying)
+            {
+                m_dieSource.Play();
+            }
         }
     }
 }

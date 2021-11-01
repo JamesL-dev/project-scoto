@@ -143,10 +143,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_clickOnSound: {fileID: 3782002241604836208}
   m_clickOffSound: {fileID: 3459933559808279941}
-  m_light: {fileID: 3645812484220129344}
-  m_normalFlashlightAngle: 100
-  m_focusFlashlightAngle: 50
-  m_focusZoomLvl: 2
   m_inputActionMap:
     m_Name: Input
     m_Id: 5a94e0ca-64ea-49b3-aa71-4d05d3145849
@@ -210,7 +206,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3eec346bc7667d54c9a070523d5a0a8f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -306,7 +302,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 744dcab78e07a6b46b32caf3adfbc5c8, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 0
   Mute: 0

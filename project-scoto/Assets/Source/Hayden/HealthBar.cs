@@ -16,7 +16,6 @@ public class HealthBar : MonoBehaviour
 {
     private GameObject m_camera;
     private Slider m_slider;
-    private BaseEnemy m_enemy;
 
     /* Turns the healthbar on or off
     *
@@ -25,14 +24,23 @@ public class HealthBar : MonoBehaviour
     */
     public void SetActive(bool isActive)
     {
-        gameObject.SetActive(isActive);
+        // transform.Find("HealthBarCanvas").gameObject.SetActive(isActive);
+    }
+
+    /* Sets the healthbar value given a percent ranging from [0,1]
+    *
+    * Parameters:
+    * healthPercent - health value ranging from [0,1] to set healthbar to
+    */
+    public void SetHealth(float healthPercent)
+    {
+        m_slider.value = healthPercent;
     }
 
     private void Start()
     {
         m_camera = GameObject.Find("Main Camera");
-        m_slider = GameObject.Find("_HealthBar").GetComponent<Slider>();
-        m_enemy = gameObject.GetComponentInParent<BaseEnemy>();
+        m_slider = transform.Find("HealthBarCanvas/_HealthBar").gameObject.GetComponent<Slider>();
         transform.Find("HealthBarCanvas").GetComponent<Canvas>().worldCamera = m_camera.GetComponent<Camera>();
 
     }
@@ -40,6 +48,5 @@ public class HealthBar : MonoBehaviour
     private void Update()
     {
         transform.rotation = m_camera.transform.rotation;
-        m_slider.value = m_enemy.GetHealthPercent();
     }
 }

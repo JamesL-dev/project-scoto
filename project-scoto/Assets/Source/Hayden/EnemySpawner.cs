@@ -19,7 +19,10 @@ public class EnemySpawner : MonoBehaviour
     private int m_totalEnemyToSpawn;
     private int m_currEnemySpawnCount;
     private int m_heavySpawnRate;
+    private float m_enemyDensity;
+    private float m_levelDensityMultiplier;
     private LevelGeneration m_levelGenerator;
+    private GameObject m_room;
     private bool m_spawnedEnemies;
 
     /*
@@ -54,7 +57,7 @@ public class EnemySpawner : MonoBehaviour
     */
     public void SpawnEnemies()
     {
-        if (m_currEnemySpawnCount < m_totalEnemyToSpawn)
+        while (m_currEnemySpawnCount < m_totalEnemyToSpawn)
         {
             SpawnEnemy();
         }
@@ -78,13 +81,25 @@ public class EnemySpawner : MonoBehaviour
         m_currEnemySpawnCount++;
     }
 
+    private void CalculateTotalEnemySpawn()
+    {
+        Vector3 roomSize = m_room.transform.Find("Floor").GetComponent<Collider>().bounds.size;
+        m_levelDensityMultiplier = 1.0f + LevelGeneration.Inst().GetLevelNum() / 15.0f; // doubles every 15 levels
+        float roomSizeF = roomSize.x * roomSize.z;
+        m_totalEnemyToSpawn = (int) (m_enemyDensity * roomSizeF * m_levelDensityMultiplier);
+    }
+
     private void Start()
     {
-        m_totalEnemyToSpawn = 2;
+        m_room = gameObject.transform.parent.gameObject;
         m_currEnemySpawnCount = 0;
         m_heavySpawnRate = 25; // 25%
         m_levelGenerator = LevelGeneration.Inst();
         m_spawnedEnemies = false;
+        m_enemyDensity = 0.0025f;
+        m_levelDensityMultiplier = 2.0f;
+
+        CalculateTotalEnemySpawn();
     }
 
     // Update is called once per frame
@@ -94,6 +109,8 @@ public class EnemySpawner : MonoBehaviour
         {
             SpawnEnemies();
         }
+
+        CalculateTotalEnemySpawn();
     }
 
     private void SpawnLightEnemy()

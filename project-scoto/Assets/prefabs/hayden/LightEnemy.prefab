@@ -842,11 +842,11 @@ MonoBehaviour:
   m_playerMask:
     serializedVersion: 2
     m_Bits: 128
-  m_walkSourceClip: {fileID: 0}
-  m_runSourceClip: {fileID: 0}
+  m_walkSourceClip: {fileID: 8300000, guid: 1f792f5c134641d468596b67df0cb441, type: 3}
   m_attackSourceClip: {fileID: 0}
-  m_dieSourceClip: {fileID: 0}
+  m_dieSourceClip: {fileID: 8300000, guid: 771342ca83f7cbb4f94d817ea451075e, type: 3}
   m_idleSourceClip: {fileID: 0}
+  m_hurtSourceClip: {fileID: 8300000, guid: ecc3ba44d62b9c64da40a93affb1099b, type: 3}
 --- !u!195 &6546410325988052356
 NavMeshAgent:
   m_ObjectHideFlags: 0
