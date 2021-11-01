@@ -102611,6 +102611,13 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
+  - time: 0
+    functionName: AlertObservers
+    data: DeathAnimationStarted
+    objectReferenceParameter: {fileID: 9173819974394987436, guid: f2bd9c998cb743246b554eabf80a2b84, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 1.1666666
     functionName: AlertObservers
     data: DeathAnimationEnded

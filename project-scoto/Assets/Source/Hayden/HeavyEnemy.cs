@@ -14,6 +14,12 @@ using UnityEngine;
  */
 public class HeavyEnemy : BaseEnemy
 {
+    [SerializeField] private AudioClip m_roarSourceClip;
+
+    private AudioSource m_roarSource;
+    private float m_roarWait;
+    private bool m_roarWaiting;
+
     protected override void Initialize()
     {
         m_maxHealth = 300.0f;
@@ -24,21 +30,74 @@ public class HeavyEnemy : BaseEnemy
         m_attackRange = 2.0f;
         m_sightRange = 10.0f;
         m_attackWait = 2.0f;
+        m_roarWait = 15.0f; 
 
+        m_roarWaiting = false;
+
+        m_roarSource = gameObject.AddComponent<AudioSource>();
+        m_roarSource.clip = m_roarSourceClip;
+        m_roarSource.volume = 0.5f; 
+        m_roarSource.spatialBlend = 1.0f;
+        m_roarSource.maxDistance = 25.0f;
+        m_roarSource.rolloffMode = AudioRolloffMode.Linear;
 
         Vector3 roomSize = m_roomIn.transform.Find("Floor").GetComponent<Collider>().bounds.size;
         m_walkPointRange = Mathf.Min(roomSize.x, roomSize.z) * 0.5f * 0.75f;
+    }
 
-        m_walkSource = gameObject.AddComponent<AudioSource>();
-        m_idleSource = gameObject.AddComponent<AudioSource>();
-        m_attackSource = gameObject.AddComponent<AudioSource>();
-        m_runSource = gameObject.AddComponent<AudioSource>();
-        m_dieSource = gameObject.AddComponent<AudioSource>();
+    private void Roar()
+    {
+        m_state = EnemyState.Roaring;
+        Vector3 playerCoords = m_player.transform.position;
+        playerCoords.y = transform.position.y;
+        transform.LookAt(playerCoords);
+        m_agent.speed = 0;
+        m_agent.SetDestination(transform.position);
+    }
 
-        m_walkSource.clip = m_walkSourceClip;
-        m_idleSource.clip = m_idleSourceClip;
-        m_attackSource.clip = m_attackSourceClip;
-        m_dieSource.clip = m_dieSourceClip;
-        m_runSource.clip = m_runSourceClip;
+    protected override void ChasePlayer()
+    {
+        // if need to start roaring
+        if ((m_state == EnemyState.Idle || m_state == EnemyState.Walking) && !m_roarWaiting)
+        {
+            m_roarWaiting = true;
+            HaydenHelpers.StartClock(m_roarWait, () => m_roarWaiting = false);
+            Roar();
+            return;
+        }
+        else if (m_state == EnemyState.Roaring) // currently roaring
+        {
+            Roar();
+        }
+        else // not roaring, and dont need to roar
+        {
+            base.ChasePlayer();
+        }
+    }
+
+    protected override void DoAnimations()
+    {
+        base.DoAnimations();
+        switch(m_state)
+        {
+            case EnemyState.Roaring:
+                HaydenHelpers.SetAnimation(m_animator, "isRoaring");
+                break;
+        }
+    }
+
+    protected override void AlertObservers(string message)
+    {
+        base.AlertObservers(message);
+
+        if (message.Equals("RoarStarted"))
+        {
+            m_roarSource.Play();
+        }
+
+        if (message.Equals("RoarAnimationEnded"))
+        {
+            m_state = EnemyState.Idle;
+        }
     }
 }
