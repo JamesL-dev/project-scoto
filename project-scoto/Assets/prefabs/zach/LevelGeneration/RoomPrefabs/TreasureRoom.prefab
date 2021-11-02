@@ -53,7 +53,7 @@ MonoBehaviour:
   - {fileID: 7899368939528311498, guid: 13c7294eae8f8584a9826ef855a37afe, type: 3}
   - {fileID: 7899368939528311498, guid: 13c7294eae8f8584a9826ef855a37afe, type: 3}
   - {fileID: 7899368939528311498, guid: 13c7294eae8f8584a9826ef855a37afe, type: 3}
-  m_opener: {fileID: 3409597266733467619, guid: 0eeead4cf15ad7c4688b1558621da7ef, type: 3}
+  m_wallPosMultiplier: 1
 --- !u!1 &2704893925704699748
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,7 +114,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 83db0d289c8216f4d9b191084b820ddf, type: 2}
+  - {fileID: 2100000, guid: 39019aa1bd48cdd4c9125f2c3c88b196, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -210,7 +210,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 83db0d289c8216f4d9b191084b820ddf, type: 2}
+  - {fileID: 2100000, guid: 39019aa1bd48cdd4c9125f2c3c88b196, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -40,8 +40,8 @@ Room type list
 public class ProtoRoom : MonoBehaviour
 {
     public GameObject m_startRoom, m_endRoom, m_treasureRoom, m_smallRoom, m_mediumRoom, m_largeRoom;
-    private Room m_room;
 
+    private Room m_room;
     private int m_xPos = 0, m_zPos = 0, m_roomType = -1;
     private bool[] m_doorList = new bool[] {false, false, false, false};
     private const int m_roomSpread = 44;
@@ -96,7 +96,7 @@ public class ProtoRoom : MonoBehaviour
         }
 
         // Initialize room.
-        m_room.Init(m_doorList, m_roomType);
+        m_room.Init(m_doorList, m_xPos, m_zPos);
     }
 
     /* Sets the room's position.

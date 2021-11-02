@@ -156,6 +156,35 @@ public sealed class LevelGeneration : MonoBehaviour
         return m_roomCount;
     }
 
+    /* Gets a reference to a Room object.
+     *
+     * Parameters:
+     * x -- Integer for the room's x position within the level layout grid.
+     * z -- Integer for the room's z position within the level layout grid
+     *
+     * Returns:
+     * Room -- Room at the given location. If one doesn't exist, returns null.
+     */
+    public Room GetRoom(int x, int z)
+    {
+        if (x < 0 || x >= m_roomMatrix.Count || z < 0 || z >= m_roomMatrix[x].Count)
+        {
+            // Out of bounds.
+            return null;
+        }
+        else if (m_roomMatrix[x][z] != null)
+        {
+            // Returns room's Room object.
+            return m_roomMatrix[x][z].GetComponentInChildren<Room>();
+        }
+        else
+        {
+            // Room doesn't exist.
+            Debug.LogError("Error: Attempted to access a room that doesn't exist in GetRoom().");
+            return null;
+        }
+    }
+
     /* Makes the singleton's constructor static.
      */
     private LevelGeneration() {}

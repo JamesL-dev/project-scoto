@@ -13,41 +13,40 @@ using UnityEngine;
  */
 public class EndRoom : Room
 {
-    /* Sets up the room by creating walls and doors and spawning the player.
+    /* Sets up the room by creating walls and doors.
      *
      * Parameters:
      * d -- Door list from ProtoRoom.
-     * t -- Room type from ProtoRoom.
+     * x -- X position from ProtoRoom.
+     * z -- Z position from ProtoRoom.
      */
-    public override void Init(bool[] d, int t)
+    public override void Init(bool[] d, int x, int z)
     {
-        // Store the door list.
+        // Store the values from the ProtoRoom.
+        m_xPos = x;
+        m_zPos = z;
         m_doorList = d;
 
         // Generate walls.
         for (int i = 0; i < 4; i++)
         {
-            // Create new wall.
+            // Create new plain wall.
             GameObject tempWall;
-            if (m_doorList[i])
-            {
-                // Wall with a door.
-                tempWall = Instantiate(m_wallDoor, this.transform);
-                tempWall.transform.position += m_wallPositions[i];
-                tempWall.transform.eulerAngles = m_wallRotations[i];
-                tempWall.tag = m_wallDoor.tag;
-            }
-            else
-            {
-                // Plain wall.
-                tempWall = Instantiate(m_wall, this.transform);
-                tempWall.transform.position += m_wallPositions[i];
-                tempWall.transform.eulerAngles = m_wallRotations[i];
-                tempWall.tag = m_wall.tag;
-            }
+            tempWall = Instantiate(m_wall, this.transform);
+            tempWall.transform.position += m_wallPositions[i] * m_wallPosMultiplier;
+            tempWall.transform.eulerAngles = m_wallRotations[i];
+            tempWall.tag = m_wall.tag;
 
             // Add wall to array.
             m_wallList[i] = tempWall;
+        }
+
+        // Start with room cleared.
+        m_isCleared = true;
+        for (int i = 0; i < 4; i++)
+        {
+            if (m_doorList[i])
+                OpenDoorInRoom(i);
         }
     }
 }
