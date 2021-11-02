@@ -137,7 +137,7 @@ public class Room : MonoBehaviour
     public void OpenDoorInRoom(int i)
     {
         // Stop if door was opened already.
-        if (m_wallList[i].tag == "WallDoor")
+        if (m_wallList[i].gameObject.tag == "WallDoor")
         {
             return;
         }

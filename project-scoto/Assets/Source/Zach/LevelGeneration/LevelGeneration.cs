@@ -180,6 +180,7 @@ public sealed class LevelGeneration : MonoBehaviour
         else
         {
             // Room doesn't exist.
+            Debug.LogError("Error: Attempted to access a room that doesn't exist in GetRoom().");
             return null;
         }
     }
