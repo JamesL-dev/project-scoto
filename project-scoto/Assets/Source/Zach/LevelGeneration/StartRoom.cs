@@ -17,9 +17,8 @@ public class StartRoom : Room
      *
      * Parameters:
      * d -- Door list from ProtoRoom.
-     * t -- Room type from ProtoRoom.
      */
-    public override void Init(bool[] d, int t)
+    public override void Init(bool[] d)
     {
         // Store the door list.
         m_doorList = d;

@@ -59,6 +59,7 @@ MonoBehaviour:
   - {fileID: 7899368939528311498, guid: 13c7294eae8f8584a9826ef855a37afe, type: 3}
   - {fileID: 7899368939528311498, guid: 13c7294eae8f8584a9826ef855a37afe, type: 3}
   - {fileID: 7899368939528311498, guid: 13c7294eae8f8584a9826ef855a37afe, type: 3}
+  m_wallPosMultiplier: 1
 --- !u!114 &8371574885531530221
 MonoBehaviour:
   m_ObjectHideFlags: 0

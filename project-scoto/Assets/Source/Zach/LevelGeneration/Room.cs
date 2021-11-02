@@ -15,6 +15,7 @@ using UnityEngine;
  * m_wall -- GameObject for one wall without a door.
  * m_wallDoor -- GameObject for one wall with a door.
  * m_wallList -- Array of GameObjects for the 4 walls of a room.
+ * m_wallPosMultiplier -- Float for the amount to space out the walls depending on the room size.
  * m_opener -- GameObject for a test pickup to open doors.
  * m_wallPositions -- Vector3 for the preset positions of the 4 walls of a room.
  * m_wallRotations -- Vector3 for the preset rotations of the 4 walls of a room.
@@ -26,6 +27,7 @@ public class Room : MonoBehaviour
 {
     public GameObject m_wall, m_wallDoor;
     public GameObject[] m_wallList = new GameObject[4];
+    public float m_wallPosMultiplier;
 
     protected Vector3[] m_wallPositions = new Vector3[4], m_wallRotations = new Vector3[4];
     protected bool[] m_doorList = new bool[] {false, false, false, false};
@@ -66,7 +68,23 @@ public class Room : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 if (m_doorList[i])
+                {
+                    // Delete old wall.
+                    Destroy(m_wallList[i].gameObject);
+
+                    // Create new wall with a door.
+                    GameObject tempWall;
+                    tempWall = Instantiate(m_wallDoor, this.transform);
+                    tempWall.transform.position += m_wallPositions[i] * m_wallPosMultiplier;
+                    tempWall.transform.eulerAngles = m_wallRotations[i];
+                    tempWall.tag = m_wallDoor.tag;
+
+                    // Add wall to array.
+                    m_wallList[i] = tempWall;
+
+                    // Open door.
                     m_wallList[i].GetComponentInChildren<Door>().OpenDoor();
+                }
             }
         }
     }
@@ -75,9 +93,8 @@ public class Room : MonoBehaviour
      *
      * Parameters:
      * d -- Door list from ProtoRoom.
-     * t -- Room type from ProtoRoom.
      */
-    public virtual void Init(bool[] d, int t)
+    public virtual void Init(bool[] d)
     {
         // Store the door list.
         m_doorList = d;
@@ -85,34 +102,12 @@ public class Room : MonoBehaviour
         // Generate walls.
         for (int i = 0; i < 4; i++)
         {
-            // Create new wall.
+            // Create new plain wall.
             GameObject tempWall;
-            if (m_doorList[i])
-            {
-                // Wall with a door.
-                tempWall = Instantiate(m_wallDoor, this.transform);
-                if (t == 2 || t == 3)
-                    tempWall.transform.position += m_wallPositions[i];
-                else if (t == 4)
-                    tempWall.transform.position += (m_wallPositions[i] * 1.5f);
-                else if (t == 5)
-                    tempWall.transform.position += (m_wallPositions[i] * 2f);
-                tempWall.transform.eulerAngles = m_wallRotations[i];
-                tempWall.tag = m_wallDoor.tag;
-            }
-            else
-            {
-                // Plain wall.
-                tempWall = Instantiate(m_wall, this.transform);
-                if (t == 2 || t == 3)
-                    tempWall.transform.position += m_wallPositions[i];
-                else if (t == 4)
-                    tempWall.transform.position += (m_wallPositions[i] * 1.5f);
-                else if (t == 5)
-                    tempWall.transform.position += (m_wallPositions[i] * 2f);
-                tempWall.transform.eulerAngles = m_wallRotations[i];
-                tempWall.tag = m_wall.tag;
-            }
+            tempWall = Instantiate(m_wall, this.transform);
+            tempWall.transform.position += m_wallPositions[i] * m_wallPosMultiplier;
+            tempWall.transform.eulerAngles = m_wallRotations[i];
+            tempWall.tag = m_wall.tag;
 
             // Add wall to array.
             m_wallList[i] = tempWall;

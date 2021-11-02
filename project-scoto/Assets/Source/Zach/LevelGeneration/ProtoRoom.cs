@@ -96,7 +96,7 @@ public class ProtoRoom : MonoBehaviour
         }
 
         // Initialize room.
-        m_room.Init(m_doorList, m_roomType);
+        m_room.Init(m_doorList);
     }
 
     /* Sets the room's position.
