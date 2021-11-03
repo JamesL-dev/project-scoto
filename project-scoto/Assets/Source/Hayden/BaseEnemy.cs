@@ -316,7 +316,7 @@ public abstract class BaseEnemy : MonoBehaviour
         // Temporary Drop Some Loot location
         for (int i = 0; i < 4; i++)
         {
-            var go = Instantiate(m_HealthOrbPrefab, transform.position + new Vector3(0, Random.Range(0, 5)), Quaternion.identity);
+            var go = Instantiate(m_HealthOrbPrefab, transform.position + new Vector3(Random.Range(1, 2), 1), Quaternion.identity);
 
             go.GetComponent<HealthOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
         }
