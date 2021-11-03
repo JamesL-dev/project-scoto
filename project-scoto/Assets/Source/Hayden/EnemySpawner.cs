@@ -24,7 +24,6 @@ public class EnemySpawner : MonoBehaviour
     private LevelGeneration m_levelGenerator;
     private GameObject m_room;
     private bool m_spawnedEnemies;
-    private bool m_enemyDefeated;
 
     /*
     * This function is only to be used by a BaseEnemy instance. On the death of
@@ -39,7 +38,6 @@ public class EnemySpawner : MonoBehaviour
         {
             m_currEnemySpawnCount = 0;
         }
-        m_enemyDefeated = true;
     }
 
     /*
@@ -52,15 +50,6 @@ public class EnemySpawner : MonoBehaviour
     public int GetEnemyCount()
     {
         return m_currEnemySpawnCount;
-    }
-
-    /* Returns true if 1 enemy was defeated, false otherwise
-    * Returns:
-    * bool - true if 1 enemy was defeated, false otherwise
-    */
-    public bool EnemyDefeated()
-    {
-        return m_enemyDefeated;
     }
 
     /*
@@ -95,14 +84,13 @@ public class EnemySpawner : MonoBehaviour
     private void CalculateTotalEnemySpawn()
     {
         Vector3 roomSize = m_room.transform.Find("Floor").GetComponent<Collider>().bounds.size;
-        m_levelDensityMultiplier = 1.0f + LevelGeneration.Inst().GetLevelNum() / 5.0f; // doubles every 5 levels
+        m_levelDensityMultiplier = 1.0f + LevelGeneration.Inst().GetLevelNum() / 15.0f; // doubles every 15 levels
         float roomSizeF = roomSize.x * roomSize.z;
         m_totalEnemyToSpawn = (int) (m_enemyDensity * roomSizeF * m_levelDensityMultiplier);
     }
 
     private void Start()
     {
-        m_enemyDefeated = false;
         m_room = gameObject.transform.parent.gameObject;
         m_currEnemySpawnCount = 0;
         m_heavySpawnRate = 25; // 25%
@@ -112,11 +100,6 @@ public class EnemySpawner : MonoBehaviour
         m_levelDensityMultiplier = 2.0f;
 
         CalculateTotalEnemySpawn();
-
-        if (m_totalEnemyToSpawn == 0)
-        {
-            m_enemyDefeated = true;
-        }
     }
 
     // Update is called once per frame
