@@ -51,11 +51,27 @@ public abstract class BaseEnemy : MonoBehaviour
     protected EnemyState m_state;
 
     /*
+    * Used to instantiate health orbs on death
+    *
+    * 
+    */
+    public GameObject m_HealthOrbPrefab;
+
+    /*
+    * Used to instantiate energy orbs on deatgh
+    *
+    * 
+    */
+    public GameObject m_EnergyOrbPrefab;
+
+    /*
     * Gets the current health of the enemy
     *
     * Returns:
     * float -- The current value of m_health (health of enemy):
     */
+
+    GameObject m_DropLootTracker; // This is used to track location to drop loot
     public float GetHealth() {return m_health;}
 
     /*
@@ -253,6 +269,8 @@ public abstract class BaseEnemy : MonoBehaviour
         m_dieSource.rolloffMode = AudioRolloffMode.Linear;
 
         m_flashlightHit = false;
+
+        m_DropLootTracker = GameObject.FindGameObjectWithTag("Player"); // Reference to the loot tracker on player
     }
 
     protected virtual void Update()
@@ -291,14 +309,19 @@ public abstract class BaseEnemy : MonoBehaviour
         m_state = EnemyState.Dying;
         m_healthBar.SetActive(false);
         m_agent.speed = 0;
-        
-
     }
 
     protected virtual void AfterDeath()
     {
+        // Temporary Drop Some Loot location
+        for (int i = 0; i < 4; i++)
+        {
+            var go = Instantiate(m_HealthOrbPrefab, transform.position + new Vector3(0, Random.Range(0, 5)), Quaternion.identity);
+
+            go.GetComponent<HealthOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
+        }
         m_state = EnemyState.Dead;
-        SpawnEnemyLoot.SpawnLoot();
+        //SpawnEnemyLoot.SpawnLoot(); // commented out for testing
         GameObject.Destroy(gameObject, 1.0f);
         m_enemySpawner.GetComponent<EnemySpawner>().DecrementEnemy();
     }
