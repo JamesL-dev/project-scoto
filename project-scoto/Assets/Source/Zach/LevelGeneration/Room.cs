@@ -43,8 +43,23 @@ public class Room : MonoBehaviour
      */
     void Update()
     {
-        // DEBUG: Detect if pickup is deleted.
-        if (m_opener == null && !m_isCleared)
+        // Wait for a bit after the room is created so that the doors don't open before the enemies have spawned.
+        // if (m_timer < 30)
+        // {
+        //     m_timer++;
+        //     return;
+        // }
+
+        // Detect if an enemy is defeated
+        bool enemyDefeated = true;
+        EnemySpawner enemySpawner = GetComponentInChildren<EnemySpawner>();
+        if (enemySpawner != null)
+        {
+            enemyDefeated = enemySpawner.EnemyDefeated();
+        }
+
+        // If so, open the doors.
+        if (enemyDefeated && !m_isCleared)
         {
             m_isCleared = true;
             for (int i = 0; i < 4; i++)

@@ -24,7 +24,7 @@ public class HealthBar : MonoBehaviour
     */
     public void SetActive(bool isActive)
     {
-        // transform.Find("HealthBarCanvas").gameObject.SetActive(isActive);
+        transform.Find("HealthBarCanvas").gameObject.SetActive(isActive);
     }
 
     /* Sets the healthbar value given a percent ranging from [0,1]
