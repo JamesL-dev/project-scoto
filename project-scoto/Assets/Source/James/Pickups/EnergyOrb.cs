@@ -1,5 +1,5 @@
 /*
-* Filename: HealthPickup.cs
+* Filename: EnergyOrb.cs
 * Developer: James Lasso
 * Purpose: Health pickup contains payload information and other overrides.
 */
@@ -13,8 +13,14 @@ using UnityEngine;
 *
 * Member variables: none
 */
-public class HealthPickup : PowerUp
+public class EnergyOrb : PowerUp
 {
+    public int m_HealthBonus;
+    public Transform m_target;
+    public float MinModifier = 5;
+    public float MaxModifier = 12;
+    Vector3 m_velocity = Vector3.zero;
+    bool isFollowing = false;
     public int m_healthBonus = 50;
 
     /* Function that contains payload information.
@@ -43,6 +49,11 @@ public class HealthPickup : PowerUp
         Destroy(gameObject); 
     }
 
+    public void StartFollowing()
+    {
+        isFollowing = true;
+    }
+
     /* Function that updates every frame.
     *  In this case its used to animate the object.
     *
@@ -52,6 +63,9 @@ public class HealthPickup : PowerUp
     */
     void Update()
     {
-        transform.Rotate(new Vector3(1f, 0f, 0f)); // Spin
+        if (isFollowing)
+        {
+            transform.position = Vector3.SmoothDamp(transform.position, m_target.position, ref m_velocity, Time.deltaTime * Random.Range(MinModifier, MaxModifier));
+        }
     }
 }

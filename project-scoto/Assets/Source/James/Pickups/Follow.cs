@@ -8,7 +8,7 @@ public class Follow : MonoBehaviour
     public float MinModifier = 5;
     public float MaxModifier = 12;
     Vector3 m_velocity = Vector3.zero;
-    bool isFollowing = true;
+    bool isFollowing = false;
 
     // Start is called before the first frame update
     void Start()
