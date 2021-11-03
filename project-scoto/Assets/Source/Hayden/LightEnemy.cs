@@ -18,11 +18,11 @@ public class LightEnemy : BaseEnemy
     {
         m_maxHealth = 100.0f;
         m_walkSpeed = 2.0f;
-        m_runSpeed = 8.0f;
+        m_runSpeed = 12.0f;
         m_walkPointWait = 3.0f;
         m_damagePerHit = 10.0f;
         m_attackRange = 4.0f;
-        m_sightRange = 10.0f;
+        m_sightRange = 20.0f;
         m_attackWait = 0.0f;
     }
     

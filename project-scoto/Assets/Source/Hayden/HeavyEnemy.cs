@@ -23,12 +23,12 @@ public class HeavyEnemy : BaseEnemy
     protected override void Initialize()
     {
         m_maxHealth = 300.0f;
-        m_walkSpeed = 1.0f;
-        m_runSpeed = 4.0f;
+        m_walkSpeed = 1.5f;
+        m_runSpeed = 6.0f;
         m_walkPointWait = 5.0f;
         m_damagePerHit = 20.0f;
         m_attackRange = 2.0f;
-        m_sightRange = 10.0f;
+        m_sightRange = 20.0f;
         m_attackWait = 2.0f;
         m_roarWait = 15.0f; 
 
