@@ -1,11 +1,12 @@
 /*
  * Filename: Demo.cs
  * Developer: Rodney McCoy
- * Purpose: Control the demo mode
+ * Purpose: Controls the demo mode
  */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 /*
@@ -28,28 +29,16 @@ public class Demo : MonoBehaviour
     private static bool m_jump, m_sprint, m_isSuccessMode, m_attack;
     private static int m_slackTime;
     private static float rotation;
-
-    // private UnityEngine.AI.NavMeshAgent m_agent;
-    // // protected GameObject m_enemySpawner;
-    // Vector3 walkArea = new Vector3(0, 0, 0);
-
-    // protected float m_walkPointRange;
-    // protected Vector3 m_walkPoint;
-    // protected bool m_walkPointSet;
-    // protected float m_walkSpeed;
-    // protected float m_runSpeed;
-    // protected float m_walkPointWait;
-    // protected float m_attackWait;
-    // // protected GameObject m_roomIn;
-
-    // protected bool m_patrolWaiting;
-    // protected bool m_attackWaiting;        
+   
+    // protected NavMeshAgent m_agent;
 
     void Awake()
     {
-        // m_agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        // m_roomIn = HaydenHelpers.FindParentWithTag(gameObject, "Room");
-        // m_enemySpawner = Find();transform.parent.gameObject;
+        // m_agent = GetComponent<NavMeshAgent>();
+        // m_agent.autoTraverseOffMeshLink = false;
+        // m_agent.speed = 2F;
+        // m_agent = GetComponent<NavMeshAgent>();
+
         m_jump = m_sprint = false;
         m_isSuccessMode = true;
         m_attack = true;
@@ -62,8 +51,9 @@ public class Demo : MonoBehaviour
     {
         m_counter++; 
         m_attack = false;
-        // if (m_agent.isOnOffMeshLink) {MoveThroughDoor();}
         if(m_counter == m_slackTime) { Debug.Log("Demo Mode Turned On");}
+
+        Vector3 debugVec = Vector3.zero;
 
         if(On())
         {
@@ -93,93 +83,41 @@ public class Demo : MonoBehaviour
                     RaycastHit hit;
                     Physics.Raycast(ray, out hit, 5);
                     if(!hit.collider == theTarget)
-                    {
-                        transform.forward = Vector3.RotateTowards(transform.forward, deltaPos , speed, speed*4);
+                    {                        
+                        float angleBetween = Vector3.Angle(transform.forward, deltaPos);
+                        transform.Rotate(0, angleBetween * .025F, 0);
+                        Debug.Log("asdf");
                     }
 
-                    // Vector3 deltaVec = theTarget.transform.position - gameObject.transform.position;
-                    // float playerAngle = Mathf.Atan2(gameObject.transform.position.y, gameObject.transform.position.x) * Mathf.Rad2Deg;
-                    // float x = theTarget.transform.position.x - gameObject.transform.position.x;
-                    // float y = theTarget.transform.position.y - gameObject.transform.position.y;
-                    // float newAngle = Mathf.Atan2(y, x) * Mathf.Rad2Deg;
-                    // if(Mathf.Abs(playerAngle - newAngle) > 30)
-                    // {
-                    //     float val = -(Mathf.Abs(newAngle - playerAngle) - 90) + playerAngle;
-                    //     Debug.Log(val + ", " + newAngle + ", " + playerAngle);
-                    //     // gameObject.transform.rotation = Quaternion.AngleAxis(val, Vector3.up);
-                    //     // m_counter = 0;
-                    // }
+                    debugVec = theTarget.transform.position;
                 }
             }
             // Pathfinding
             if(true)
             {
                 // Patrol();
+                if(debugVec != Vector3.zero)
+                {
+                    // if(!m_agent.SetDestination(debugVec))
+                    // {
+                    //     Debug.Log("A");   
+                    // }
+                    
+                }
             }
             
         }
     }
 
-    // protected virtual void Patrol()
-    // {
-    //     if (m_patrolWaiting)
-    //     {
-    //         return;
-    //     }
 
-    //     if (!m_walkPointSet)
-    //     {
-    //         CreateWalkPoint();
-    //     }
 
-    //     m_agent.speed = m_walkSpeed;
-    //     m_agent.SetDestination(m_walkPoint);
 
-    //     Vector3 distanceToWalkPoint = transform.position - m_walkPoint;
 
-    //     //Walkpoint reached
-    //     if (distanceToWalkPoint.magnitude < 1f)
-    //     {
-    //         m_walkPointSet = false;
-    //         m_patrolWaiting = true;
-    //         m_agent.speed = 0;
 
-    //         // sets patrolwaiting to false after certain amount of time
-    //         HaydenHelpers.StartClock(m_walkPointWait, () => m_patrolWaiting = false);
-    //     }
-    // }
 
-    // protected virtual void CreateWalkPoint()
-    // {
-    //     //Calculate random point in range
-    //     float randomZ = Random.Range(-m_walkPointRange, m_walkPointRange);
-    //     float randomX = Random.Range(-m_walkPointRange, m_walkPointRange);
 
-    //     m_walkPoint = new Vector3(walkArea.x + randomX, 0, walkArea.z + randomZ);
 
-    //     UnityEngine.AI.NavMeshHit hit;
-    //     if (UnityEngine.AI.NavMesh.SamplePosition(m_walkPoint, out hit, 1f, UnityEngine.AI.NavMesh.AllAreas))
-    //     {
-    //         m_walkPointSet = true;
-    //     }
-    // }
 
-    // protected virtual void MoveThroughDoor()
-    // {
-    //     UnityEngine.AI.OffMeshLinkData data = m_agent.currentOffMeshLinkData;
-
-    //     //calculate the final point of the link
-    //     Vector3 endPos = data.endPos + Vector3.up * m_agent.baseOffset;
-
-    //     //Move the agent to the end point
-    //     m_agent.transform.position = Vector3.MoveTowards(m_agent.transform.position, endPos, m_agent.speed * Time.deltaTime);
-
-    //     //when the agent reach the end point you should tell it, and the agent will "exit" the link and work normally after that
-    //     if (m_agent.transform.position == endPos)
-    //     {
-    //         m_agent.CompleteOffMeshLink();
-    //     }
-    // }
 
     /*
      * Tell whether demo mode is on 
