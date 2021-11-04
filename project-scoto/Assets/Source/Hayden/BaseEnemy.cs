@@ -314,7 +314,7 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void AfterDeath()
     {
         // Temporary Drop Some Loot location
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 4; i++)
         {
             var go = Instantiate(m_LootOne, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
             var go2 = Instantiate(m_LootTwo, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
