@@ -8,21 +8,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
-* Health powerup.
+* Energy powerup.
 * Contains payload and overrides.
 *
 * Member variables: none
 */
 public class EnergyOrb : PowerUp
 {
-    public int m_HealthBonus;
+    public int m_EnergyBonus;
+    GameObject m_player;
     public Transform m_target;
     public float MinModifier = 5;
     public float MaxModifier = 12;
     Vector3 m_velocity = Vector3.zero;
     bool isFollowing = false;
-    public int m_healthBonus = 50;
 
+    void start()
+    {
+        m_player = GameObject.FindGameObjectWithTag("Player");
+        m_target = m_player.transform;
+    }
     /* Function that contains payload information.
     *  Default powerup payload is overridden here
     *
@@ -34,8 +39,8 @@ public class EnergyOrb : PowerUp
     {
         base.PowerUpPayload();
 
-        // add health
-        // playerStuff.setScoinAdjustment(addhealth);
+        // add energy
+        // playerStuff.setScoinAdjustment(addEnergy);
     }
 
     /* Function to destroy object when picked up
