@@ -1,7 +1,7 @@
 /*
  * Filename: WeaponManager.cs
  * Developer: Rodney McCoy
- * Purpose: (soon to be) singleton to manage and control the weapons the player can use
+ * Purpose: Singleton to manage and control the weapons the player can use. Implements dynamic binding.
  */
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +14,7 @@ using UnityEngine.InputSystem;
  * Member Variables:
  * m_invSize -- size of inventory
  * m_initWeapon -- (zero indexed) which weapon should always be discovered
+ * m_camera -- GameObject to obtain cameras transform (rotation)
  * m_weapon -- dynamically bound array of weapon subclass instances
  * m_currWeapon -- weapon currently selected
  * m_previousIndex -- weapon previously selected
@@ -24,11 +25,13 @@ using UnityEngine.InputSystem;
  * m_showWeapons -- true if no external entity has deactivated weapons
  * m_changeShowWeapons -- ture if external entity wants to deactivate weapons
  * m_weaponInputActions, m_fireWeapon, m_changeWeapon, m_one, m_two, m_three, m_four -- user input
+ * m_instance -- Singleton Instance
  */
-public class WeaponManager : MonoBehaviour 
-{
+public sealed class WeaponManager : MonoBehaviour 
+{  
+    [SerializeField] public Weapon[] m_weapon = new Weapon[m_invSize];    
     public const int m_invSize = 3, m_initWeapon = 0;
-    public Weapon[] m_weapon = new Weapon[m_invSize];
+    public GameObject m_camera;
 
     int m_currWeapon = m_initWeapon, m_previousIndex = m_initWeapon, m_changeCurrWeapon = -1, m_timer = 0;
     static int m_fireAmount = 120;
@@ -41,6 +44,7 @@ public class WeaponManager : MonoBehaviour
         m_weaponInputActions = new WeaponInputActions();
         m_fireWeapon = m_weaponInputActions.Player.FireWeapon;
         m_changeWeapon = m_weaponInputActions.Player.ChangeWeapon;
+        m_camera = GameObject.FindGameObjectWithTag("MainCamera");
 
         m_one = m_weaponInputActions.Player.one;
         m_two = m_weaponInputActions.Player.two;
@@ -69,8 +73,9 @@ public class WeaponManager : MonoBehaviour
             // IF ABLE TO FIRE WEAPONS 
             if(ChangeWeaponVal != 0 || (Demo.On() && Demo.Attack() != 0)) 
             {
-                GameObject Object = GameObject.FindGameObjectWithTag("MainCamera");
-                m_weapon[m_currWeapon].Fire(Object.transform.position, Object.transform.rotation);
+                /* Main Use of Dynamic Binding. Implements virtual Fire functions overloaded at each subclass*/
+                m_weapon[m_currWeapon].Fire(m_camera.transform.position, m_camera.transform.rotation);
+
                 m_timer = m_weapon[m_currWeapon].Time();    
                 m_firingWeapons = true;
                 
@@ -202,5 +207,17 @@ public class WeaponManager : MonoBehaviour
      * Accessor to CurrentWeapon
      */
     public int CurrentWeapon() { return m_currWeapon;}
+
+    /* Members to created singleton design pattern */
+    private static WeaponManager m_instance;
+    public static WeaponManager Inst()
+    {
+        if (m_instance == null)
+        {
+            m_instance = GameObject.Find("Inventory").GetComponent<WeaponManager>();
+        }
+        return m_instance;
+    }
+    private WeaponManager() {}
 }
 
