@@ -55,14 +55,14 @@ public abstract class BaseEnemy : MonoBehaviour
     *
     * 
     */
-    public GameObject m_HealthOrbPrefab;
+    public GameObject m_LootOne;
 
     /*
     * Used to instantiate energy orbs on deatgh
     *
     * 
     */
-    public GameObject m_EnergyOrbPrefab;
+    public GameObject m_LootTwo;
 
     /*
     * Gets the current health of the enemy
@@ -314,11 +314,13 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void AfterDeath()
     {
         // Temporary Drop Some Loot location
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
-            var go = Instantiate(m_HealthOrbPrefab, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
+            var go = Instantiate(m_LootOne, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
+            var go2 = Instantiate(m_LootTwo, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
 
             go.GetComponent<HealthOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
+            go2.GetComponent<EnergyOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
         }
         m_state = EnemyState.Dead;
         //SpawnEnemyLoot.SpawnLoot(); // commented out for testing
