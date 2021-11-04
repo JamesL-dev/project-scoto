@@ -58,6 +58,7 @@ public class Flashlight : MonoBehaviour
         {
             m_batteryLevel = m_maxBatteryLevel;
         }
+        Debug.Log("ADD BATTERY CALLED");
         return true;
     }
 

@@ -22,6 +22,7 @@ public class EnergyOrb : PowerUp
     public float MaxModifier = 12;
     Vector3 m_velocity = Vector3.zero;
     bool isFollowing = false;
+    private Flashlight m_Flashlight;
 
     void start()
     {
@@ -40,7 +41,8 @@ public class EnergyOrb : PowerUp
         base.PowerUpPayload();
 
         // add energy
-        // playerStuff.setScoinAdjustment(addEnergy);
+        m_Flashlight = GameObject.Find("Flashlight").GetComponent<Flashlight>();
+        m_Flashlight.AddBattery(50f);
     }
 
     /* Function to destroy object when picked up
