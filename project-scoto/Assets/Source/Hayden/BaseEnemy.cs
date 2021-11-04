@@ -218,16 +218,13 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected abstract void Initialize();
 
-    protected void Awake()
+    protected virtual void Start()
     {
+        m_enemySpawner = transform.parent.gameObject;
         m_player = GameObject.Find("Player").transform;
         m_agent = GetComponent<NavMeshAgent>();
         m_roomIn = HaydenHelpers.FindParentWithTag(gameObject, "Room");
-        m_enemySpawner = transform.parent.gameObject;
-    }
 
-    protected virtual void Start()
-    {
         Initialize();
         m_walkSource = gameObject.AddComponent<AudioSource>();
         m_idleSource = gameObject.AddComponent<AudioSource>();
