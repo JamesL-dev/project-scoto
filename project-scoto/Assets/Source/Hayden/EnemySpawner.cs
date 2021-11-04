@@ -6,6 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /*
  * An Abstract Factory enemy spawner that spawns a BaseEnemy
@@ -57,6 +58,10 @@ public class EnemySpawner : MonoBehaviour
     */
     public void SpawnEnemies()
     {
+        if (!m_levelGenerator.GetIsBaked())
+        {
+            return;
+        }
         while (m_currEnemySpawnCount < m_totalEnemyToSpawn)
         {
             SpawnEnemy();
@@ -69,14 +74,23 @@ public class EnemySpawner : MonoBehaviour
     */
     private void SpawnEnemy()
     {
+        Vector3 roomSize = m_room.transform.Find("Floor").GetComponent<Collider>().bounds.size;
         int isHeavyEnemySpawn = Random.Range(1, 100);
+
+        Vector3 position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        position.x += Random.Range(-roomSize.x/3, roomSize.x/3);
+        position.z += Random.Range(-roomSize.z/3, roomSize.z/3);
+        
+        NavMeshHit hit;
+        NavMesh.SamplePosition(position, out hit, 10f, NavMesh.AllAreas);
+
         if (isHeavyEnemySpawn <= m_heavySpawnRate)
         {
-            SpawnHeavyEnemy();
+            SpawnHeavyEnemy(hit.position);
         }
         else
         {
-            SpawnLightEnemy();
+            SpawnLightEnemy(hit.position);
         }
         m_currEnemySpawnCount++;
     }
@@ -113,13 +127,15 @@ public class EnemySpawner : MonoBehaviour
         CalculateTotalEnemySpawn();
     }
 
-    private void SpawnLightEnemy()
+    private void SpawnLightEnemy(Vector3 position)
     {
-        Instantiate(m_lightEnemy, transform);
+        GameObject go = Instantiate(m_lightEnemy, position, transform.rotation);
+        go.transform.parent = transform;
     }
 
-    private void SpawnHeavyEnemy()
+    private void SpawnHeavyEnemy(Vector3 position)
     {
-        Instantiate(m_heavyEnemy, transform);
+        GameObject go = Instantiate(m_heavyEnemy, position, transform.rotation);
+        go.transform.parent = transform;
     }
 }
