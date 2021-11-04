@@ -51,11 +51,27 @@ public abstract class BaseEnemy : MonoBehaviour
     protected EnemyState m_state;
 
     /*
+    * Used to instantiate health orbs on death
+    *
+    * 
+    */
+    public GameObject m_LootOne;
+
+    /*
+    * Used to instantiate energy orbs on deatgh
+    *
+    * 
+    */
+    public GameObject m_LootTwo;
+
+    /*
     * Gets the current health of the enemy
     *
     * Returns:
     * float -- The current value of m_health (health of enemy):
     */
+
+    GameObject m_DropLootTracker; // This is used to track location to drop loot
     public float GetHealth() {return m_health;}
 
     /*
@@ -250,6 +266,8 @@ public abstract class BaseEnemy : MonoBehaviour
         m_dieSource.rolloffMode = AudioRolloffMode.Linear;
 
         m_flashlightHit = false;
+
+        m_DropLootTracker = GameObject.FindGameObjectWithTag("Player"); // Reference to the loot tracker on player
     }
 
     protected virtual void Update()
@@ -288,14 +306,21 @@ public abstract class BaseEnemy : MonoBehaviour
         m_state = EnemyState.Dying;
         m_healthBar.SetActive(false);
         m_agent.speed = 0;
-        
-
     }
 
     protected virtual void AfterDeath()
     {
+        // Temporary Drop Some Loot location
+        for (int i = 0; i < 4; i++)
+        {
+            var go = Instantiate(m_LootOne, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
+            var go2 = Instantiate(m_LootTwo, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
+
+            go.GetComponent<HealthOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
+            go2.GetComponent<EnergyOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
+        }
         m_state = EnemyState.Dead;
-        SpawnEnemyLoot.SpawnLoot();
+        //SpawnEnemyLoot.SpawnLoot(); // commented out for testing
         GameObject.Destroy(gameObject, 1.0f);
         m_enemySpawner.GetComponent<EnemySpawner>().DecrementEnemy();
     }

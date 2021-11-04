@@ -1,0 +1,3 @@
+Prefab: Pillar
+Purpose: Fill space in a room and give the player and enemies something to navigate around.
+Interactions: This prefab is a child object of the MediumRoom (x1) and LargeRoom (x4).

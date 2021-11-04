@@ -304,6 +304,8 @@ MonoBehaviour:
   m_dieSourceClip: {fileID: 8300000, guid: 7bd123738c011b04d811b8fb6c0a214a, type: 3}
   m_idleSourceClip: {fileID: 0}
   m_hurtSourceClip: {fileID: 8300000, guid: 96dd6d70e70539d4f9700149431cdac0, type: 3}
+  m_LootOne: {fileID: 3645037430197259045, guid: 6d0e5324bbee52b4fb96322fa960625e, type: 3}
+  m_LootTwo: {fileID: 8676666247557853083, guid: dc923eefc2e82694e9fc0b490a403739, type: 3}
   m_roarSourceClip: {fileID: 8300000, guid: 7f34d2c4f0a05a640a8414ed347b502a, type: 3}
 --- !u!95 &4710223696127269104
 Animator:

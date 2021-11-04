@@ -12,7 +12,7 @@ using UnityEngine;
  * Singleton that procedurally generates each level's layout and controls the creation of each room within the level.
  *
  * Member variables:
- * m_protoRoom -- Prototype room prefab for generating the layout.
+ * m_protoRoom -- Abstract factory prefab for generating the layout.
  * m_roomMatrix -- 2D List of ProtoRoom prefabs to store the layout.
  * m_instance -- Static intance of itself for the Singleton pattern.
  * m_mwScaling -- Const float for the maze width scaling as the level number increases.
@@ -168,6 +168,35 @@ public sealed class LevelGeneration : MonoBehaviour
     public int GetRoomCount()
     {
         return m_roomCount;
+    }
+
+    /* Gets a reference to a Room object.
+     *
+     * Parameters:
+     * x -- Integer for the room's x position within the level layout grid.
+     * z -- Integer for the room's z position within the level layout grid
+     *
+     * Returns:
+     * Room -- Room at the given location. If one doesn't exist, returns null.
+     */
+    public Room GetRoom(int x, int z)
+    {
+        if (x < 0 || x >= m_roomMatrix.Count || z < 0 || z >= m_roomMatrix[x].Count)
+        {
+            // Out of bounds.
+            return null;
+        }
+        else if (m_roomMatrix[x][z] != null)
+        {
+            // Returns room's Room object.
+            return m_roomMatrix[x][z].GetComponentInChildren<Room>();
+        }
+        else
+        {
+            // Room doesn't exist.
+            Debug.LogError("Error: Attempted to access a room that doesn't exist in GetRoom().");
+            return null;
+        }
     }
 
     /* Makes the singleton's constructor static.
