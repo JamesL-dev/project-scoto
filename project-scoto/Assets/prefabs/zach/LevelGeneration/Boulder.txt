@@ -1,0 +1,3 @@
+Prefab: Boulder
+Purpose: Uneven terrain to give the player and enemies something to navigate around.
+Interactions: This prefab is instantiated a random number of times in each room, depending on the room's size.

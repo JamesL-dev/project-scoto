@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6500000}
   - component: {fileID: 6356459155776467979}
   m_Layer: 6
-  m_Name: Rock4BCopy
+  m_Name: Boulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
