@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 
 
 /*
- * Controls the player's movement and camera by using the new Unity Input System.
+ * Singleton that controls the player's movement and camera by using the new Unity Input System.
  *
  * Member variables:
  * m_jumpForce -- Float for the velocity applied to the player when jumping.
@@ -21,6 +21,7 @@ using UnityEngine.InputSystem;
  * m_mouseSens -- Vector2 for the player's mouse look sensitivity.
  * m_groundMask -- LayerMask for detecting when the player is standing on the ground.
  * m_playerCamera -- Transform for the player camera's position and rotation.
+ * m_instance -- Static intance of itself for the Singleton pattern.
  * m_movementValue -- Vector2 for the player's x and z movement inputs.
  * m_mouseValue -- Vector2 for the player's x and y mouse inputs.
  * m_jumpValue -- Float for the player's jump input (0.0f is false, 1.0f is true).
@@ -128,6 +129,11 @@ public sealed class PlayerController : MonoBehaviour
         Inst().MovePlayer();
     }
 
+    /* Gets a reference to the instance of the singleton, creating the instance if necessary.
+     *
+     * Returns:
+     * PlayerController -- Reference to the player controller.
+     */
     public static PlayerController Inst() {
         if (m_instance == null)
         {
