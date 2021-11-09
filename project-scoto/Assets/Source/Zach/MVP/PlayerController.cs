@@ -34,13 +34,14 @@ using UnityEngine.InputSystem;
  * m_sprinting -- InputAction for sprinting.
  * m_controller -- CharacterController for moving the player and detecting collisions.
  */
-public class PlayerController : MonoBehaviour
+public sealed class PlayerController : MonoBehaviour
 {
     public float m_jumpForce, m_moveSpeed, m_gravity, m_friction, m_sprintMultiplier;
     public Vector2 m_mouseSens;
     public LayerMask m_groundMask;
     public Transform m_playerCamera;
 
+    private static PlayerController m_instance;
     private Vector2 m_movementValue, m_mouseValue;
     private float m_jumpValue, m_sprintingValue;
     private Vector3 m_velocity;
@@ -124,7 +125,15 @@ public class PlayerController : MonoBehaviour
      */
     void FixedUpdate()
     {
-        MovePlayer();
+        Inst().MovePlayer();
+    }
+
+    public static PlayerController Inst() {
+        if (m_instance == null)
+        {
+            m_instance = GameObject.Find("Player").GetComponent<PlayerController>();
+        }
+        return m_instance;
     }
 
     /* Teleports the player to the given position.
@@ -145,6 +154,10 @@ public class PlayerController : MonoBehaviour
             transform.position = pos;
         }
     }
+
+    /* Makes the singleton's constructor static.
+     */
+    private PlayerController() {}
 
     /* Moves the player.
      */
@@ -171,7 +184,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Do horizontal movement and move player.
-        HorizontalMovement();
+        Inst().HorizontalMovement();
         m_controller.Move(m_velocity);
     }
 

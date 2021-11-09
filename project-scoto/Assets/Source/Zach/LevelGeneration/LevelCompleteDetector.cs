@@ -14,6 +14,32 @@ using UnityEngine.SceneManagement;
  */
 public class LevelCompleteDetector : MonoBehaviour
 {
+    private bool m_isLoadReady = false;
+
+    void Start()
+    {
+        UIController.Inst().Fade();
+    }
+
+    void Update()
+    {
+        // Detect if removing fade has finished.
+        if (!m_isLoadReady && !UIController.Inst().IsBlack())
+        {
+            // Prepare for next level completed.
+            m_isLoadReady = true;
+        }
+
+        // Detect if fade to black has finished.
+        if (m_isLoadReady && UIController.Inst().IsBlack())
+        {
+            // Load next level, then remove fade.
+            m_isLoadReady = false;
+            LevelGeneration.Inst().SetLevelNum(LevelGeneration.Inst().GetLevelNum() + 1);
+            SceneManager.LoadScene("Game");
+        }
+    }
+
     /* Detects if the next level trigger has been activated and loads the next level.
      *
      * Parameters:
@@ -23,9 +49,8 @@ public class LevelCompleteDetector : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            // Load next level.
-            LevelGeneration.Inst().SetLevelNum(LevelGeneration.Inst().GetLevelNum() + 1);
-            SceneManager.LoadScene("Game");
+            // Fade to black.
+            UIController.Inst().Fade();
         }
     }
 }

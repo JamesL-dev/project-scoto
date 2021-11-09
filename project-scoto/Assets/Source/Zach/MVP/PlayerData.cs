@@ -15,10 +15,19 @@ using UnityEngine;
  * m_health -- Float for player's health.
  * m_battery -- Float for player's battery.
  */
-public class PlayerData : MonoBehaviour
+public sealed class PlayerData : MonoBehaviour
 {
-    ////////////////////////////// Variables //////////////////////////////
     public float m_health, m_battery;
+
+    private static PlayerData m_instance;
+
+    public static PlayerData Inst() {
+        if (m_instance == null)
+        {
+            m_instance = GameObject.Find("Player").GetComponent<PlayerData>();
+        }
+        return m_instance;
+    }
 
     ////////////////////////////// Setters //////////////////////////////
     /* Set the player's health.
@@ -161,5 +170,9 @@ public class PlayerData : MonoBehaviour
     {
         return GetComponent<PlayerController>().m_sprintMultiplier;
     }
+
+    /* Makes the singleton's constructor static.
+     */
+    private PlayerData() {}
 }
 
