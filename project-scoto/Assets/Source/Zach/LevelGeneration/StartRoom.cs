@@ -58,7 +58,7 @@ public class StartRoom : Room
         
         // Spawn player.
         GameObject player = GameObject.Find("Player");
-        player.GetComponent<PlayerController>().Tp(new Vector3(0, 0, -5));
+        PlayerController.Inst().Tp(new Vector3(0, 0, -10));
 
         // Start with room cleared.
         m_isCleared = true;
