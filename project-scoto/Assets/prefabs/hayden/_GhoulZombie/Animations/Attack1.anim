@@ -59757,14 +59757,14 @@ AnimationClip:
   m_Events:
   - time: 0.75
     functionName: AlertObservers
-    data: AttackAnimationEnded
+    data: EnemyAttacked
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.25
     functionName: AlertObservers
-    data: AttackAnimationEnded
+    data: EnemyAttacked
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
