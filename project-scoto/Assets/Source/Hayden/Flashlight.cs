@@ -98,8 +98,8 @@ public class Flashlight : MonoBehaviour
     private void Start()
     {
         m_maxBatteryLevel = 100.0f;
-        m_timeBetwenFlashlightDeplete = 0.125f;
-        m_flashlightDepleteAmnt = 0.25f; // 0.25 works good
+        m_timeBetwenFlashlightDeplete = 0.075f;
+        m_flashlightDepleteAmnt = 0.5f; // 0.25 works good
         m_focusZoomLvl = 2.0f;
         m_normalFlashlightAngle = 100.0f;
         m_focusFlashlightAngle = 30.0f;

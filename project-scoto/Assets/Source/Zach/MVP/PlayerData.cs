@@ -55,7 +55,6 @@ public sealed class PlayerData : MonoBehaviour
     */
     public void TakeDamage(float damage)
     {
-        Debug.Log(damage + " " + m_health);
         m_health -= damage;
     
         if (m_health <= 0)
