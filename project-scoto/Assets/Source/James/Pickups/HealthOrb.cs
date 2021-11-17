@@ -15,19 +15,20 @@ using UnityEngine;
 */
 public class HealthOrb : PowerUp
 {
-    public int m_HealthBonus;
     GameObject m_player;
     public Transform m_target;
     public float MinModifier = 5;
     public float MaxModifier = 12;
     Vector3 m_velocity = Vector3.zero;
     bool isFollowing = false;
-    public int m_healthBonus = 50;
+    public int m_healthBonus = 2;
 
-    void start()
+    protected override void Start()
     {
-        m_player = GameObject.FindGameObjectWithTag("Player");
+        m_player = GameObject.FindGameObjectWithTag("DropLootTracker");
         m_target = m_player.transform;
+        base.powerUpState = PowerUpState.InAttractMode;
+        Debug.Log("HealthOrb#Start# Ive been called");
     }
     /* Function that contains payload information.
     *  Default powerup payload is overridden here
@@ -36,11 +37,16 @@ public class HealthOrb : PowerUp
     *
     * Returns: none
     */
+    protected override void OnTriggerEnter (Collider collision)
+    {
+        Debug.Log("HealthOrb#OnTriggerEnter# Trigger enter being called");
+        PowerUpCollected(collision.gameObject);
+    }
     protected override void PowerUpPayload()
     {
         base.PowerUpPayload();
-
-        // add health
+        PlayerData.Inst().TakeHealth(m_healthBonus);
+        Debug.Log("HealthOrb#PowerUpPayLoad# Adding Health to Player");
         // playerStuff.setScoinAdjustment(addhealth);
     }
 
@@ -50,11 +56,6 @@ public class HealthOrb : PowerUp
     *
     * Returns: none
     */
-    protected override void DestroySelfAfterDelay()
-    {
-        Destroy(gameObject); 
-    }
-
     public void StartFollowing()
     {
         isFollowing = true;
