@@ -9,16 +9,31 @@ using UnityEngine;
 
 
 /*
- * Allows for storage and modification of various player values.
+ * Singleton that allows for storage and modification of various player values.
  *
  * Member variables:
  * m_health -- Float for player's health.
  * m_battery -- Float for player's battery.
+ * m_instance -- Static intance of itself for the Singleton pattern.
  */
-public class PlayerData : MonoBehaviour
+public sealed class PlayerData : MonoBehaviour
 {
-    ////////////////////////////// Variables //////////////////////////////
     public float m_health, m_battery;
+
+    private static PlayerData m_instance;
+
+    /* Gets a reference to the instance of the singleton, creating the instance if necessary.
+     *
+     * Returns:
+     * PlayerData -- Reference to the player data.
+     */
+    public static PlayerData Inst() {
+        if (m_instance == null)
+        {
+            m_instance = GameObject.Find("Player").GetComponent<PlayerData>();
+        }
+        return m_instance;
+    }
 
     ////////////////////////////// Setters //////////////////////////////
     /* Set the player's health.
@@ -161,5 +176,9 @@ public class PlayerData : MonoBehaviour
     {
         return GetComponent<PlayerController>().m_sprintMultiplier;
     }
+
+    /* Makes the singleton's constructor static.
+     */
+    private PlayerData() {}
 }
 

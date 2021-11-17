@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 9151724229811613588}
   - component: {fileID: 5186551711905813700}
   m_Layer: 6
-  m_Name: Pillar
+  m_Name: StonePillar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

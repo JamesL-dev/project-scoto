@@ -1,0 +1,4 @@
+Prefab: StonePillar
+Purpose: Fill space in a room and give the player and enemies something to navigate around. Also good decoration.
+Interactions: This prefab is a child object of the MediumRoom (x1) and LargeRoom (x4). Player, enemies, and other
+objects can't pass through it.
