@@ -13,54 +13,32 @@ using UnityEngine;
  *
  * Member variables:
  * m_health -- Float for player's health.
-<<<<<<< Updated upstream
  * m_battery -- Float for player's battery.
-=======
- * m_maxHealth -- Float for the maximum value of the player's health
- * m_instance -- Static intance of itself for the Singleton pattern.
->>>>>>> Stashed changes
  */
 public class PlayerData : MonoBehaviour
 {
-<<<<<<< Updated upstream
     ////////////////////////////// Variables //////////////////////////////
     public float m_health, m_battery;
-=======
-    public float m_health, m_maxHealth;
->>>>>>> Stashed changes
 
     ////////////////////////////// Setters //////////////////////////////
-    /*
-    * Gives the enemy a specified amount of health
-    *
-    * Parameters:
-    * health - amount of health to give
-    */
-    public void TakeHealth(float health)
+    /* Set the player's health.
+     *
+     * Parameters:
+     * h - Float for health.
+     */
+    public void SetHealth(float h)
     {
-        TakeDamage(-health);
+        m_health = h;
     }
 
-    /*
-    * Takes damage away from the player
-    *
-    * Parameters:
-    * damage - amount of damage to take
-    */
-    public void TakeDamage(float damage)
+    /* Set the player's battery.
+     *
+     * Parameters:
+     * b - Float for battery.
+     */
+    public void SetBattery(float b)
     {
-        Debug.Log(damage + " " + m_health);
-        m_health -= damage;
-    
-        if (m_health <= 0)
-        {
-            m_health = 0;
-            // Die();
-        }
-        else if (m_health >= m_maxHealth)
-        {
-            m_health = m_maxHealth;
-        }
+        m_battery = b;
     }
 
     /* Set the player's jump force.
@@ -114,30 +92,25 @@ public class PlayerData : MonoBehaviour
     }
 
     ////////////////////////////// Getters //////////////////////////////
-    /*
-    * Gets the current health of the player
-    *
-    * Returns:
-    * float - health of the player
-    */
-    public float GetHealth() {return m_health;}
+    /* Get the player's health.
+     *
+     * Returns:
+     * float -- Health.
+     */
+    public float GetHealth()
+    {
+        return m_health;
+    }
 
-    /*
-    * Gets the current health of the player as a percent
-    *
-    * Returns:
-    * float - gets the current health percent. Should return value [0, 1]
-    */
-    public float GetHealthPercent() {return m_health/m_maxHealth;}
-
-    /*
-    * Gets the max health the player can have
-    *
-    * Returns:
-    * float - returns m_maxHealth (the maximum health the player can have)
-    */
-    public float GetMaxHealth() {return m_maxHealth;}
-
+    /* Get the player's battery.
+     *
+     * Returns:
+     * float -- Battery.
+     */
+    public float GetBattery()
+    {
+        return m_battery;
+    }
 
     /* Get the player's jump force.
      *

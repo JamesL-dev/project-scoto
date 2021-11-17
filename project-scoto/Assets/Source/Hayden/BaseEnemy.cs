@@ -72,13 +72,6 @@ public abstract class BaseEnemy : MonoBehaviour
     */
 
     GameObject m_DropLootTracker; // This is used to track location to drop loot
-    
-    /*
-    * Gets the current health of the enemy
-    *
-    * Returns:
-    * float - health of the enemy
-    */
     public float GetHealth() {return m_health;}
 
     /*
@@ -134,7 +127,7 @@ public abstract class BaseEnemy : MonoBehaviour
     }
 
     /*
-    * Takes damage away from the enemy
+    * Takes damage away from the player
     *
     * Parameters:
     * damage - amount of damage to take
@@ -245,7 +238,7 @@ public abstract class BaseEnemy : MonoBehaviour
         m_dieSource.clip = m_dieSourceClip;
         m_hurtSource.clip = m_hurtSourceClip;
 
-        m_healthBar = transform.Find("EnemyHealthBar").GetComponent<HealthBar>();
+        m_healthBar = transform.Find("HealthBar").GetComponent<HealthBar>();
         m_healthBar.SetActive(false);
         m_animator = GetComponent<Animator>();
         m_health = m_maxHealth;
@@ -491,7 +484,7 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             if (m_playerInAttackRange)
             {
-                m_player.GetComponent<PlayerData>().TakeDamage(m_damagePerHit);
+                // player.TakeDamage(m_damagePerHit);
             }
         }
 

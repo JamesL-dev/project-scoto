@@ -399,7 +399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7680224886463591915, guid: 4da3f89089f9b564d903300080b21411, type: 3}
       propertyPath: m_Name
-      value: EnemyHealthBar
+      value: HealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 7680224886463591915, guid: 4da3f89089f9b564d903300080b21411, type: 3}
       propertyPath: m_IsActive
