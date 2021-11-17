@@ -24,9 +24,9 @@ public class EnergyOrb : PowerUp
     bool isFollowing = false;
     private Flashlight m_Flashlight;
 
-    void start()
+    protected override void Start()
     {
-        m_player = GameObject.FindGameObjectWithTag("Player");
+        m_player = GameObject.FindGameObjectWithTag("DropLootTracker");
         m_target = m_player.transform;
     }
     /* Function that contains payload information.
@@ -40,9 +40,9 @@ public class EnergyOrb : PowerUp
     {
         base.PowerUpPayload();
 
-        // add energy
+        Debug.Log("EnergyOrb#PowerUpPayload# adding charge to flashlight");
         m_Flashlight = GameObject.Find("Flashlight").GetComponent<Flashlight>();
-        m_Flashlight.AddBattery(50f);
+        m_Flashlight.AddBattery(5f);
     }
 
     /* Function to destroy object when picked up

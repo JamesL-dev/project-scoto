@@ -847,8 +847,8 @@ MonoBehaviour:
   m_dieSourceClip: {fileID: 8300000, guid: 771342ca83f7cbb4f94d817ea451075e, type: 3}
   m_idleSourceClip: {fileID: 0}
   m_hurtSourceClip: {fileID: 8300000, guid: ecc3ba44d62b9c64da40a93affb1099b, type: 3}
-  m_LootOne: {fileID: 3645037430197259045, guid: 6d0e5324bbee52b4fb96322fa960625e, type: 3}
-  m_LootTwo: {fileID: 8676666247557853083, guid: dc923eefc2e82694e9fc0b490a403739, type: 3}
+  m_LootOne: {fileID: 8437991095193359040, guid: cbe643dbeb0e0474393018ab156c8171, type: 3}
+  m_LootTwo: {fileID: 2626743413811528142, guid: 58d4165de6b355b419b14b4dc5748f5e, type: 3}
 --- !u!195 &6546410325988052356
 NavMeshAgent:
   m_ObjectHideFlags: 0
