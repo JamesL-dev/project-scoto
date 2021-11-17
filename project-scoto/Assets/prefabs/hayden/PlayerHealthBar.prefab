@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 6448797718597569286}
   - component: {fileID: 3888316976475296156}
   m_Layer: 5
-  m_Name: batteryLogo
+  m_Name: healthLogo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 1be7214f14275d34a86be19fdfa87234, type: 3}
+  m_Texture: {fileID: 2800000, guid: 0a9614bde1ac68f4fba86a41f5f32f01, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -155,7 +155,7 @@ GameObject:
   - component: {fileID: 2920300618939237954}
   - component: {fileID: 8840700690963243886}
   m_Layer: 5
-  m_Name: _BatteryBar
+  m_Name: _HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,8 +181,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 50, y: 10}
+  m_AnchoredPosition: {x: 578.5, y: 316.5}
+  m_SizeDelta: {x: 100, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2920300618939237954
 MonoBehaviour:
@@ -301,14 +301,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8396226, g: 0.14653791, b: 0.14653791, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7cd48eb0c304a1d46af0a0c58dcba0c9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b95d3de3d2f47eb44ab5161f2dabca77, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -328,8 +328,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5225992564456111909}
   - component: {fileID: 2931591043803520713}
+  - component: {fileID: 7482149920172114681}
   m_Layer: 0
-  m_Name: BatteryBar
+  m_Name: PlayerHealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -360,6 +361,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eaf350b01891f704ead7b42f3ecccf90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7482149920172114681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6234162672998429056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b0e5b44f8c4a3d458c7db3b2eb11ae3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &9006096998079155148
@@ -420,7 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.20784314, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.20754719, g: 0.19677822, b: 0.19677822, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
