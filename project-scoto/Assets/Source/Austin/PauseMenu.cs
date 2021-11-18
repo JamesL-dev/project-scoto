@@ -15,6 +15,7 @@ using UnityEngine.InputSystem;
 public class PauseMenu : LaunchMenu
 {
     [SerializeField] private InputActionMap m_inputActionMap;
+    public GameObject levelCounter;
 
     /*
      * Loads the game scene itself.
@@ -45,6 +46,7 @@ public class PauseMenu : LaunchMenu
             firstChild.SetActive(true);
             PlayerController.Inst().OnDisable();
             WeaponManager.Inst().OnDisable();
+            levelCounter.SetActive(true);
         }
         else
         {
@@ -52,6 +54,7 @@ public class PauseMenu : LaunchMenu
             firstChild.SetActive(false);
             PlayerController.Inst().OnEnable();
             WeaponManager.Inst().OnEnable();
+            levelCounter.SetActive(false);
         }
     }
 

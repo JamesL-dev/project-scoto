@@ -28,7 +28,7 @@ public sealed class LevelGeneration : MonoBehaviour
 
     private static LevelGeneration m_instance;
     private const float m_mwScaling = 0.1f, m_mhScaling = 0.2f;
-    private int m_levelNum = 1;
+    private static int m_levelNum = 1;
     private int m_roomCount = 0;
 
     private bool m_isBaked = false;
