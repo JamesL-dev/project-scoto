@@ -2,6 +2,7 @@
  * Filename: DeathMenu.cs
  * Developer: Austin Kugler
  * Purpose:
+ * Software Pattern: Singleton
  */
 using System.Collections;
 using System.Collections.Generic;

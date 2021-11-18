@@ -1,7 +1,8 @@
 /*
  * Filename: BaseMenu.cs
  * Developer: Austin Kugler
- * Purpose:
+ * Purpose: Serves as a factory interface
+ * Software Pattern: Factory
  */
 using System.Collections;
 using System.Collections.Generic;
