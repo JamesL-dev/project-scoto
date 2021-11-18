@@ -14,6 +14,10 @@ public sealed class OptionsMenu : MonoBehaviour
 {
     private static OptionsMenu m_instance;
 
+    /* Makes the singleton's constructor private.
+     */
+    private OptionsMenu() {}
+
     /* Gets a reference to the instance of the singleton, creating the instance if necessary.
      *
      * Returns:
@@ -48,5 +52,18 @@ public sealed class OptionsMenu : MonoBehaviour
     {
         Debug.Log(qualityIndex);
         QualitySettings.SetQualityLevel(qualityIndex);
+    }
+
+    /*
+     * Setter function for the mouse sensitivity.
+     *
+     * Parameters:
+     * sensitivity -- The mouse sensitivity to set.
+     */
+    public void SetSensitivity(float sensitivity)
+    {
+        PlayerController.Inst().m_mouseSens.x = sensitivity;
+        PlayerController.Inst().m_mouseSens.y = sensitivity;
+        Debug.Log("Sensitivty: " + sensitivity);
     }
 }

@@ -45,6 +45,7 @@ public class PauseMenu : LaunchMenu
             firstChild.SetActive(true);
             PlayerController.Inst().OnDisable();
             WeaponManager.Inst().OnDisable();
+            // GameObject.Find("Player").GetComponent<AudioSource>().Pause();
         }
         else
         {
