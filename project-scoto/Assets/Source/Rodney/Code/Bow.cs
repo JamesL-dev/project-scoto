@@ -13,7 +13,6 @@ using UnityEngine;
  */
 public class Bow : Weapon 
 {    
-
     void Start() 
     {
         m_maxTime = 10; 
@@ -22,6 +21,7 @@ public class Bow : Weapon
 
     /*
      * overriden function used to fire weapon
+     *
      * Parameters:
      * position -- position vector to instantiate projectile
      * rotation -- rotation quaternion to instantiace projectile

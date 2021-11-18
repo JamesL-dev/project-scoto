@@ -14,7 +14,11 @@ using UnityEngine.InputSystem;
  * Main Class
  *
  * Member Variables:
- *
+ * m_poolAmt -- amount of object pools
+ * m_key -- maps ProjectileType enum to the index projectile type's index in m_objects
+ * m_serializeKeyValues -- user assigns enum - index pairs for m key array here, then this is assigned to m_key dictionary
+ * m_queueSize -- used for debugging. shows size of queue
+ * m_objects -- array of ObjectPool's
  */
 public sealed class ProjectileObjectPool : MonoBehaviour 
 {  
@@ -31,17 +35,14 @@ public sealed class ProjectileObjectPool : MonoBehaviour
     }
 
     const int m_poolAmt = 2;
-    [SerializeField] public int[] m_stackSize = new int[m_poolAmt];
+    [SerializeField] public int[] m_queueSize = new int[m_poolAmt];
     [SerializeField] public ConcurrentDictionary<ProjectileType, int> m_key = new ConcurrentDictionary<ProjectileType, int>(1, m_poolAmt);
     [SerializeField] public ProjectileType[] m_serializeKeyValues = new ProjectileType[m_poolAmt];
     [SerializeField] public ObjectPool[] m_objects = new ObjectPool[m_poolAmt]; 
     // Index a object Pool doing m_objects[m_key[(int)ProjectileType]].objectPool   
 
-    GameObject m_parent;
-
     void Start()
     {
-        m_parent = GameObject.Find("Projectiles");
         for(int i = 0; i < m_poolAmt; i++)
         {
             m_key[m_serializeKeyValues[i]] = i;
@@ -52,13 +53,19 @@ public sealed class ProjectileObjectPool : MonoBehaviour
     {
         for(int i = 0; i < m_poolAmt; i++)
         {
-            m_stackSize[i] = m_objects[i].objectPool.Count;
+            m_queueSize[i] = m_objects[i].objectPool.Count;
         }
     }
 
 
     /*
      * Gives reusable to outside entity
+     *
+     * Parameter:
+     * type -- enum of projectile type
+     *
+     * Returns:
+     * GameObject -- instance of projectile for weapon subclass to use
      */
     public GameObject acquireReusable(ProjectileType type)
     {
@@ -83,18 +90,14 @@ public sealed class ProjectileObjectPool : MonoBehaviour
 
     /*
      * Returns reusable to object pool
+     * 
+     * Parameters:
+     * type -- enum of projectile type
+     * GameObject -- instance of projectile weapon subclass passed to object pool
      */
     public void releaseReusable(ProjectileType type, GameObject reusable)
     {
         reusable.SetActive(false);
-
-        // if((reusable.transform.GetComponent("Arrow") as Arrow) == null && (reusable.transform.GetComponent("GreekProjectile") as GreekProjectile) == null)
-        // {
-        //     Debug.LogError("Wrong gameobject given to ProjectileObjectPool");
-        // }
-
-        reusable.transform.position = Vector3.zero;
-        reusable.transform.rotation = Quaternion.identity;
         m_objects[m_key[type]].objectPool.Enqueue(reusable);
         reusable.transform.SetParent(null);
     }

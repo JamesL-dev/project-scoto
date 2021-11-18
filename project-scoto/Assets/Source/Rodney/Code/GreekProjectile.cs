@@ -12,14 +12,14 @@ using UnityEngine;
  * Main Class
  *
  * Member Variables:
+ * m_damage -- amount of damage grenade gives on inpact
  * m_fireAtExplosion -- determines if ring of fire is instantiate at AOE effect
  * m_explosion -- gameobject for explosion
  * m_fire -- gameobject for fire at AOE effect
- * m_velocityScalar -- velocity scalar given to rigidbody velocity
  * m_radius -- radius of explosion
  * m_maxTime -- time tell explosion
  * m_timer -- time since projectile instantiated
- * m_fireSmall -- secondary ring of fire game object
+ * m_objPool -- reference to object pool to obtain projectiles to fire
  */
 public class GreekProjectile : MonoBehaviour
 {
@@ -29,17 +29,11 @@ public class GreekProjectile : MonoBehaviour
 
     float m_radius = 5F;
     int m_maxTime = 75, m_timer = 0;
-    GameObject m_fireSmall;
     ProjectileObjectPool m_objPool;
 
     void Awake() 
     { 
         m_objPool = GameObject.Find("ProjectileObjectPool").GetComponent<ProjectileObjectPool>();
-        m_fireSmall = m_fire;
-    }
-
-    void OnEnable()
-    {
         m_timer = 0;
     }
 
@@ -49,24 +43,21 @@ public class GreekProjectile : MonoBehaviour
         if(m_timer > m_maxTime) 
         {
             Instantiate(m_explosion, gameObject.transform.position, gameObject.transform.rotation); 
-            //Instantiate(m_fire, gameObject.transform.position, gameObject.transform.rotation); 
             if(m_fireAtExplosion)
             {
                 Instantiate(m_fire, new Vector3(gameObject.transform.position.x, .2F, gameObject.transform.position.z), 
                     Quaternion.LookRotation(Vector3.right, Vector3.up)); 
-                m_fireSmall = Instantiate(m_fireSmall, new Vector3(gameObject.transform.position.x, .2F, gameObject.transform.position.z), 
-                    Quaternion.LookRotation(Vector3.right, Vector3.up)) as GameObject; 
-                m_fireSmall.transform.localScale = new Vector3(1.5F, 0.75F, 1.5F);
+                m_fire.transform.localScale = new Vector3(3F, 1.5F, 3F);
 
 
                 Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, m_radius);
                 foreach (var hitCollider in hitColliders)
                 {
-                    if(hitCollider == null) {continue;}
                     BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hitCollider);
                     if (enemy) { enemy.HitEnemy(BaseEnemy.WeaponType.Grenade, m_damage); }
                 }
             }
+            m_timer = 0;
             m_objPool.releaseReusable(ProjectileObjectPool.ProjectileType.Grenade, gameObject);
         }
     }

@@ -4731,12 +4731,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioSource: {fileID: 8256470}
-  StartTime: 0.25
-  StopTime: 1
-  Duration: 1
+  StartTime: 0
+  StopTime: 0.4
+  Duration: 0.4
   ForceAmount: 0
   ForceRadius: 0
-  IsProjectile: 1
+  IsProjectile: 0
   ManualParticleSystems: []
 --- !u!82 &8256470
 AudioSource:
@@ -4750,7 +4750,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9e8ce623bafed8e43bedc188b3fc046f, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.002
   m_Pitch: 1
   Loop: 0
   Mute: 0
