@@ -16,7 +16,7 @@ public class Bow : Weapon
 
     void Start() 
     {
-        m_maxTime = 15; 
+        m_maxTime = 10; 
         m_discovered = true;
     }
 
@@ -29,7 +29,13 @@ public class Bow : Weapon
     public override void Fire(Vector3 position, Quaternion rotation) 
     {
         rotation *= Quaternion.Euler(-90,0,0);
-        Instantiate(m_projectile, position - rotation*Vector3.up*.75F, rotation);
+
+        GameObject thisProjectile = m_objPool.acquireReusable(ProjectileObjectPool.ProjectileType.Arrow);
+        thisProjectile.transform.position = position - rotation*Vector3.up*.75F;
+        thisProjectile.transform.rotation = rotation;
+        thisProjectile.SetActive(true);
+
+        // Instantiate(m_projectile, position - rotation*Vector3.up*.75F, rotation);
     }
 }
 

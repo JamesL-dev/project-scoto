@@ -24,40 +24,53 @@ using UnityEngine;
  */
 public class Arrow : MonoBehaviour
 {
-    [SerializeField] public float m_damage = 10F, m_maxTime = 60F;
+    [SerializeField] public float m_damage = 10F, m_maxTime = 120F;
 
-    float m_velocityScalar = 1F, m_accelerationScalar = 1F;
+    float m_velocityScalar = .5F, m_accelerationScalar = 1F;
     int m_timer = 0;
     bool m_inAir = true;
     Vector3 m_acceleration = new Vector3(0.0F,-0.001F,0.0F), m_velocity = new Vector3(0,0,0);
     Light m_light;
+    ProjectileObjectPool m_objPool;
 
     void Awake() 
     {
+        m_objPool = GameObject.Find("ProjectileObjectPool").GetComponent<ProjectileObjectPool>();
         m_velocity = -(gameObject.transform.rotation * Vector3.up * m_velocityScalar);
-        m_acceleration *= m_accelerationScalar;
+        m_acceleration = new Vector3(0.0F,-0.001F,0.0F) * m_accelerationScalar;
         m_light = gameObject.AddComponent<Light>();
         m_light.color = Color.white;
         m_light.range = 20;
         m_light.intensity = .25F;
     }
 
+    void OnEnable()
+    {
+        m_velocity = -(gameObject.transform.rotation * Vector3.up * m_velocityScalar);
+        m_acceleration = new Vector3(0.0F,-0.001F,0.0F) * m_accelerationScalar;
+        m_timer = 0;
+        m_light.intensity = .25F;
+        m_inAir = true;
+    }
+
     void FixedUpdate() 
     {
+        m_timer++;
         if(m_inAir) 
         {
-            gameObject.transform.position += m_velocity ;
+            gameObject.transform.position += m_velocity;
             m_velocity += m_acceleration;
         }
-
-        m_timer ++;
-        if(!m_inAir) 
+        else
         {
             m_timer ++;
             m_light.intensity -= .003F;
-            //if(m_light.intensity == 0) {fade_light = false;}
         }
-        if(m_timer > m_maxTime) {Destroy(gameObject);}
+
+        if(m_timer > m_maxTime) 
+        {   
+            m_objPool.releaseReusable(ProjectileObjectPool.ProjectileType.Arrow, gameObject);
+        }
     }
 
     void OnTriggerEnter(Collider other) 
@@ -70,7 +83,9 @@ public class Arrow : MonoBehaviour
             if (enemy)
             {
                 enemy.HitEnemy(BaseEnemy.WeaponType.Arrow, m_damage);
-                gameObject.transform.parent = other.transform;
+                // gameObject.transform.SetParent(other.transform);
+                m_objPool.releaseReusable(ProjectileObjectPool.ProjectileType.Arrow, gameObject);
+
             }
             else if(other.gameObject.layer == LayerMask.NameToLayer("Ground")) 
             {

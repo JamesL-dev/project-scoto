@@ -27,14 +27,20 @@ public class GreekProjectile : MonoBehaviour
     public bool m_fireAtExplosion = true;
     public GameObject m_explosion, m_fire;
 
-    float m_velocityScalar = 20F, m_radius = 5F;
-    int m_maxTime = 45, m_timer = 0;
-    private GameObject m_fireSmall;
+    float m_radius = 5F;
+    int m_maxTime = 75, m_timer = 0;
+    GameObject m_fireSmall;
+    ProjectileObjectPool m_objPool;
 
     void Awake() 
     { 
-        GetComponent<Rigidbody>().velocity = gameObject.transform.rotation*Quaternion.Euler(80,0,0) * Vector3.up * m_velocityScalar;
+        m_objPool = GameObject.Find("ProjectileObjectPool").GetComponent<ProjectileObjectPool>();
         m_fireSmall = m_fire;
+    }
+
+    void OnEnable()
+    {
+        m_timer = 0;
     }
 
     void FixedUpdate() 
@@ -51,15 +57,17 @@ public class GreekProjectile : MonoBehaviour
                 m_fireSmall = Instantiate(m_fireSmall, new Vector3(gameObject.transform.position.x, .2F, gameObject.transform.position.z), 
                     Quaternion.LookRotation(Vector3.right, Vector3.up)) as GameObject; 
                 m_fireSmall.transform.localScale = new Vector3(1.5F, 0.75F, 1.5F);
-                
+
+
                 Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, m_radius);
                 foreach (var hitCollider in hitColliders)
                 {
+                    if(hitCollider == null) {continue;}
                     BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hitCollider);
                     if (enemy) { enemy.HitEnemy(BaseEnemy.WeaponType.Grenade, m_damage); }
                 }
             }
-            Destroy(gameObject);
+            m_objPool.releaseReusable(ProjectileObjectPool.ProjectileType.Grenade, gameObject);
         }
     }
 }
