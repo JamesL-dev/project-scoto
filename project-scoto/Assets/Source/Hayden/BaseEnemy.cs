@@ -421,7 +421,7 @@ public abstract class BaseEnemy : MonoBehaviour
         Vector3 distanceToWalkPoint = transform.position - m_walkPoint;
 
         //Walkpoint reached
-        if (distanceToWalkPoint.magnitude < 1f)
+        if (distanceToWalkPoint.magnitude < 3f)
         {
             m_walkPointSet = false;
             m_patrolWaiting = true;
