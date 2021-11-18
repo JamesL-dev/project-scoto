@@ -13,6 +13,8 @@ using UnityEngine;
  */
 public class GreekFire : Weapon
 {
+    float m_velocityScalar = 20F;
+
     void Start()
     {
         m_maxTime = 15;
@@ -26,7 +28,12 @@ public class GreekFire : Weapon
     { 
         if(WeaponManager.AmmoAvailable())
         {
-            Instantiate(m_projectile, position, rotation); 
+            GameObject thisProjectile = m_objPool.acquireReusable(ProjectileObjectPool.ProjectileType.Grenade);
+            thisProjectile.transform.position = position;
+            thisProjectile.transform.rotation = rotation;
+            thisProjectile.GetComponent<Rigidbody>().velocity = gameObject.transform.rotation*Quaternion.Euler(80,0,0) * Vector3.up * m_velocityScalar;
+            thisProjectile.SetActive(true);
+
             WeaponManager.DecrementAmmo();
         }
         else

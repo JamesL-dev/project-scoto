@@ -22,7 +22,8 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     [SerializeField] public float m_damage = 10;
-    public GameObject m_weapon, m_projectile;
+    public GameObject m_weapon; 
+    public ProjectileObjectPool m_objPool;
 
     protected int m_maxTime = 15;
     protected bool m_isActive = false, m_discovered = false;
@@ -38,6 +39,12 @@ public class Weapon : MonoBehaviour
     public bool isFound() { return m_discovered; }
     public int Time() { return m_maxTime; }
     
+
+    void Awake()
+    {
+        m_objPool = GameObject.Find("ProjectileObjectPool").GetComponent<ProjectileObjectPool>();
+    }
+
     /*
      * Sets a weapon to discovered, so player can use it
      */
@@ -65,12 +72,14 @@ public class Weapon : MonoBehaviour
         m_isActive = yes; 
     }
 
+
     /*
      * Function to fire the weapon (overloaded at each instance of a subclass)
      */
     public virtual void Fire(Vector3 position, Quaternion rotation) 
     { 
-        Instantiate(m_projectile, position, rotation); 
+        // Instantiate(m_projectile, position, rotation); 
+        Debug.Log("Weapon superclass Fire() function called, but should be overloaded at each subclass");
     }
 }
 
