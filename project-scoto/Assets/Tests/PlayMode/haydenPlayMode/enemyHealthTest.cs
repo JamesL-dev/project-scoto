@@ -8,17 +8,28 @@ using UnityEngine.SceneManagement;
 
 public class EnemyHealthTest
 {
+
+    [SetUp]
+    public void SetUp()
+    {
+        SceneManager.LoadScene("Game");
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        SceneManager.UnloadScene("Game");
+    }
+
     [UnityTest]
     public IEnumerator EnemyBelow0Health()
     {
-        SceneManager.LoadScene("Game");
-        yield return new WaitForSeconds(3); // wait for scene to load
-        GameObject go = GameObject.Find("Minotaur(clone)");
+        GameObject go = GameObject.Find("Minotaur(Clone)");
         if (go == null)
         {
-            go = GameObject.Find("Ghoul(clone)");
+            go = GameObject.Find("Ghoul(Clone)");
         }
-        Assert.IsTrue(go);
+        yield return null;
         BaseEnemy baseEnemy = go.GetComponent<BaseEnemy>();
 
         baseEnemy.TakeDamage(baseEnemy.GetMaxHealth() + 100);
@@ -37,14 +48,11 @@ public class EnemyHealthTest
     [UnityTest]
     public IEnumerator EnemyAboveMaxHealth()
     {
-        SceneManager.LoadScene("Game");
-        yield return new WaitForSeconds(3); // wait for scene to load
-        GameObject go = GameObject.Find("Minotaur(clone)");
+        GameObject go = GameObject.Find("Minotaur(Clone)");
         if (go == null)
         {
-            go = GameObject.Find("Ghoul(clone)");
+            go = GameObject.Find("Ghoul(Clone)");
         }
-        Assert.IsTrue(go != null);
         BaseEnemy baseEnemy = go.GetComponent<BaseEnemy>();
 
         baseEnemy.TakeHealth(baseEnemy.GetMaxHealth() + 100);

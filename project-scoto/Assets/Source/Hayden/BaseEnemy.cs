@@ -227,6 +227,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected virtual void Start()
     {
+        m_healthBar = transform.Find("EnemyHealthBar").GetComponent<HealthBar>();
         m_enemySpawner = transform.parent.gameObject;
         m_player = GameObject.Find("Player").transform;
         m_agent = GetComponent<NavMeshAgent>();
@@ -249,6 +250,7 @@ public abstract class BaseEnemy : MonoBehaviour
         m_healthBar.SetActive(false);
         m_animator = GetComponent<Animator>();
         m_health = m_maxHealth;
+
         m_agent.autoTraverseOffMeshLink = false;
         m_patrolWaiting = false;
         m_attackWaiting = false;
@@ -275,13 +277,13 @@ public abstract class BaseEnemy : MonoBehaviour
         m_flashlightHit = false;
 
         m_DropLootTracker = GameObject.FindGameObjectWithTag("Player"); // Reference to the loot tracker on player
+
     }
 
     protected virtual void Update()
     {
         m_playerInSightRange = Physics.CheckSphere(transform.position, m_sightRange, m_playerMask);
         m_playerInAttackRange = Physics.CheckSphere(transform.position, m_attackRange, m_playerMask);
-
 
         if (m_health <= 0)
         {
