@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 7107980730941618630}
   - component: {fileID: 4710223696127269104}
   m_Layer: 8
-  m_Name: HeavyEnemy
+  m_Name: Minotaur
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
