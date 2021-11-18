@@ -45,11 +45,12 @@ public class GreekProjectile : MonoBehaviour
             Instantiate(m_explosion, gameObject.transform.position, gameObject.transform.rotation); 
             if(m_fireAtExplosion)
             {
+                // Creates ring of fire
                 Instantiate(m_fire, new Vector3(gameObject.transform.position.x, .2F, gameObject.transform.position.z), 
                     Quaternion.LookRotation(Vector3.right, Vector3.up)); 
                 m_fire.transform.localScale = new Vector3(3F, 1.5F, 3F);
 
-
+                // Deals explosion damage to all enemies in m_radius range
                 Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, m_radius);
                 foreach (var hitCollider in hitColliders)
                 {
@@ -57,6 +58,7 @@ public class GreekProjectile : MonoBehaviour
                     if (enemy) { enemy.HitEnemy(BaseEnemy.WeaponType.Grenade, m_damage); }
                 }
             }
+            // Pass grenade back to reusable / object pool
             m_timer = 0;
             m_objPool.releaseReusable(ProjectileObjectPool.ProjectileType.Grenade, gameObject);
         }
