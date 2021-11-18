@@ -1,5 +1,5 @@
 /*
- * Filename: LaunchMenu.cs
+ * Filename: DeathMenu.cs
  * Developer: Austin Kugler
  * Purpose:
  */
@@ -8,14 +8,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public sealed class LaunchMenu : BaseMenu
+public sealed class DeathMenu : BaseMenu
 {
-    private static LaunchMenu m_instance;
+    private static DeathMenu m_instance;
 
-    public static LaunchMenu Inst() {
+    public static DeathMenu Inst() {
         if (m_instance == null)
         {
-            m_instance = GameObject.Find("LaunchMenu").GetComponent<LaunchMenu>();
+            m_instance = GameObject.Find("DeathMenu").GetComponent<DeathMenu>();
         }
         return m_instance;
     }

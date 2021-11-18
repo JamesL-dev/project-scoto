@@ -10,8 +10,6 @@ using UnityEngine.SceneManagement;
 
 public abstract class BaseMenu : MonoBehaviour
 {
-    public abstract void Load();
-
     public virtual void QuitGame()
     {
         Application.Quit();

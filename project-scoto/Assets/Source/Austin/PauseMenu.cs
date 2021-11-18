@@ -23,11 +23,6 @@ public sealed class PauseMenu : BaseMenu
         return m_instance;
     }
 
-    public override void Load()
-    {
-        SceneManager.LoadScene("PauseMenu");
-    }
-
     public override void LoadGame()
     {
         OnPauseGame(new InputAction.CallbackContext());
