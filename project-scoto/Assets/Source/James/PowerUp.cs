@@ -51,13 +51,10 @@ public class PowerUp : MonoBehaviour
 
         m_soundEffectSource = gameObject.AddComponent<AudioSource>();
         m_soundEffectSource.clip = m_soundEffect;
-        Debug.Log(m_soundEffectSource);
         m_soundEffectSource.volume = 0.5f; 
         m_soundEffectSource.spatialBlend = 0;
         m_soundEffectSource.maxDistance = 25.0f;
         m_soundEffectSource.rolloffMode = AudioRolloffMode.Linear;
-
-        Debug.Log("PowerUp#Start# Ive been called");
     }
 
     /* Function for 3D object interaction.
@@ -69,7 +66,6 @@ public class PowerUp : MonoBehaviour
     */
     protected virtual void OnTriggerEnter (Collider collision)
     {
-            Debug.Log("PowerUp#OnTriggerEnter# Trigger enter being called");
             PowerUpCollected(collision.gameObject);
     }
 
@@ -163,7 +159,7 @@ public class PowerUp : MonoBehaviour
     protected virtual void DestroySelfAfterDelay()
     {
         //Destroy(transform.parent.gameObject);
-        Debug.Log("PowerUp#DestroySelfAfterDelay# I have been destroyed");
+        Debug.Log("PowerUp#DestroySelfAfterDelay: I have been destroyed");
         Destroy(gameObject, 0.5f);
     }
 }

@@ -17,5 +17,5 @@ MonoBehaviour:
     m_LootChance: 25
   - m_ThisLoot: {fileID: 2626743413811528143, guid: 58d4165de6b355b419b14b4dc5748f5e, type: 3}
     m_LootChance: 25
-  - m_ThisLoot: {fileID: 5009726898091560981, guid: 4a8ef4fef420a094283d3550f95eaa62, type: 3}
+  - m_ThisLoot: {fileID: 7979156246887359049, guid: 4a8ef4fef420a094283d3550f95eaa62, type: 3}
     m_LootChance: 50
