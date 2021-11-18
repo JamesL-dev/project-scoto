@@ -1,7 +1,7 @@
 /*
  * Filename: Flashlight.cs
  * Developer: Hayden Carroll
- * Purpose: This file implements the Flashlight class.
+ * Purpose: This file implements the singleton Flashlight class.
  */
 using System.Collections;
 using System.Collections.Generic;
@@ -11,8 +11,9 @@ using UnityEngine.InputSystem;
 /*
  * Implements all logic for the player flashlight
  */
-public class Flashlight : MonoBehaviour
+public sealed class Flashlight : MonoBehaviour
 {
+
     [SerializeField] private AudioSource m_clickOnSound;
     [SerializeField] private AudioSource m_clickOffSound;
     private Light m_light;
@@ -34,9 +35,23 @@ public class Flashlight : MonoBehaviour
     private bool m_isFlashlightFocused;
     private float m_focusedTime;
     private float m_normalFlashlightAngle;
-    private float m_focusFlashlightAngle;
+    private float m_focusFlashlightAngle; 
     private float m_focusZoomLvl;
-    private HaydenHelpers m_helpers;
+    private static Flashlight m_instance = null;
+
+    /* Gets the instance of the singleton Flashlight class
+    *
+    * Returns:
+    * Flashlight - the instance of the singleton
+    */
+    public static Flashlight Inst()
+    {
+        if (m_instance == null)
+        {
+            m_instance = GameObject.Find("Player/Flashlight").GetComponent<Flashlight>();
+        }
+        return m_instance;
+    }
 
     /* Adds a certain amount of charge to the flashlight battery
     * 
@@ -45,7 +60,7 @@ public class Flashlight : MonoBehaviour
     *
     * Returns:
     * bool - True if charge was added to battery, False otherwise
-    */
+    */  
     public bool AddBattery(float chargeAmount)
     {
         // failed to add charge to battery, it is at max
@@ -58,7 +73,6 @@ public class Flashlight : MonoBehaviour
         {
             m_batteryLevel = m_maxBatteryLevel;
         }
-        Debug.Log("ADD BATTERY CALLED");
         return true;
     }
 
@@ -95,6 +109,12 @@ public class Flashlight : MonoBehaviour
 
     private void Start()
     {
+        if (m_instance != null)
+        {
+            Destroy(this);
+            return;
+        }
+        m_instance = this;
         m_maxBatteryLevel = 100.0f;
         m_timeBetwenFlashlightDeplete = 0.075f;
         m_flashlightDepleteAmnt = 0.5f; // 0.25 works good
@@ -119,9 +139,6 @@ public class Flashlight : MonoBehaviour
         m_focusIntensity = m_normalIntensity * 5.0f;
 
         m_baseLight = GameObject.Find("baseLightSource").GetComponent<Light>();
-
-        // just need an instance of my helper class so it can work good 
-        m_helpers = gameObject.AddComponent<HaydenHelpers>();
     }
 
     private void Update()

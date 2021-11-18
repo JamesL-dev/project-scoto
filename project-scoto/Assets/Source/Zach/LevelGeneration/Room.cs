@@ -50,7 +50,7 @@ public class Room : MonoBehaviour
     void Update()
     {
         // Wait for a bit after the room is created so that the doors don't open before the enemies have spawned.
-        if (m_timer < 30)
+        if (m_timer < 60)
         {
             m_timer++;
             return;
@@ -97,6 +97,9 @@ public class Room : MonoBehaviour
                 if (tempRoom != null)
                     tempRoom.OpenDoorInRoom(1);
             }
+
+            // Play sound.
+            DoorSound();
         }
     }
 
@@ -172,6 +175,14 @@ public class Room : MonoBehaviour
         m_wallRotations[1] = new Vector3(-90, 90, 0);
         m_wallRotations[2] = new Vector3(-90, 180, 0);
         m_wallRotations[3] = new Vector3(-90, -90, 0);
+    }
+
+    /* Plays a sound when the room is cleared.
+     */
+    protected void DoorSound()
+    {
+        AudioSource audioData = GetComponent<AudioSource>();
+        audioData.Play();
     }
 }
 

@@ -782,7 +782,7 @@ GameObject:
   - component: {fileID: 2296508600820393505}
   - component: {fileID: 6546410325988052356}
   m_Layer: 0
-  m_Name: LightEnemy
+  m_Name: Ghoul
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
