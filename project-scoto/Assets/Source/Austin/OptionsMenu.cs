@@ -30,7 +30,6 @@ public sealed class OptionsMenu : BaseMenu
         // Set sensitivity (0.1 to 1)
         PlayerController.Inst().m_mouseSens.x = sensitivity;
         PlayerController.Inst().m_mouseSens.y = sensitivity;
-        Debug.Log("Sensitivty: " + sensitivity);
     }
 
     public void SetVolume(float volume)
