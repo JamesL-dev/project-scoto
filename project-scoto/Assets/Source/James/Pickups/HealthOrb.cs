@@ -28,6 +28,7 @@ public class HealthOrb : PowerUp
         m_player = GameObject.FindGameObjectWithTag("DropLootTracker");
         m_target = m_player.transform;
         base.powerUpState = PowerUpState.InAttractMode;
+        base.Start();
         Debug.Log("HealthOrb#Start# Ive been called");
     }
     /* Function that contains payload information.
