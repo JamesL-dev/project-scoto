@@ -4,46 +4,60 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class EnemyHealthTest
 {
-    private GameObject heavyEnemyPrefab = AssetDatabase.LoadAssetAtPath<GameObject>
-                                         ("Assets/prefabs/hayden/HeavyEnemy.prefab");
-    
     [UnityTest]
     public IEnumerator EnemyBelow0Health()
     {
-        HeavyEnemy heavyEnemy = heavyEnemyPrefab.GetComponent<HeavyEnemy>();
+        SceneManager.LoadScene("Game");
+        yield return new WaitForSeconds(3); // wait for scene to load
+        GameObject go = GameObject.Find("Minotaur(clone)");
+        if (go == null)
+        {
+            go = GameObject.Find("Ghoul(clone)");
+        }
+        Assert.IsTrue(go);
+        BaseEnemy baseEnemy = go.GetComponent<BaseEnemy>();
 
-        heavyEnemy.TakeDamage(heavyEnemy.GetMaxHealth() + 100);
-        Assert.AreEqual(0, heavyEnemy.GetHealth());
+        baseEnemy.TakeDamage(baseEnemy.GetMaxHealth() + 100);
+        Assert.AreEqual(0, baseEnemy.GetHealth());
 
-        heavyEnemy.TakeHealth(heavyEnemy.GetMaxHealth());
-        heavyEnemy.TakeDamage(heavyEnemy.GetMaxHealth());
-        Assert.AreEqual(0, heavyEnemy.GetHealth());
+        baseEnemy.TakeHealth(baseEnemy.GetMaxHealth());
+        baseEnemy.TakeDamage(baseEnemy.GetMaxHealth());
+        Assert.AreEqual(0, baseEnemy.GetHealth());
 
-        heavyEnemy.TakeHealth(heavyEnemy.GetMaxHealth());
-        heavyEnemy.TakeDamage(heavyEnemy.GetMaxHealth()-1);
-        Assert.IsTrue(heavyEnemy.GetHealth() > 0);
+        baseEnemy.TakeHealth(baseEnemy.GetMaxHealth());
+        baseEnemy.TakeDamage(baseEnemy.GetMaxHealth()-1);
+        Assert.IsTrue(baseEnemy.GetHealth() > 0);
         yield return null;
     }
 
     [UnityTest]
     public IEnumerator EnemyAboveMaxHealth()
     {
-        HeavyEnemy heavyEnemy = heavyEnemyPrefab.GetComponent<HeavyEnemy>();
+        SceneManager.LoadScene("Game");
+        yield return new WaitForSeconds(3); // wait for scene to load
+        GameObject go = GameObject.Find("Minotaur(clone)");
+        if (go == null)
+        {
+            go = GameObject.Find("Ghoul(clone)");
+        }
+        Assert.IsTrue(go != null);
+        BaseEnemy baseEnemy = go.GetComponent<BaseEnemy>();
 
-        heavyEnemy.TakeHealth(heavyEnemy.GetMaxHealth() + 100);
-        Assert.AreEqual(heavyEnemy.GetMaxHealth(), heavyEnemy.GetHealth());
+        baseEnemy.TakeHealth(baseEnemy.GetMaxHealth() + 100);
+        Assert.AreEqual(baseEnemy.GetMaxHealth(), baseEnemy.GetHealth());
 
-        heavyEnemy.TakeDamage(heavyEnemy.GetMaxHealth());
-        heavyEnemy.TakeHealth(heavyEnemy.GetMaxHealth());
-        Assert.AreEqual(heavyEnemy.GetMaxHealth(), heavyEnemy.GetHealth());
+        baseEnemy.TakeDamage(baseEnemy.GetMaxHealth());
+        baseEnemy.TakeHealth(baseEnemy.GetMaxHealth());
+        Assert.AreEqual(baseEnemy.GetMaxHealth(), baseEnemy.GetHealth());
 
-        heavyEnemy.TakeDamage(1000);
+        baseEnemy.TakeDamage(1000);
         yield return null;
-        Debug.Log(heavyEnemy.GetMaxHealth());
-        Assert.IsTrue(heavyEnemy.GetHealth() < heavyEnemy.GetMaxHealth());
+        Debug.Log(baseEnemy.GetMaxHealth());
+        Assert.IsTrue(baseEnemy.GetHealth() < baseEnemy.GetMaxHealth());
         yield return null;
     }
 }
