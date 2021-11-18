@@ -66,7 +66,7 @@ public sealed class PlayerController : MonoBehaviour
 
     /* Enambles the input actions when the player is enabled.
      */
-    void OnEnable()
+    public void OnEnable()
     {
         m_movement.Enable();
         m_jumping.Enable();
@@ -77,7 +77,7 @@ public sealed class PlayerController : MonoBehaviour
 
     /* Disables the input actions when the player is disabled.
      */
-    void OnDisable()
+    public void OnDisable()
     {
         m_movement.Disable();
         m_jumping.Disable();

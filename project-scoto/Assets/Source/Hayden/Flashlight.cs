@@ -71,24 +71,22 @@ public class Flashlight : MonoBehaviour
         return m_batteryLevel / m_maxBatteryLevel;
     }
 
-    private void OnEnable()
+    public void OnEnable()
     {
         m_inputActionMap["FocusFlashlight"].Enable();
         m_inputActionMap["NormalFlashlight"].Enable();
         m_inputActionMap["ToggleFlashlight"].Enable();
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         m_inputActionMap["FocusFlashlight"].Disable();
         m_inputActionMap["NormalFlashlight"].Disable();
         m_inputActionMap["ToggleFlashlight"].Disable();
     }
 
-
-
-    private void Awake()
-    {   
+    public void Awake()
+    {
         m_inputActionMap["FocusFlashlight"].performed += OnFocusFlashlight;
         m_inputActionMap["NormalFlashlight"].performed += OnNormalFlashlight;
         m_inputActionMap["ToggleFlashlight"].performed += OnToggleFlashlight;
