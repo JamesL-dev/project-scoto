@@ -36,7 +36,6 @@ public class Flashlight : MonoBehaviour
     private float m_normalFlashlightAngle;
     private float m_focusFlashlightAngle;
     private float m_focusZoomLvl;
-    private HaydenHelpers m_helpers;
 
     /* Adds a certain amount of charge to the flashlight battery
     * 
@@ -121,9 +120,6 @@ public class Flashlight : MonoBehaviour
         m_focusIntensity = m_normalIntensity * 5.0f;
 
         m_baseLight = GameObject.Find("baseLightSource").GetComponent<Light>();
-
-        // just need an instance of my helper class so it can work good 
-        m_helpers = gameObject.AddComponent<HaydenHelpers>();
     }
 
     private void Update()
