@@ -15,12 +15,6 @@ public class FlashlightHealthTest
         SceneManager.LoadScene("Game");
     }
 
-    [TearDown]
-    public void TearDown()
-    {
-        SceneManager.UnloadScene("Game");
-    }
-
     [UnityTest]
     public IEnumerator FlashlightAbove100()
     {
