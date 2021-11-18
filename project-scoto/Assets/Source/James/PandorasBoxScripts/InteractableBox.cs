@@ -38,7 +38,8 @@ public class InteractableBox : MonoBehaviour
             PowerUp current = thisLoot.LootPowerup();
             if (current != null)
             {
-                Instantiate(current.gameObject, transform.position, Quaternion.identity);
+                Instantiate(current.gameObject, transform.position + new Vector3(-0.6f, 2f, 0), Quaternion.identity);
+                Debug.Log("Spawning " + current.gameObject.name);
             }
         }
     }
