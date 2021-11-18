@@ -23,13 +23,30 @@ public class HealthOrb : PowerUp
     bool isFollowing = false;
     public int m_healthBonus = 2;
 
+    /* Function that contains Start override 
+    *  Default powerup Start is overridden here
+    *
+    * Parameters: none
+    *
+    * Returns: none
+    */
     protected override void Start()
     {
         m_player = GameObject.FindGameObjectWithTag("DropLootTracker");
         m_target = m_player.transform;
         base.powerUpState = PowerUpState.InAttractMode;
         base.Start();
-        Debug.Log("HealthOrb#Start# Ive been called");
+    }
+    /* Function that contains onTriggerEnter override 
+    *  Default powerup onTriggerEnter is overridden here
+    *
+    * Parameters: none
+    *
+    * Returns: none
+    */
+    protected override void OnTriggerEnter (Collider collision)
+    {
+        PowerUpCollected(collision.gameObject);
     }
     /* Function that contains payload information.
     *  Default powerup payload is overridden here
@@ -38,17 +55,11 @@ public class HealthOrb : PowerUp
     *
     * Returns: none
     */
-    protected override void OnTriggerEnter (Collider collision)
-    {
-        Debug.Log("HealthOrb#OnTriggerEnter# Trigger enter being called");
-        PowerUpCollected(collision.gameObject);
-    }
     protected override void PowerUpPayload()
     {
         base.PowerUpPayload();
         PlayerData.Inst().TakeHealth(m_healthBonus);
-        Debug.Log("HealthOrb#PowerUpPayLoad# Adding Health to Player");
-        // playerStuff.setScoinAdjustment(addhealth);
+        Debug.Log("HealthOrb#PowerUpPayload: Adding " + m_healthBonus + " to player health");
     }
 
     /* Function to destroy object when picked up
