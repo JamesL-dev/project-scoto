@@ -47,7 +47,6 @@ public class AOE : MonoBehaviour
             Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, m_radius);
             foreach (var hitCollider in hitColliders)
             {
-                // if(hitCollider == null) {continue;}
                 BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hitCollider);
                 if (enemy) { enemy.HitEnemy(BaseEnemy.WeaponType.AOE, m_damage); }
             }
