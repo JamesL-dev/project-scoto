@@ -19,7 +19,7 @@ public class InteractableBox : MonoBehaviour
 {
     public bool m_isInRange;
     public UnityEvent m_interactAction;
-    public GameObject lootItem; 
+    public LootTable thisLoot;
 
     void Start()
     {
@@ -31,6 +31,17 @@ public class InteractableBox : MonoBehaviour
 
     }
     
+    private void MakeLoot()
+    {
+        if (thisLoot != null)
+        {
+            PowerUp current = thisLoot.LootPowerup();
+            if (current != null)
+            {
+                Instantiate(current.gameObject, transform.position, Quaternion.identity);
+            }
+        }
+    }
     /* Function to see if player is in range of the box
     *
     * Parameters:
@@ -75,10 +86,7 @@ public class InteractableBox : MonoBehaviour
         {
             string objectName = gameObject.name;
             Debug.Log(objectName + " was interacted with");
-            for(int i = 0; i < 5; i++)
-            {
-                Instantiate(lootItem, transform.position + new Vector3(Random.Range(-1, -2), Random.Range(1, 5)), Quaternion.identity);
-            }
+            MakeLoot();
         }
     }
 }
