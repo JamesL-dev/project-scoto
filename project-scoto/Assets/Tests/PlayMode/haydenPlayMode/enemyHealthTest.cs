@@ -15,12 +15,6 @@ public class EnemyHealthTest
         SceneManager.LoadScene("Game");
     }
 
-    [TearDown]
-    public void TearDown()
-    {
-        SceneManager.UnloadScene("Game");
-    }
-
     [UnityTest]
     public IEnumerator EnemyBelow0Health()
     {
@@ -63,7 +57,6 @@ public class EnemyHealthTest
 
         baseEnemy.TakeDamage(1000);
         yield return null;
-        Debug.Log(baseEnemy.GetMaxHealth());
         Assert.IsTrue(baseEnemy.GetHealth() < baseEnemy.GetMaxHealth());
         yield return null;
     }
