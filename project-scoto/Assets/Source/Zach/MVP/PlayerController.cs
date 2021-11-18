@@ -21,6 +21,8 @@ using UnityEngine.InputSystem;
  * m_mouseSens -- Vector2 for the player's mouse look sensitivity.
  * m_groundMask -- LayerMask for detecting when the player is standing on the ground.
  * m_playerCamera -- Transform for the player camera's position and rotation.
+ * m_walkSound -- AudioClip for the player walking sound effect.
+ * m_sprintSound -- AudioClip for the player sprinting sound effect.
  * m_instance -- Static intance of itself for the Singleton pattern.
  * m_movementValue -- Vector2 for the player's x and z movement inputs.
  * m_mouseValue -- Vector2 for the player's x and y mouse inputs.
@@ -41,6 +43,7 @@ public sealed class PlayerController : MonoBehaviour
     public Vector2 m_mouseSens;
     public LayerMask m_groundMask;
     public Transform m_playerCamera;
+    public AudioClip m_walkSound, m_sprintSound;
 
     private static PlayerController m_instance;
     private Vector2 m_movementValue, m_mouseValue;
@@ -192,6 +195,9 @@ public sealed class PlayerController : MonoBehaviour
         // Do horizontal movement and move player.
         Inst().HorizontalMovement();
         m_controller.Move(m_velocity);
+
+        // Play audio.
+        Inst().Footsteps(is_grounded);
     }
 
     /* Controls the player's horizontal movement.
@@ -219,6 +225,34 @@ public sealed class PlayerController : MonoBehaviour
         // Update horizontal m_velocity.
         m_velocity.x = (m_velocity.x + abs_move.x) * m_friction;
         m_velocity.z = (m_velocity.z + abs_move.z) * m_friction;
+    }
+
+    /* Plays and pauses the footsteps sound effects.
+     */
+    private void Footsteps(bool grounded) {
+        // Get the audio source component data.
+        AudioSource audioData = GetComponent<AudioSource>();
+        audioData.Pause();
+
+        // Only play footsteps audio if the player is on the ground.
+        if (grounded)
+        {
+            // Test if player is walking, sprinting, or standing still.
+            if (m_movementValue.x != 0 || m_movementValue.y != 0)
+            {
+                if (m_sprintingValue > 0)
+                {
+                    // Sprinting.
+                    audioData.clip = m_sprintSound;
+                }
+                else
+                {
+                    // Walking.
+                    audioData.clip = m_walkSound;
+                }
+                audioData.Play();
+            }
+        }
     }
 }
 
