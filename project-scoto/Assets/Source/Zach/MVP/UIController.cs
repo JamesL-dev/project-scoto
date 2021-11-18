@@ -5,6 +5,7 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ using UnityEngine.UI;
  *
  * Member variables:
  * m_blackSquare -- GameObject for black fade that is affected.
+ * m_levelCounter -- GameObject for level counter text.
  * m_instance -- Static intance of itself for the Singleton pattern.
  * m_isFading -- Boolean for the fading animation.
  * m_isBlack -- Boolean for tracking if the screen is currently black.
@@ -22,7 +24,7 @@ using UnityEngine.UI;
  */
 public sealed class UIController : MonoBehaviour
 {
-    public GameObject m_blackSquare;
+    public GameObject m_blackSquare, m_levelCounter;
 
     private static UIController m_instance;
     private bool m_isFading = false, m_isBlack = true;
@@ -42,6 +44,12 @@ public sealed class UIController : MonoBehaviour
                 // Finished fading.
                 m_isFading = false;
                 m_isBlack = !m_isBlack;
+
+                // Show level counter.
+                if (!m_isBlack)
+                {
+                    Inst().LevelCounterPopup();
+                }
             }
             else
             {
@@ -93,5 +101,12 @@ public sealed class UIController : MonoBehaviour
     /* Makes the singleton's constructor static.
      */
     private UIController() {}
+
+    /* Displays the current level number.
+     */
+    private void LevelCounterPopup()
+    {
+        m_levelCounter.SetActive(true);
+    }
 }
 
