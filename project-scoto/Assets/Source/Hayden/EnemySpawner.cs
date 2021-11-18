@@ -9,20 +9,16 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /*
- * An Abstract Factory enemy spawner that spawns a BaseEnemy
-   of concrete type (either HeavyEnemy or LightEnemy)
+ * A enemy spawner that spawns the correct # of enemies for a room
  */
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject m_lightEnemy;
-    [SerializeField] private GameObject m_heavyEnemy;
-
     private int m_totalEnemyToSpawn;
     private int m_currEnemySpawnCount;
-    private int m_heavySpawnRate;
     private float m_enemyDensity;
     private float m_levelDensityMultiplier;
     private LevelGeneration m_levelGenerator;
+    private EnemyFactory m_enemyFactory;
     private GameObject m_room;
     private bool m_spawnedEnemies;
 
@@ -64,35 +60,11 @@ public class EnemySpawner : MonoBehaviour
         }
         while (m_currEnemySpawnCount < m_totalEnemyToSpawn)
         {
-            SpawnEnemy();
+            m_enemyFactory.SpawnEnemy();
+            m_currEnemySpawnCount++;
+
         }
         m_spawnedEnemies = true;
-    }
-
-    /*
-    * Spawns an enemy
-    */
-    private void SpawnEnemy()
-    {
-        Vector3 roomSize = m_room.transform.Find("Floor").GetComponent<Collider>().bounds.size;
-        int isHeavyEnemySpawn = Random.Range(1, 100);
-
-        Vector3 position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        position.x += Random.Range(-roomSize.x/3, roomSize.x/3);
-        position.z += Random.Range(-roomSize.z/3, roomSize.z/3);
-        
-        NavMeshHit hit;
-        NavMesh.SamplePosition(position, out hit, 10f, NavMesh.AllAreas);
-
-        if (isHeavyEnemySpawn <= m_heavySpawnRate)
-        {
-            SpawnHeavyEnemy(hit.position);
-        }
-        else
-        {
-            SpawnLightEnemy(hit.position);
-        }
-        m_currEnemySpawnCount++;
     }
 
     private void CalculateTotalEnemySpawn()
@@ -106,8 +78,8 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         m_room = gameObject.transform.parent.gameObject;
+        m_enemyFactory = gameObject.GetComponent<EnemyFactory>();
         m_currEnemySpawnCount = 0;
-        m_heavySpawnRate = 25; // 25%
         m_levelGenerator = LevelGeneration.Inst();
         m_spawnedEnemies = false;
         m_enemyDensity = 0.0025f;
@@ -125,17 +97,5 @@ public class EnemySpawner : MonoBehaviour
         }
 
         CalculateTotalEnemySpawn();
-    }
-
-    private void SpawnLightEnemy(Vector3 position)
-    {
-        GameObject go = Instantiate(m_lightEnemy, position, transform.rotation);
-        go.transform.parent = transform;
-    }
-
-    private void SpawnHeavyEnemy(Vector3 position)
-    {
-        GameObject go = Instantiate(m_heavyEnemy, position, transform.rotation);
-        go.transform.parent = transform;
     }
 }

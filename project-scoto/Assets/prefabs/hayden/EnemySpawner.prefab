@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5318415324778767281}
   - component: {fileID: 7615889401736377978}
+  - component: {fileID: 2745571615895626456}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -41,6 +42,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a46c56d06dcb6ee41968724af9e9254b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2745571615895626456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2431908015677443543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaeaebb2ca0fc6e40a311b4b1a733de9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_lightEnemy: {fileID: 8634047900113895466, guid: 1bd3ac78d3c7ff84aa21cbba42197fc9, type: 3}
