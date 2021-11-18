@@ -72,7 +72,7 @@ public class EnemyFactory : MonoBehaviour
         return go.GetComponent<HeavyEnemy>();
     }
 
-    private void Start()
+    private void Awake()
     {
         m_heavySpawnRate = 10; // 10%
         m_room = gameObject.transform.parent.gameObject;

@@ -29,7 +29,6 @@ public class EnemyHealthTest
         {
             go = GameObject.Find("Ghoul(Clone)");
         }
-        yield return null;
         BaseEnemy baseEnemy = go.GetComponent<BaseEnemy>();
 
         baseEnemy.TakeDamage(baseEnemy.GetMaxHealth() + 100);
