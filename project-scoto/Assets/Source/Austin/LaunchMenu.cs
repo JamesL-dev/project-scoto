@@ -1,7 +1,7 @@
 /*
  * Filename: LaunchMenu.cs
  * Developer: Austin Kugler
- * Purpose: This file includes a class for functionality related to the game launch menu.
+ * Purpose: This file includes a singleton class for functionality related to the game launch menu.
  */
 using System.Collections;
 using System.Collections.Generic;
@@ -9,14 +9,37 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /*
- * Class for functionality related to the game launch menu.
+ * Singletone class for functionality related to the game launch menu.
  */
-public class LaunchMenu : MonoBehaviour
+public sealed class LaunchMenu : MonoBehaviour
 {
+    private static LaunchMenu m_instance;
+
+    /* Gets a reference to the instance of the singleton, creating the instance if necessary.
+     *
+     * Returns:
+     * LaunchMenu -- Reference to the OptionsMenu instance.
+     */
+    public static LaunchMenu Inst() {
+        if (m_instance == null)
+        {
+            m_instance = GameObject.Find("LaunchMenu").GetComponent<LaunchMenu>();
+        }
+        return m_instance;
+    }
+
+    /*
+     * Loads the launch menu.
+     */
+    public void Load()
+    {
+        SceneManager.LoadScene("LaunchMenu");
+    }
+
     /*
      * Starts the next scene when the play button is pressed.
      */
-    public void PlayGame()
+    public void NextScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }

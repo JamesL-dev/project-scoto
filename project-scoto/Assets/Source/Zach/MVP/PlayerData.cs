@@ -6,7 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 /*
  * Singleton that allows for storage and modification of various player values.
@@ -60,7 +60,7 @@ public sealed class PlayerData : MonoBehaviour
         if (m_health <= 0)
         {
             m_health = 0;
-            // Die();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else if (m_health >= m_maxHealth)
         {

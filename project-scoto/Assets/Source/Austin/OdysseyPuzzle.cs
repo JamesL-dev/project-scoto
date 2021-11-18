@@ -1,48 +1,35 @@
 /*
  * Filename: OdysseyPuzzle.cs
  * Developer: Austin Kugler
- * Purpose: This file includes a class for functionality related to odyssey puzzles.
+ * Purpose: This file includes a singleton class for functionality related to odyssey puzzles.
  */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * Class for odyssey puzzle functionality, inheriting from BasePuzzle.
+ * Singleton class for odyssey puzzle functionality, inheriting from BasePuzzle.
  */
-public class OdysseyPuzzle : BasePuzzle
+public sealed class OdysseyPuzzle : BasePuzzle
 {
-    void Start()
-    {
-        InvokeRepeating("ChancePuzzle", m_delay, m_delay);
-    }
+    private static OdysseyPuzzle m_instance;
 
-    void Update()
-    {
-
-    }
-
-    void FixedUpdate()
-    {
-
-    }
-
-    /*
-     * Initilizes a puzzle if a random chance occurs.
+    /* Gets a reference to the instance of the singleton, creating the instance if necessary.
+     *
+     * Returns:
+     * OdysseyPuzzle -- Reference to the OdysseyPuzzle instance.
      */
-    void ChancePuzzle()
-    {
-        if (!m_isActive && m_frequency != 0.0f && m_frequency <= Random.Range(0.0f, 1.0f))
+    public static OdysseyPuzzle Inst() {
+        if (m_instance == null)
         {
-            Initialize();
+            m_instance = GameObject.Find("OdysseyPuzzle").GetComponent<OdysseyPuzzle>();
         }
+        return m_instance;
     }
 
-    /*
-     * Initilizes a new puzzle when called.
-     */
-    void Initialize()
+    protected override void RewardPlayer()
     {
-        m_isActive = true;
+        float maxHealth = PlayerData.Inst().GetMaxHealth();
+        PlayerData.Inst().TakeHealth(-maxHealth / 2);
     }
 }
