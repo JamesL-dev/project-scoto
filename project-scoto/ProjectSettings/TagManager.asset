@@ -8,6 +8,10 @@ TagManager:
   - Enemy
   - Fire
   - testSphere
+  - EnemyCollider
+  - Wall
+  - WallDoor
+  - DropLootTracker
   layers:
   - Default
   - TransparentFX
