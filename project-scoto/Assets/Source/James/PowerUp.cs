@@ -20,7 +20,7 @@ public class PowerUp : MonoBehaviour
     public GameObject m_specialEffect;
     [SerializeField]
     public AudioClip m_soundEffect;
-    private AudioSource m_soundEffectSource;
+    protected AudioSource m_soundEffectSource;
     protected PowerUpState powerUpState;
 
     // keep reference of player here
@@ -52,7 +52,7 @@ public class PowerUp : MonoBehaviour
         m_soundEffectSource = gameObject.AddComponent<AudioSource>();
         m_soundEffectSource.clip = m_soundEffect;
         Debug.Log(m_soundEffectSource);
-        m_soundEffectSource.volume = 1; 
+        m_soundEffectSource.volume = 0.5f; 
         m_soundEffectSource.spatialBlend = 0;
         m_soundEffectSource.maxDistance = 25.0f;
         m_soundEffectSource.rolloffMode = AudioRolloffMode.Linear;
@@ -114,10 +114,7 @@ public class PowerUp : MonoBehaviour
 
         if (m_soundEffect != null)
         {
-            Debug.Log("PowerUp#PowerUpEffects#if#soundeffect# I made it here");
-            Debug.Log(m_soundEffectSource);
             m_soundEffectSource.Play();
-            Debug.Log("PowerUp#PowerUpEffects#if#soundeffect played");
         }
     }
 
@@ -167,6 +164,6 @@ public class PowerUp : MonoBehaviour
     {
         //Destroy(transform.parent.gameObject);
         Debug.Log("PowerUp#DestroySelfAfterDelay# I have been destroyed");
-        Destroy(gameObject);
+        Destroy(gameObject, 0.5f);
     }
 }
