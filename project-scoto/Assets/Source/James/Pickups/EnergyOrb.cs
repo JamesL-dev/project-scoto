@@ -28,6 +28,7 @@ public class EnergyOrb : PowerUp
     {
         m_player = GameObject.FindGameObjectWithTag("DropLootTracker");
         m_target = m_player.transform;
+        base.Start();
     }
     /* Function that contains payload information.
     *  Default powerup payload is overridden here

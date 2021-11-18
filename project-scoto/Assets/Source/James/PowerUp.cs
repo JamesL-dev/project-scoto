@@ -17,8 +17,10 @@ public class PowerUp : MonoBehaviour
 {
     public string powerUpName;
     public bool expiresImmediately;
-    public GameObject specialEffect;
-    public AudioClip soundEffect;
+    public GameObject m_specialEffect;
+    [SerializeField]
+    public AudioClip m_soundEffect;
+    private AudioSource m_soundEffectSource;
     protected PowerUpState powerUpState;
 
     // keep reference of player here
@@ -46,6 +48,15 @@ public class PowerUp : MonoBehaviour
     protected virtual void Start()
     {
         powerUpState = PowerUpState.InAttractMode;
+
+        m_soundEffectSource = gameObject.AddComponent<AudioSource>();
+        m_soundEffectSource.clip = m_soundEffect;
+        Debug.Log(m_soundEffectSource);
+        m_soundEffectSource.volume = 1; 
+        m_soundEffectSource.spatialBlend = 0;
+        m_soundEffectSource.maxDistance = 25.0f;
+        m_soundEffectSource.rolloffMode = AudioRolloffMode.Linear;
+
         Debug.Log("PowerUp#Start# Ive been called");
     }
 
@@ -96,14 +107,17 @@ public class PowerUp : MonoBehaviour
     */
     protected virtual void PowerUpEffects()
     {
-        if (specialEffect != null)
+        if (m_specialEffect != null)
         {
-            Instantiate (specialEffect, transform.position, transform.rotation, transform);
+            Instantiate (m_specialEffect, transform.position, transform.rotation, transform);
         }
 
-        if (soundEffect != null)
+        if (m_soundEffect != null)
         {
-            // MainGameController.main.PlaySound (soundEffect);
+            Debug.Log("PowerUp#PowerUpEffects#if#soundeffect# I made it here");
+            Debug.Log(m_soundEffectSource);
+            m_soundEffectSource.Play();
+            Debug.Log("PowerUp#PowerUpEffects#if#soundeffect played");
         }
     }
 
