@@ -123,6 +123,10 @@ public sealed class UIController : MonoBehaviour
         {
             // Finished fading.
             m_isCounterFading = false;
+            m_levelCounter.gameObject.SetActive(false);
+            Color fade = m_levelCounter.color;
+            fade.a = 1f;
+            m_levelCounter.color = fade;
         }
         else if (m_counterTimer > 0f && m_counterTimer <= 1f)
         {
