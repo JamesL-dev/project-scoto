@@ -149,7 +149,7 @@ public sealed class WeaponManager : MonoBehaviour
         }
     }
 
-    private void OnEnable() 
+    public void OnEnable() 
     {
         m_fireWeapon.Enable();
         m_changeWeapon.Enable();
@@ -159,7 +159,7 @@ public sealed class WeaponManager : MonoBehaviour
         m_four.Enable();
     }
 
-    private void OnDisable() 
+    public void OnDisable() 
     {
         m_fireWeapon.Disable();
         m_changeWeapon.Disable();
