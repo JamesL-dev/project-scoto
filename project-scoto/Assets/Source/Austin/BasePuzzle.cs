@@ -7,19 +7,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
- * Base class for puzzles of all types.
- *
- * Member variables:
- * m_isActive -- Boolean for whether the puzzle is active.
- * m_frequency -- Frequency of puzzle occurence from 0 to 1.
- * m_delay -- The time to wait in seconds before attempting puzzle initiation.
- */
-public class BasePuzzle : MonoBehaviour
+public abstract class BasePuzzle : MonoBehaviour
 {
-    [SerializeField] protected bool m_isActive = false;
     [SerializeField] protected float m_frequency = 0.5f;
-    [SerializeField] protected int m_delay = 300;
+    [SerializeField] protected bool m_isActive = false;
 
     void Update()
     {
@@ -34,17 +25,6 @@ public class BasePuzzle : MonoBehaviour
     }
 
     /*
-     * Getter for the m_isActive member variable.
-     *
-     * Returns:
-     * bool -- The value of the m_isActive member variable.
-     */
-    public bool IsActive()
-    {
-        return m_isActive;
-    }
-
-    /*
      * Getter for the m_frequency member variable.
      *
      * Returns:
@@ -56,24 +36,41 @@ public class BasePuzzle : MonoBehaviour
     }
 
     /*
-     * Getter for the m_delay member variable.
+     * Getter for the m_isActive member variable.
      *
      * Returns:
-     * int -- The value of the m_delay member variable.
+     * bool -- The value of the m_isActive member variable.
      */
-    public int GetDelay()
+    public bool IsActive()
     {
-        return m_delay;
+        return m_isActive;
     }
 
     /*
-     * Setter function for the m_frequency member variable.
+     * Setter for the m_frequency member variable.
      *
-     * Parameters:
-     * frequency -- Float value from 0 to 1 that is the chance of a puzzle occuring.
+     * Returns:
+     * float -- The value to assign to the m_frequency member variable.
      */
     public void SetFrequency(float frequency)
     {
         m_frequency = frequency;
+    }
+
+    /*
+     * Initilizes a puzzle if a random chance occurs.
+     */
+    public void ChancePuzzle()
+    {
+        if (!m_isActive && m_frequency != 0.0f && m_frequency <= Random.Range(0.0f, 1.0f))
+        {
+            m_isActive = true;
+        }
+    }
+
+    protected virtual void RewardPlayer()
+    {
+        float maxHealth = PlayerData.Inst().GetMaxHealth();
+        PlayerData.Inst().TakeHealth(-maxHealth / 4);
     }
 }

@@ -46,6 +46,7 @@ public class PowerUp : MonoBehaviour
     protected virtual void Start()
     {
         powerUpState = PowerUpState.InAttractMode;
+        Debug.Log("PowerUp#Start# Ive been called");
     }
 
     /* Function for 3D object interaction.
@@ -55,9 +56,10 @@ public class PowerUp : MonoBehaviour
     *
     * Returns: none
     */
-    protected virtual void OnTriggerEnter (Collider other)
+    protected virtual void OnTriggerEnter (Collider collision)
     {
-        PowerUpCollected(other.gameObject);
+            Debug.Log("PowerUp#OnTriggerEnter# Trigger enter being called");
+            PowerUpCollected(collision.gameObject);
     }
 
     /* Function handles when powerup is collected by the player.
@@ -134,6 +136,7 @@ public class PowerUp : MonoBehaviour
         {
             return;
         }
+        powerUpState = PowerUpState.IsExpiring;
 
         // send message powerup has expired
         Debug.Log("Power Up has expired, removing after a delay for: " + gameObject.name);
@@ -148,6 +151,8 @@ public class PowerUp : MonoBehaviour
     */
     protected virtual void DestroySelfAfterDelay()
     {
-        Destroy(gameObject, 10f);
+        //Destroy(transform.parent.gameObject);
+        Debug.Log("PowerUp#DestroySelfAfterDelay# I have been destroyed");
+        Destroy(gameObject);
     }
 }

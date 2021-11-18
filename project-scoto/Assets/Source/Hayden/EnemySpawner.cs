@@ -6,22 +6,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /*
- * An Abstract Factory enemy spawner that spawns a BaseEnemy
-   of concrete type (either HeavyEnemy or LightEnemy)
+ * A enemy spawner that spawns the correct # of enemies for a room
  */
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject m_lightEnemy;
-    [SerializeField] private GameObject m_heavyEnemy;
-
     private int m_totalEnemyToSpawn;
     private int m_currEnemySpawnCount;
-    private int m_heavySpawnRate;
     private float m_enemyDensity;
     private float m_levelDensityMultiplier;
     private LevelGeneration m_levelGenerator;
+    private EnemyFactory m_enemyFactory;
     private GameObject m_room;
     private bool m_spawnedEnemies;
 
@@ -57,28 +54,17 @@ public class EnemySpawner : MonoBehaviour
     */
     public void SpawnEnemies()
     {
+        if (!m_levelGenerator.GetIsBaked())
+        {
+            return;
+        }
         while (m_currEnemySpawnCount < m_totalEnemyToSpawn)
         {
-            SpawnEnemy();
+            m_enemyFactory.SpawnEnemy();
+            m_currEnemySpawnCount++;
+
         }
         m_spawnedEnemies = true;
-    }
-
-    /*
-    * Spawns an enemy
-    */
-    private void SpawnEnemy()
-    {
-        int isHeavyEnemySpawn = Random.Range(1, 100);
-        if (isHeavyEnemySpawn <= m_heavySpawnRate)
-        {
-            SpawnHeavyEnemy();
-        }
-        else
-        {
-            SpawnLightEnemy();
-        }
-        m_currEnemySpawnCount++;
     }
 
     private void CalculateTotalEnemySpawn()
@@ -92,8 +78,8 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         m_room = gameObject.transform.parent.gameObject;
+        m_enemyFactory = gameObject.GetComponent<EnemyFactory>();
         m_currEnemySpawnCount = 0;
-        m_heavySpawnRate = 25; // 25%
         m_levelGenerator = LevelGeneration.Inst();
         m_spawnedEnemies = false;
         m_enemyDensity = 0.0025f;
@@ -111,15 +97,5 @@ public class EnemySpawner : MonoBehaviour
         }
 
         CalculateTotalEnemySpawn();
-    }
-
-    private void SpawnLightEnemy()
-    {
-        Instantiate(m_lightEnemy, transform);
-    }
-
-    private void SpawnHeavyEnemy()
-    {
-        Instantiate(m_heavyEnemy, transform);
     }
 }

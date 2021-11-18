@@ -1,17 +1,32 @@
 /*
  * Filename: OptionsMenu.cs
  * Developer: Austin Kugler
- * Purpose: This file includes a class for functionality related to the options menu.
+ * Purpose: This file includes a singleton class for functionality related to the options menu.
  */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * Class for options functionality, allowing changes to be made.
+ * Singleton class for options functionality, allowing changes to be made.
  */
-public class OptionsMenu : MonoBehaviour
+public sealed class OptionsMenu : MonoBehaviour
 {
+    private static OptionsMenu m_instance;
+
+    /* Gets a reference to the instance of the singleton, creating the instance if necessary.
+     *
+     * Returns:
+     * OptionsMenu -- Reference to the OptionsMenu instance.
+     */
+    public static OptionsMenu Inst() {
+        if (m_instance == null)
+        {
+            m_instance = GameObject.Find("OptionsMenu").GetComponent<OptionsMenu>();
+        }
+        return m_instance;
+    }
+
     /*
      * Setter function for the Unity volume mixer.
      *

@@ -36,7 +36,7 @@ public class HeavyEnemy : BaseEnemy
 
         m_roarSource = gameObject.AddComponent<AudioSource>();
         m_roarSource.clip = m_roarSourceClip;
-        m_roarSource.volume = 0.5f; 
+        m_roarSource.volume = 0.25f; 
         m_roarSource.spatialBlend = 1.0f;
         m_roarSource.maxDistance = 25.0f;
         m_roarSource.rolloffMode = AudioRolloffMode.Linear;

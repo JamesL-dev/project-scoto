@@ -55,14 +55,14 @@ public abstract class BaseEnemy : MonoBehaviour
     *
     * 
     */
-    public GameObject m_HealthOrbPrefab;
+    public GameObject m_LootOne;
 
     /*
     * Used to instantiate energy orbs on deatgh
     *
-    * 
+   * 
     */
-    public GameObject m_EnergyOrbPrefab;
+    public GameObject m_LootTwo;
 
     /*
     * Gets the current health of the enemy
@@ -72,6 +72,13 @@ public abstract class BaseEnemy : MonoBehaviour
     */
 
     GameObject m_DropLootTracker; // This is used to track location to drop loot
+    
+    /*
+    * Gets the current health of the enemy
+    *
+    * Returns:
+    * float - health of the enemy
+    */
     public float GetHealth() {return m_health;}
 
     /*
@@ -127,7 +134,7 @@ public abstract class BaseEnemy : MonoBehaviour
     }
 
     /*
-    * Takes damage away from the player
+    * Takes damage away from the enemy
     *
     * Parameters:
     * damage - amount of damage to take
@@ -218,16 +225,13 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected abstract void Initialize();
 
-    protected void Awake()
+    protected virtual void Start()
     {
+        m_enemySpawner = transform.parent.gameObject;
         m_player = GameObject.Find("Player").transform;
         m_agent = GetComponent<NavMeshAgent>();
         m_roomIn = HaydenHelpers.FindParentWithTag(gameObject, "Room");
-        m_enemySpawner = transform.parent.gameObject;
-    }
 
-    protected virtual void Start()
-    {
         Initialize();
         m_walkSource = gameObject.AddComponent<AudioSource>();
         m_idleSource = gameObject.AddComponent<AudioSource>();
@@ -241,7 +245,7 @@ public abstract class BaseEnemy : MonoBehaviour
         m_dieSource.clip = m_dieSourceClip;
         m_hurtSource.clip = m_hurtSourceClip;
 
-        m_healthBar = transform.Find("HealthBar").GetComponent<HealthBar>();
+        m_healthBar = transform.Find("EnemyHealthBar").GetComponent<HealthBar>();
         m_healthBar.SetActive(false);
         m_animator = GetComponent<Animator>();
         m_health = m_maxHealth;
@@ -314,11 +318,13 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void AfterDeath()
     {
         // Temporary Drop Some Loot location
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 2; i++)
         {
-            var go = Instantiate(m_HealthOrbPrefab, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
+            var lootItem1 = Instantiate(m_LootOne, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
+            var lootItem2 = Instantiate(m_LootTwo, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
 
-            go.GetComponent<HealthOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
+            lootItem1.GetComponent<HealthOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
+            lootItem2.GetComponent<EnergyOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
         }
         m_state = EnemyState.Dead;
         //SpawnEnemyLoot.SpawnLoot(); // commented out for testing
@@ -485,7 +491,7 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             if (m_playerInAttackRange)
             {
-                // player.TakeDamage(m_damagePerHit);
+                m_player.GetComponent<PlayerData>().TakeDamage(m_damagePerHit);
             }
         }
 

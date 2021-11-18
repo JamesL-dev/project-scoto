@@ -24,7 +24,7 @@ public class AOE : MonoBehaviour
 {
     [SerializeField] public float m_damage = 1F;
 
-    int m_timer = 0, m_radius = 5, m_maxTime1 = 1000, m_maxTime2 = 1100;
+    int m_timer = 0, m_radius = 5, m_maxTime1 = 300, m_maxTime2 = 350;
     Vector3 m_scaleChange = Vector3.zero; 
 
     void Awake()
@@ -46,6 +46,7 @@ public class AOE : MonoBehaviour
             Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, m_radius);
             foreach (var hitCollider in hitColliders)
             {
+                if(hitCollider == null) {continue;}
                 BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hitCollider);
                 if (enemy) { enemy.HitEnemy(BaseEnemy.WeaponType.AOE, m_damage); }
             }

@@ -14,9 +14,17 @@ using UnityEngine.SceneManagement;
 public class LaunchMenu : MonoBehaviour
 {
     /*
+     * Loads the launch menu.
+     */
+    public virtual void Load()
+    {
+        SceneManager.LoadScene("LaunchMenu");
+    }
+
+    /*
      * Starts the next scene when the play button is pressed.
      */
-    public void PlayGame()
+    public void NextScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }

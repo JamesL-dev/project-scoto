@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 
 
 /*
- * Controls the player's movement and camera by using the new Unity Input System.
+ * Singleton that controls the player's movement and camera by using the new Unity Input System.
  *
  * Member variables:
  * m_jumpForce -- Float for the velocity applied to the player when jumping.
@@ -21,6 +21,9 @@ using UnityEngine.InputSystem;
  * m_mouseSens -- Vector2 for the player's mouse look sensitivity.
  * m_groundMask -- LayerMask for detecting when the player is standing on the ground.
  * m_playerCamera -- Transform for the player camera's position and rotation.
+ * m_walkSound -- AudioClip for the player walking sound effect.
+ * m_sprintSound -- AudioClip for the player sprinting sound effect.
+ * m_instance -- Static intance of itself for the Singleton pattern.
  * m_movementValue -- Vector2 for the player's x and z movement inputs.
  * m_mouseValue -- Vector2 for the player's x and y mouse inputs.
  * m_jumpValue -- Float for the player's jump input (0.0f is false, 1.0f is true).
@@ -34,13 +37,15 @@ using UnityEngine.InputSystem;
  * m_sprinting -- InputAction for sprinting.
  * m_controller -- CharacterController for moving the player and detecting collisions.
  */
-public class PlayerController : MonoBehaviour
+public sealed class PlayerController : MonoBehaviour
 {
     public float m_jumpForce, m_moveSpeed, m_gravity, m_friction, m_sprintMultiplier;
     public Vector2 m_mouseSens;
     public LayerMask m_groundMask;
     public Transform m_playerCamera;
+    public AudioClip m_walkSound, m_sprintSound;
 
+    private static PlayerController m_instance;
     private Vector2 m_movementValue, m_mouseValue;
     private float m_jumpValue, m_sprintingValue;
     private Vector3 m_velocity;
@@ -64,7 +69,7 @@ public class PlayerController : MonoBehaviour
 
     /* Enambles the input actions when the player is enabled.
      */
-    void OnEnable()
+    public void OnEnable()
     {
         m_movement.Enable();
         m_jumping.Enable();
@@ -75,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
     /* Disables the input actions when the player is disabled.
      */
-    void OnDisable()
+    public void OnDisable()
     {
         m_movement.Disable();
         m_jumping.Disable();
@@ -124,7 +129,20 @@ public class PlayerController : MonoBehaviour
      */
     void FixedUpdate()
     {
-        MovePlayer();
+        Inst().MovePlayer();
+    }
+
+    /* Gets a reference to the instance of the singleton, creating the instance if necessary.
+     *
+     * Returns:
+     * PlayerController -- Reference to the player controller.
+     */
+    public static PlayerController Inst() {
+        if (m_instance == null)
+        {
+            m_instance = GameObject.Find("Player").GetComponent<PlayerController>();
+        }
+        return m_instance;
     }
 
     /* Teleports the player to the given position.
@@ -145,6 +163,10 @@ public class PlayerController : MonoBehaviour
             transform.position = pos;
         }
     }
+
+    /* Makes the singleton's constructor static.
+     */
+    private PlayerController() {}
 
     /* Moves the player.
      */
@@ -171,8 +193,11 @@ public class PlayerController : MonoBehaviour
         }
 
         // Do horizontal movement and move player.
-        HorizontalMovement();
+        Inst().HorizontalMovement();
         m_controller.Move(m_velocity);
+
+        // Play audio.
+        Inst().Footsteps(is_grounded);
     }
 
     /* Controls the player's horizontal movement.
@@ -200,6 +225,34 @@ public class PlayerController : MonoBehaviour
         // Update horizontal m_velocity.
         m_velocity.x = (m_velocity.x + abs_move.x) * m_friction;
         m_velocity.z = (m_velocity.z + abs_move.z) * m_friction;
+    }
+
+    /* Plays and pauses the footsteps sound effects.
+     */
+    private void Footsteps(bool grounded) {
+        // Get the audio source component data.
+        AudioSource audioData = GetComponent<AudioSource>();
+        audioData.Pause();
+
+        // Only play footsteps audio if the player is on the ground.
+        if (grounded)
+        {
+            // Test if player is walking, sprinting, or standing still.
+            if (m_movementValue.x != 0 || m_movementValue.y != 0)
+            {
+                if (m_sprintingValue > 0)
+                {
+                    // Sprinting.
+                    audioData.clip = m_sprintSound;
+                }
+                else
+                {
+                    // Walking.
+                    audioData.clip = m_walkSound;
+                }
+                audioData.Play();
+            }
+        }
     }
 }
 

@@ -6,39 +6,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 /*
- * Allows for storage and modification of various player values.
+ * Singleton that allows for storage and modification of various player values.
  *
  * Member variables:
  * m_health -- Float for player's health.
- * m_battery -- Float for player's battery.
+ * m_maxHealth -- Float for the maximum value of the player's health
+ * m_instance -- Static intance of itself for the Singleton pattern.
  */
-public class PlayerData : MonoBehaviour
+public sealed class PlayerData : MonoBehaviour
 {
     ////////////////////////////// Variables //////////////////////////////
-    public float m_health, m_battery;
+    public float m_health, m_maxHealth;
+    private static PlayerData m_instance;
 
-    ////////////////////////////// Setters //////////////////////////////
-    /* Set the player's health.
+    /* Gets a reference to the instance of the singleton, creating the instance if necessary.
      *
-     * Parameters:
-     * h - Float for health.
+     * Returns:
+     * PlayerData -- Reference to the player data.
      */
-    public void SetHealth(float h)
-    {
-        m_health = h;
+    public static PlayerData Inst() {
+        if (m_instance == null)
+        {
+            m_instance = GameObject.Find("Player").GetComponent<PlayerData>();
+        }
+        return m_instance;
     }
 
-    /* Set the player's battery.
-     *
-     * Parameters:
-     * b - Float for battery.
-     */
-    public void SetBattery(float b)
+    ////////////////////////////// Setters //////////////////////////////
+    /*
+    * Gives the enemy a specified amount of health
+    *
+    * Parameters:
+    * health - amount of health to give
+    */
+    public void TakeHealth(float health)
     {
-        m_battery = b;
+        TakeDamage(-health);
+    }
+
+    /*
+    * Takes damage away from the player
+    *
+    * Parameters:
+    * damage - amount of damage to take
+    */
+    public void TakeDamage(float damage)
+    {
+        m_health -= damage;
+    
+        if (m_health <= 0)
+        {
+            m_health = 0;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else if (m_health >= m_maxHealth)
+        {
+            m_health = m_maxHealth;
+        }
     }
 
     /* Set the player's jump force.
@@ -92,25 +119,30 @@ public class PlayerData : MonoBehaviour
     }
 
     ////////////////////////////// Getters //////////////////////////////
-    /* Get the player's health.
-     *
-     * Returns:
-     * float -- Health.
-     */
-    public float GetHealth()
-    {
-        return m_health;
-    }
+    /*
+    * Gets the current health of the player
+    *
+    * Returns:
+    * float - health of the player
+    */
+    public float GetHealth() {return m_health;}
 
-    /* Get the player's battery.
-     *
-     * Returns:
-     * float -- Battery.
-     */
-    public float GetBattery()
-    {
-        return m_battery;
-    }
+    /*
+    * Gets the current health of the player as a percent
+    *
+    * Returns:
+    * float - gets the current health percent. Should return value [0, 1]
+    */
+    public float GetHealthPercent() {return m_health/m_maxHealth;}
+
+    /*
+    * Gets the max health the player can have
+    *
+    * Returns:
+    * float - returns m_maxHealth (the maximum health the player can have)
+    */
+    public float GetMaxHealth() {return m_maxHealth;}
+
 
     /* Get the player's jump force.
      *
@@ -161,5 +193,9 @@ public class PlayerData : MonoBehaviour
     {
         return GetComponent<PlayerController>().m_sprintMultiplier;
     }
+
+    /* Makes the singleton's constructor static.
+     */
+    private PlayerData() {}
 }
 

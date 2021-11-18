@@ -10,9 +10,14 @@ using UnityEngine;
 
 /*
  * A subclass of Room for the room that the player spawns in for each level.
+ *
+ * Member variables:
+ * m_startWall -- GameObject for the start wall that shows the connection from the previous level.
  */
 public class StartRoom : Room
 {
+    public GameObject m_startWall;
+
     /* Sets up the room by creating walls and doors and spawning the player.
      *
      * Parameters:
@@ -30,12 +35,22 @@ public class StartRoom : Room
         // Generate walls.
         for (int i = 0; i < 4; i++)
         {
-            // Create new plain wall.
+            // Create new plain wall, or start wall for the back wall.
             GameObject tempWall;
-            tempWall = Instantiate(m_wall, this.transform);
-            tempWall.transform.position += m_wallPositions[i] * m_wallPosMultiplier;
-            tempWall.transform.eulerAngles = m_wallRotations[i];
-            tempWall.tag = m_wall.tag;
+            if (i == 2)
+            {
+                tempWall = Instantiate(m_startWall, this.transform);
+                tempWall.transform.position += m_wallPositions[i] * m_wallPosMultiplier;
+                tempWall.transform.eulerAngles = m_wallRotations[i];
+                tempWall.tag = m_startWall.tag;
+            }
+            else
+            {
+                tempWall = Instantiate(m_wall, this.transform);
+                tempWall.transform.position += m_wallPositions[i] * m_wallPosMultiplier;
+                tempWall.transform.eulerAngles = m_wallRotations[i];
+                tempWall.tag = m_wall.tag;
+            }
 
             // Add wall to array.
             m_wallList[i] = tempWall;
@@ -43,7 +58,7 @@ public class StartRoom : Room
         
         // Spawn player.
         GameObject player = GameObject.Find("Player");
-        player.GetComponent<PlayerController>().Tp(new Vector3(0, 0, -5));
+        PlayerController.Inst().Tp(new Vector3(0, 0, -10));
 
         // Start with room cleared.
         m_isCleared = true;

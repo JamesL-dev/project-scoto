@@ -19,6 +19,7 @@ using UnityEngine;
  * m_mhScaling -- Const float for the maze height scaling as the level number increases.
  * m_levelNum -- Class variable int for the current level number.
  * m_roomCount -- Integer for the current number of rooms in the level.
+ * m_isBaked -- Boolean for if the level navmesh has been baked yet or not
  */
 public sealed class LevelGeneration : MonoBehaviour
 {
@@ -27,8 +28,10 @@ public sealed class LevelGeneration : MonoBehaviour
 
     private static LevelGeneration m_instance;
     private const float m_mwScaling = 0.1f, m_mhScaling = 0.2f;
-    private int m_levelNum = 1;
+    private static int m_levelNum = 1;
     private int m_roomCount = 0;
+
+    private bool m_isBaked = false;
 
     /* Generates the level.
      */
@@ -98,6 +101,7 @@ public sealed class LevelGeneration : MonoBehaviour
         endRoom.Init(m_roomMatrix.Count);
 
         NavMeshBaker.CreateLevelMesh();
+        m_isBaked = true;
     }
 
     /* Gets a reference to the instance of the singleton, creating the instance if necessary.
@@ -134,6 +138,16 @@ public sealed class LevelGeneration : MonoBehaviour
         {
             m_levelNum = level;
         }
+    }
+
+    /* Returns the boolean m_isBaked
+     *
+     * Returns:
+     * bool - true if navmesh has been baked, false otherwise
+     */
+    public bool GetIsBaked()
+    {
+        return m_isBaked;
     }
 
     /* Gets the level number.

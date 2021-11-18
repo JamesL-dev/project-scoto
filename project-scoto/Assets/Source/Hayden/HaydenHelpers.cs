@@ -13,9 +13,9 @@ using UnityEngine;
  * Singleton class with helpful static functions that are used throughout
  * other files
  */
-public class HaydenHelpers : MonoBehaviour
+public sealed class HaydenHelpers : MonoBehaviour
 {
-    private static HaydenHelpers m_instance;
+    private static HaydenHelpers m_instance = null;
 
     /* Returns a GameObject if a parent element has a certain tag
     * 
@@ -73,6 +73,10 @@ public class HaydenHelpers : MonoBehaviour
     */
     public static void StartClock(float time, Action functionToCall)
     {
+        if (m_instance == null)
+        {
+            m_instance = GameObject.Find("Player").AddComponent<HaydenHelpers>();
+        }
         IEnumerator coroutine = TimerCoroutine(time, functionToCall);
         m_instance.StartCoroutine(coroutine);
     }
