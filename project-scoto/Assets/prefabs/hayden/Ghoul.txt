@@ -1,0 +1,27 @@
+You have chosen well! This is a fantastic spooky model to choose from!
+
+DESCRIPTION:
+This prefab is FULLY ANIMATED! WITH SOUNDS! WITH HEALTH BAR!
+This prefab comes with a complex enemy AI that does the following:
+    - Patrols a navmesh in search of a player
+    - Runs towards said player when found
+    - Attacks player when close
+
+USAGE:
+To use, place enemy on a NavMeshSurface in Unity. For information on how to do
+this, simply search the Unity API Documentation. 
+
+To damage the ghoul, use the HitEnemy function on the LightEnemy script. 
+You must pass in the weapon type (compatible weapon types are listed in 
+BaseEnemy.cs), and the damage the enemy should take.
+
+To get the enemy to realize the player, the player must have the GameObject 
+name of "Player". This is how the enemy is able to understand what GameObject 
+the player is.
+
+To tweak the health/attack/ values, take a peek at LightEnemy.cs 
+and BaseEnemy.cs and change the starting values in the Start() functions.
+
+
+Once this is done, the enemy will now patrol around, creating sounds while 
+walking, running, attacking, and dying. Have fun with your new spooky asset!

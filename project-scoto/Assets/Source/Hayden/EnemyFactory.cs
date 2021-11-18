@@ -74,7 +74,7 @@ public class EnemyFactory : MonoBehaviour
 
     private void Start()
     {
-        m_heavySpawnRate = 25; // 25%
+        m_heavySpawnRate = 10; // 10%
         m_room = gameObject.transform.parent.gameObject;
     }
 }
