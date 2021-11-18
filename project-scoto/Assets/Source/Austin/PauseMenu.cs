@@ -1,7 +1,7 @@
 /*
  * Filename: PauseMenu.cs
  * Developer: Austin Kugler
- * Purpose: This file includes a class for functionality related to the pause menu.
+ * Purpose:
  */
 using System.Collections;
 using System.Collections.Generic;
@@ -9,26 +9,31 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
-/*
- * Class for functionality related to the game pause menu.
- */
-public class PauseMenu : LaunchMenu
+public sealed class PauseMenu : BaseMenu
 {
-    [SerializeField] private InputActionMap m_inputActionMap;
     public GameObject levelCounter;
+    [SerializeField] private InputActionMap m_inputActionMap;
+    private static PauseMenu m_instance;
 
-    /*
-     * Loads the game scene itself.
-     */
-    public void LoadGame()
+    public static PauseMenu Inst() {
+        if (m_instance == null)
+        {
+            m_instance = GameObject.Find("PauseMenu").GetComponent<PauseMenu>();
+        }
+        return m_instance;
+    }
+
+    public override void Load()
+    {
+        SceneManager.LoadScene("PauseMenu");
+    }
+
+    public override void LoadGame()
     {
         OnPauseGame(new InputAction.CallbackContext());
     }
 
-    /*
-     * Loads the launch menu
-     */
-    public void LoadLaunchMenu()
+    public override void LoadLaunchMenu()
     {
         Time.timeScale = 1;
         PlayerController.Inst().OnEnable();

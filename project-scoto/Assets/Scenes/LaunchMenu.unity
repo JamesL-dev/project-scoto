@@ -243,8 +243,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 976967684}
-        m_TargetAssemblyTypeName: LaunchMenu, srcAsm
-        m_MethodName: NextScene
+        m_TargetAssemblyTypeName: BaseMenu, srcAsm
+        m_MethodName: LoadGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
