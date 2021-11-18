@@ -29,9 +29,10 @@ using UnityEngine.InputSystem;
  */
 public sealed class WeaponManager : MonoBehaviour 
 {  
-    [SerializeField] public Weapon[] m_weapon = new Weapon[m_invSize];    
     public const int m_invSize = 3, m_initWeapon = 0;
     public GameObject m_camera;
+    [SerializeField] public Weapon[] m_weapon = new Weapon[m_invSize];    
+
 
     int m_currWeapon = m_initWeapon, m_previousIndex = m_initWeapon, m_changeCurrWeapon = -1, m_timer = 0;
     static int m_fireAmount = 120;

@@ -21,6 +21,7 @@ using UnityEngine;
  * m_acceleration -- acceleration vector
  * m_velocity -- velocity vector
  * m_light -- light object attached to arrow
+ * m_objPool -- accessor to object pool to get projectiles
  */
 public class Arrow : MonoBehaviour
 {
@@ -83,9 +84,7 @@ public class Arrow : MonoBehaviour
             if (enemy)
             {
                 enemy.HitEnemy(BaseEnemy.WeaponType.Arrow, m_damage);
-                // gameObject.transform.SetParent(other.transform);
                 m_objPool.releaseReusable(ProjectileObjectPool.ProjectileType.Arrow, gameObject);
-
             }
             else if(other.gameObject.layer == LayerMask.NameToLayer("Ground")) 
             {

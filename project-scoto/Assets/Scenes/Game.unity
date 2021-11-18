@@ -2474,6 +2474,7 @@ MonoBehaviour:
   m_damage: 10
   m_weapon: {fileID: 325200681}
   m_objPool: {fileID: 0}
+  m_fireParticle: {fileID: 163286, guid: 50daa816369323b42b56093bb108296f, type: 3}
 --- !u!1 &1785261552
 GameObject:
   m_ObjectHideFlags: 0
