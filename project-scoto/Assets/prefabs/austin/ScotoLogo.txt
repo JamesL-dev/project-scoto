@@ -5,3 +5,5 @@ In this prefab, you will find an easily usable Scoto logo that will bring your g
 
 USAGE:
 Simply add this prefab to your cart and then import it into your project. Then, drag and drop the prefab onto your menus, resizing if nessecary. You can also modify the color by double-clicking the prefab in the project file explorer.
+
+It is recommended you keep the sizing of the logo at a 23:5 aspect ratio to ensure the highest quality appearance. The native size of the image is 2300 by 500 pixels.
