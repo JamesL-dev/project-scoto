@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_isInRange: 0
-  m_interactKey: 101
   m_interactAction:
     m_PersistentCalls:
       m_Calls:
@@ -61,6 +60,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  thisLoot: {fileID: 11400000, guid: dc02c8a47022de8418eb5b3028c14af8, type: 2}
 --- !u!65 &4884851996260637769
 BoxCollider:
   m_ObjectHideFlags: 0

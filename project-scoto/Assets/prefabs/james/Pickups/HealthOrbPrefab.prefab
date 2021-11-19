@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 366591287984868743}
   - component: {fileID: 366591287984868742}
   - component: {fileID: 366591287984868741}
-  - component: {fileID: 2405182909138681191}
   m_Layer: 0
   m_Name: HealthOrbPrefab
   m_TagString: Untagged
@@ -65,7 +64,7 @@ Animator:
   m_GameObject: {fileID: 366591287984868740}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ed5e1ed7d27f8044398fb063bc0bd972, type: 2}
+  m_Controller: {fileID: 9100000, guid: e2e81f7cf47459b49a99d2077529a712, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -87,21 +86,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2405182909138681191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 366591287984868740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a2778003b8617746b13d79b7b0b2c84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_target: {fileID: 0}
-  MinModifier: 5
-  MaxModifier: 12
 --- !u!1 &366591288366672398
 GameObject:
   m_ObjectHideFlags: 0

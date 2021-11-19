@@ -34,7 +34,6 @@ public class HealthOrb : PowerUp
     {
         m_player = GameObject.FindGameObjectWithTag("DropLootTracker");
         m_target = m_player.transform;
-        base.powerUpState = PowerUpState.InAttractMode;
         base.Start();
     }
     /* Function that contains onTriggerEnter override 

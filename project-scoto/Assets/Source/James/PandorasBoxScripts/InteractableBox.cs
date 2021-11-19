@@ -31,6 +31,11 @@ public class InteractableBox : MonoBehaviour
 
     }
     
+    /* Function to generate loot from loot table
+    *
+    *
+    * Returns: none
+    */    
     private void MakeLoot()
     {
         if (thisLoot != null)
@@ -55,7 +60,7 @@ public class InteractableBox : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             m_isInRange = true;
-            Debug.Log("Player now in range");
+            //Debug.Log("Player now in range");
         }
     }
 
@@ -71,7 +76,7 @@ public class InteractableBox : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             m_isInRange = false;
-            Debug.Log("Player now not in range");
+            //Debug.Log("Player now not in range");
         }
     }
 
