@@ -15,5 +15,6 @@ public class Invincibility : PowerUp
     {
         base.PowerUpPayload();
         // Set player take damage to false
+        Debug.Log("Invincibility#PowerUpPayLoad: Applying Invincibility to player");
     }
 }
