@@ -37,11 +37,19 @@ public sealed class OptionsMenu : BaseMenu
      * Setter function for the Unity graphics quality.
      *
      * Parameters:
-     * qualityIndex -- Integer index of the quality from 1 to 6.
+     * qualityIndex -- Integer index of the quality from 0 to 5.
      */
     public void SetGraphics(int qualityIndex)
     {
         // Set quality index (1 to 6)
+        if (qualityIndex > 5)
+        {
+            qualityIndex = 5;
+        }
+        else if (qualityIndex < 0)
+        {
+            qualityIndex = 0;
+        }
         QualitySettings.SetQualityLevel(qualityIndex);
     }
 

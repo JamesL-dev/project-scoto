@@ -70,7 +70,7 @@ public sealed class PauseMenu : BaseMenu
 
         if (Time.timeScale > 0.0f)
         {
-            Time.timeScale = 0;
+            Time.timeScale = 0.0f;
             firstChild.SetActive(true);
             PlayerController.Inst().OnDisable();
             WeaponManager.Inst().OnDisable();
@@ -79,7 +79,7 @@ public sealed class PauseMenu : BaseMenu
         }
         else
         {
-            Time.timeScale = 1;
+            Time.timeScale = 1.0f;
             firstChild.SetActive(false);
             PlayerController.Inst().OnEnable();
             WeaponManager.Inst().OnEnable();

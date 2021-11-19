@@ -1,7 +1,7 @@
 /*
  * Filename: OptionsStressTest.cs
  * Developer: Austin Kugler
- * Purpose: This file includes a class for stress testing the settings menu.
+ * Purpose: Stress testing the options menu.
  */
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
 /*
- * Class for boundary testing puzzle frequency.
+ * Class for stress testing the options menu.
  *
  * Member variables:
  * m_fps -- The current frames per second of the game.
