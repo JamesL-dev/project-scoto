@@ -1,0 +1,17 @@
+One and only Scoin prefab
+
+DESCRIPTION:
+This prefab comes with an animation script and sound when collected
+Items found in this pack
+    -Scoin prefab object
+    -Animation script
+    -collection sound
+
+USAGE:
+To use this prefab simply drag and drop into your scene! its as easy as that!
+
+The script included animates the object to spin in place. The speed, and position can be changed within
+the script.
+
+The item can be collected when A mesh with the tag "Player" collides with the object. The object will destroy itself upon
+collision. A sound is also triggered during this collision.
