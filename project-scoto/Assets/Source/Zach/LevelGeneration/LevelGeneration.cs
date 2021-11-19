@@ -37,10 +37,6 @@ public sealed class LevelGeneration : MonoBehaviour
      */
     void Start()
     {
-        // Test for game win.
-        if (Inst().GetLevelNum() > 3)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
-
         //////////////// PART 1: Generate level ////////////////
 
         // Procedurally generate maze layout.
