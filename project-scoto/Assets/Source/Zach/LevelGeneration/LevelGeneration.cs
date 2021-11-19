@@ -38,7 +38,7 @@ public sealed class LevelGeneration : MonoBehaviour
     void Start()
     {
         // Test for game win.
-        if (Inst().GetLevelNum() > 5)
+        if (Inst().GetLevelNum() > 3)
             WinMenu.Inst().LoadWinMenu();
 
         //////////////// PART 1: Generate level ////////////////
