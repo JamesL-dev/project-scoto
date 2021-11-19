@@ -16,6 +16,7 @@ using UnityEngine;
  */
 public sealed class OptionsMenu : BaseMenu
 {
+    [SerializeField] public float m_sensitivity = 0.4f;
     private static OptionsMenu m_instance;
 
     /*
@@ -53,6 +54,15 @@ public sealed class OptionsMenu : BaseMenu
     public void SetSensitivity(float sensitivity)
     {
         // Set sensitivity (0.1 to 1)
+        if (sensitivity > 1.0f)
+        {
+            sensitivity = 1.0f;
+        }
+        else if (sensitivity < 0.1f)
+        {
+            sensitivity = 0.1f;
+        }
+        m_sensitivity = sensitivity;
         PlayerController.Inst().m_mouseSens.x = sensitivity;
         PlayerController.Inst().m_mouseSens.y = sensitivity;
     }

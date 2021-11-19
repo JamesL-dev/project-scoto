@@ -1,5 +1,5 @@
 /*
- * Filename: SettingsStressTest.cs
+ * Filename: OptionsStressTest.cs
  * Developer: Austin Kugler
  * Purpose: This file includes a class for stress testing the settings menu.
  */
@@ -15,7 +15,7 @@ using UnityEngine.TestTools;
  * Member variables:
  * m_fps -- The current frames per second of the game.
  */
-public class SettingsStressTest : MonoBehaviour
+public class OptionsStressTest : MonoBehaviour
 {
     float m_fps = 0;
 
