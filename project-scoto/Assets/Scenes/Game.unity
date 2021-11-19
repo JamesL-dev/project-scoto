@@ -488,13 +488,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1559274260}
+  m_Father: {fileID: 343372653}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1820, y: 980}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &133829069
 MonoBehaviour:
@@ -1584,6 +1584,47 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 335327243}
   m_CullTransparentMesh: 1
+--- !u!1 &343372652
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 343372653}
+  m_Layer: 5
+  m_Name: PauseMenuContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &343372653
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343372652}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 133829068}
+  - {fileID: 1957066035}
+  - {fileID: 1944281187}
+  - {fileID: 1313253626}
+  - {fileID: 420428415}
+  - {fileID: 1043902939}
+  m_Father: {fileID: 1559274260}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &359701177
 GameObject:
   m_ObjectHideFlags: 0
@@ -1960,7 +2001,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 466630614}
-  m_Father: {fileID: 1559274260}
+  m_Father: {fileID: 343372653}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4296,8 +4337,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 957954979}
-  - component: {fileID: 957954980}
-  - component: {fileID: 957954981}
   m_Layer: 5
   m_Name: PauseMenus
   m_TagString: Untagged
@@ -4327,70 +4366,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &957954980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 957954978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9002af780595ed45a2ad2ca0bb197e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelCounter: {fileID: 1178133737}
-  m_inputActionMap:
-    m_Name: Input
-    m_Id: f214d1b1-f70f-4bdb-8923-c7ff5724efdf
-    m_Asset: {fileID: 0}
-    m_Actions:
-    - m_Name: PauseGame
-      m_Type: 1
-      m_ExpectedControlType: Button
-      m_Id: b7d2ff1d-b99b-4e98-8fa3-b27802013ad4
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-    m_Bindings:
-    - m_Name: 
-      m_Id: 017bcd7f-0ed1-49c9-9fa8-96950b79fff2
-      m_Path: <Keyboard>/escape
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: PauseGame
-      m_Flags: 0
---- !u!114 &957954981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 957954978}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: 0}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: 
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &962239705
 GameObject:
   m_ObjectHideFlags: 0
@@ -4884,7 +4859,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1686011499}
-  m_Father: {fileID: 1559274260}
+  m_Father: {fileID: 343372653}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5756,7 +5731,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1539438591}
-  m_Father: {fileID: 1559274260}
+  m_Father: {fileID: 343372653}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -6730,7 +6705,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1559274260
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6742,12 +6717,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 133829068}
-  - {fileID: 1957066035}
-  - {fileID: 1944281187}
-  - {fileID: 1313253626}
-  - {fileID: 420428415}
-  - {fileID: 1043902939}
+  - {fileID: 343372653}
   m_Father: {fileID: 957954979}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6768,13 +6738,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9002af780595ed45a2ad2ca0bb197e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelCounter: {fileID: 0}
+  levelCounter: {fileID: 1178133737}
   m_inputActionMap:
     m_Name: Input
     m_Id: 74122f8c-3c02-4068-9fae-1bc4c71233b6
     m_Asset: {fileID: 0}
-    m_Actions: []
-    m_Bindings: []
+    m_Actions:
+    - m_Name: PauseGame
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: 56ebee26-2330-469f-8260-aee67df02ef1
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Bindings:
+    - m_Name: 
+      m_Id: 28e65754-2508-4d4f-8fa5-d4d78078244b
+      m_Path: <Keyboard>/escape
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: PauseGame
+      m_Flags: 0
 --- !u!1 &1588797588
 GameObject:
   m_ObjectHideFlags: 0
@@ -8438,7 +8423,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1942262570}
-  m_Father: {fileID: 1559274260}
+  m_Father: {fileID: 343372653}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -8569,13 +8554,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1559274260}
+  m_Father: {fileID: 343372653}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 407.4211}
-  m_SizeDelta: {x: -542.209, y: -814.8422}
+  m_SizeDelta: {x: 1277.791, y: 165.15778}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1957066036
 MonoBehaviour:
