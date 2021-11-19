@@ -15,6 +15,13 @@ public class LootTable : ScriptableObject
 {
     public Loot[] loots;
 
+    /* Function that determines what loot is chosen
+    *  This function uses cumulative probability to pick an item from the loot table prefab
+    *
+    * Parameters: none
+    *
+    * Returns: none
+    */
     public PowerUp LootPowerup()
     {
         int m_cumulattiveProb = 0;
