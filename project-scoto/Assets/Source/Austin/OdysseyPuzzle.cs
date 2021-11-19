@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * Singleton class for odyssey puzzle functionality, inheriting from BasePuzzle.
+ * Singleton subclass for odyssey puzzle functionality, inheriting from BasePuzzle.
  */
 public sealed class OdysseyPuzzle : BasePuzzle
 {

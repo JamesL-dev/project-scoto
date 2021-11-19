@@ -59,6 +59,6 @@ public abstract class BaseMenu : MonoBehaviour
      */
     public virtual void LoadWinMenu()
     {
-        SceneManager.LoadScene("LoadWinMenu");
+        SceneManager.LoadScene("WinMenu");
     }
 }

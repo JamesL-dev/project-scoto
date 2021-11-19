@@ -1,5 +1,5 @@
 /*
- * Filename: DeathMenu.cs
+ * Filename: WinMenu.cs
  * Developer: Austin Kugler
  * Purpose: Includes functionality for player interaction with the win menu.
  * Software Pattern: Singleton
@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /*
- * Singleton superclass for the death menu.
+ * Singleton subclass for the win menu.
  *
  * Member variables:
  * m_instance -- The singleton instance of WinMenu.
