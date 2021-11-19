@@ -27,9 +27,6 @@ public class LevelGenStressTests
 
         for (int i = 0; i < 100; i++)
         {
-            // Set the level number.
-            LevelGeneration.Inst().SetLevelNum(level);
-
             // Load scene.
             SceneManager.LoadScene("Game");
             yield return new WaitForSeconds(2f);
@@ -44,6 +41,7 @@ public class LevelGenStressTests
 
             // Increase the level size.
             level = Mathf.RoundToInt(level * 1.5f);
+            LevelGeneration.Inst().SetLevelNum(level);
         }
 
         // Print results.
