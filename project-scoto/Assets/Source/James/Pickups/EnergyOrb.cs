@@ -46,17 +46,6 @@ public class EnergyOrb : PowerUp
         m_Flashlight.AddBattery(5f);
     }
 
-    /* Function to destroy object when picked up
-    *
-    * Parameters: none
-    *
-    * Returns: none
-    */
-    protected override void DestroySelfAfterDelay()
-    {
-        Destroy(gameObject); 
-    }
-
     public void StartFollowing()
     {
         isFollowing = true;

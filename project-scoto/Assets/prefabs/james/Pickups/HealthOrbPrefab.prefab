@@ -49,7 +49,7 @@ MonoBehaviour:
   powerUpName: Health Orb
   expiresImmediately: 1
   m_specialEffect: {fileID: 0}
-  m_soundEffect: {fileID: 8300000, guid: ad4258686025ee941983ec61aea83237, type: 3}
+  m_soundEffect: {fileID: 8300000, guid: 892ac81dad9e29e459f181d5a498c0f7, type: 3}
   m_target: {fileID: 0}
   MinModifier: 5
   MaxModifier: 12
