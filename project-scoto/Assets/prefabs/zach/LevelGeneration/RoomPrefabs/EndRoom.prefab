@@ -5634,6 +5634,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2704893925004477637}
     m_Modifications:
+    - target: {fileID: 295152061181032787, guid: 0121b03f2a9394648ae686b050cf9d70, type: 3}
+      propertyPath: thisLoot
+      value: 
+      objectReference: {fileID: 11400000, guid: dc02c8a47022de8418eb5b3028c14af8, type: 2}
     - target: {fileID: 938963308967506164, guid: 0121b03f2a9394648ae686b050cf9d70, type: 3}
       propertyPath: m_Name
       value: PandorasBoxPrefab

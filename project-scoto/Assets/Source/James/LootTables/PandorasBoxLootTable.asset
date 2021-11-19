@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d197d4604b8c3e4428701bcd75a4c629, type: 3}
+  m_Name: PandorasBoxLootTable
+  m_EditorClassIdentifier: 
+  loots:
+  - m_ThisLoot: {fileID: 1893319503665662279, guid: b662669a1046b5f429aa4ec9593d896b, type: 3}
+    m_LootChance: 25
+  - m_ThisLoot: {fileID: 4567027587767350401, guid: cf6654ae85f745440bb7b2e32c24aa8c, type: 3}
+    m_LootChance: 25
+  - m_ThisLoot: {fileID: 7979156246887359049, guid: 4a8ef4fef420a094283d3550f95eaa62, type: 3}
+    m_LootChance: 25
+  - m_ThisLoot: {fileID: 2752113001167877931, guid: 64cdeb1c4d3529a44ad148b70435935e, type: 3}
+    m_LootChance: 25

@@ -41,7 +41,7 @@ public class EnergyOrb : PowerUp
     {
         base.PowerUpPayload();
 
-        Debug.Log("EnergyOrb#PowerUpPayload# adding charge to flashlight");
+        Debug.Log("EnergyOrb#PowerUpPayload: Adding" + m_EnergyBonus + " charge to flashlight");
         m_Flashlight = GameObject.Find("Flashlight").GetComponent<Flashlight>();
         m_Flashlight.AddBattery(5f);
     }

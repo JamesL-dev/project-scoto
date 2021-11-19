@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Invincibility : PowerUp
+public class Speed : PowerUp
 {
     /* Function that contains PowerUpPayloard override 
     *  Default powerup payload is overriden here
@@ -14,7 +14,7 @@ public class Invincibility : PowerUp
     protected override void PowerUpPayload()
     {
         base.PowerUpPayload();
-        // Set player take damage to false
-        Debug.Log("Invincibility#PowerUpPayLoad: Applying Invincibility to player");
+        // Set new player speed
+        Debug.Log("Speed#PowerUpPayload: Applying speed increase to player");
     }
 }
