@@ -53,4 +53,12 @@ public abstract class BaseMenu : MonoBehaviour
     {
         SceneManager.LoadScene("DeathMenu");
     }
+
+    /*
+     * Loads the win menu specifically.
+     */
+    public virtual void LoadWinMenu()
+    {
+        SceneManager.LoadScene("LoadWinMenu");
+    }
 }
