@@ -17,8 +17,10 @@ public class HealthOrb : PowerUp
 {
     GameObject m_player;
     public Transform m_target;
-    public float MinModifier = 5;
-    public float MaxModifier = 12;
+    public float m_minModifier = 5;
+    public float m_maxModifier = 12;
+    public int m_minbonus = 1;
+    public int m_maxBonus = 100;
     Vector3 m_velocity = Vector3.zero;
     bool isFollowing = false;
     public int m_healthBonus = 2;
@@ -72,6 +74,29 @@ public class HealthOrb : PowerUp
         isFollowing = true;
     }
 
+    /* Function that sets health bonus
+    *  
+    *
+    * Parameters: none
+    *
+    * Returns: none
+    */
+    public void setHealthBonus(int bonus)
+    {
+        if (bonus < m_minbonus)
+        {
+            m_healthBonus = m_minbonus;
+        }
+        else if (bonus > m_maxBonus)
+        {
+            m_healthBonus = m_maxBonus;
+        }
+        else
+        {
+            m_healthBonus = bonus;
+        }
+    }
+
     /* Function that updates every frame.
     *  In this case its used to animate the object.
     *
@@ -83,7 +108,7 @@ public class HealthOrb : PowerUp
     {
         if (isFollowing)
         {
-            transform.position = Vector3.SmoothDamp(transform.position, m_target.position, ref m_velocity, Time.deltaTime * Random.Range(MinModifier, MaxModifier));
+            transform.position = Vector3.SmoothDamp(transform.position, m_target.position, ref m_velocity, Time.deltaTime * Random.Range(m_minModifier, m_maxModifier));
         }
     }
 }

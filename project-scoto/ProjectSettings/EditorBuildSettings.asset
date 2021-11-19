@@ -17,23 +17,26 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WinMenu.unity
     guid: d98851ec21f43a740a3ef38ac73cee82
-  - enabled: 0
+  - enabled: 1
     path: Assets/Tests/PlayMode/haydenPlayMode/enemyMovementTestScene.unity
     guid: be94f6ed21a52bd40b7f7e1b35761cca
-  - enabled: 0
+  - enabled: 1
     path: Assets/Tests/PlayMode/haydenPlayMode/enemySpawnerStressScene.unity
     guid: 9bc682f0ef922644e90f02cbeb72eae1
-  - enabled: 0
+  - enabled: 1
     path: Assets/Tests/PlayMode/rodneyPlayMode/RodneyStressTest.unity
     guid: 01d0e80bd59820040a5072c64651f23f
-  - enabled: 0
+  - enabled: 1
     path: Assets/Tests/PlayMode/jamesPlayMode/jamesTestScene.unity
     guid: b55e3d2fdcf04d84e81c85a3215d0db0
-  - enabled: 0
+  - enabled: 1
     path: Assets/Tests/PlayMode/jamesPlayMode/jamesBoundaryTest.unity
     guid: 4ba5b2fa3a8f7d94c8c5df4c1929569d
-  - enabled: 0
+  - enabled: 1
     path: Assets/Tests/PlayMode/haydenPlayMode/enemyHealthTest.unity
     guid: bebba82bac78fb848b0ab861d46ac8b8
+  - enabled: 1
+    path: Assets/Tests/PlayMode/jamesPlayMode/PowerUpTests.unity
+    guid: 314a12caa13443d48a206af582a22d60
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5014deb25feeaa9429613361155004f4, type: 2}
