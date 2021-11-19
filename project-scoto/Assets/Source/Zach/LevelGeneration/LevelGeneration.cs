@@ -37,6 +37,10 @@ public sealed class LevelGeneration : MonoBehaviour
      */
     void Start()
     {
+        // Test for game win.
+        if (Inst().GetLevelNum() > 5)
+            WinMenu.Inst().LoadWinMenu();
+
         //////////////// PART 1: Generate level ////////////////
 
         // Procedurally generate maze layout.
