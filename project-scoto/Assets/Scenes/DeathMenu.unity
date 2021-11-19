@@ -291,8 +291,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 142}
-  m_SizeDelta: {x: -185.05, y: -803.8051}
+  m_AnchoredPosition: {x: 0, y: 141.9513}
+  m_SizeDelta: {x: -185.05, y: -803.9026}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &354934523
 MonoBehaviour:
@@ -560,7 +560,7 @@ GameObject:
   - component: {fileID: 1046938854}
   - component: {fileID: 1046938855}
   m_Layer: 5
-  m_Name: DeathScreen
+  m_Name: WinMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -972,6 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1be5561e9d871f46b37ad52919a4909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sensitivity: 0.4
 --- !u!114 &1936562003
 MonoBehaviour:
   m_ObjectHideFlags: 0
