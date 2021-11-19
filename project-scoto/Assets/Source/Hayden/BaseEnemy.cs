@@ -49,20 +49,8 @@ public abstract class BaseEnemy : MonoBehaviour
     protected float m_health;
     protected bool m_flashlightHit;
     protected EnemyState m_state;
+    public LootTable thisLoot;
 
-    /*
-    * Used to instantiate health orbs on death
-    *
-    * 
-    */
-    public GameObject m_LootOne;
-
-    /*
-    * Used to instantiate energy orbs on deatgh
-    *
-   * 
-    */
-    public GameObject m_LootTwo;
 
     /*
     * Gets the current health of the enemy
@@ -317,17 +305,37 @@ public abstract class BaseEnemy : MonoBehaviour
         m_agent.speed = 0;
     }
 
+    /*
+    * Generates random item from the loot table
+    *
+    * From James
+    */
+    private void MakeLoot()
+    {
+        if (thisLoot != null)
+        {
+            PowerUp current = thisLoot.LootPowerup();
+            if (current != null)
+            {
+                Instantiate(current.gameObject, transform.position + new Vector3(0, 2f, 0), Quaternion.identity);
+                Debug.Log("Spawning " + current.gameObject.name);
+            }
+        }
+    }
+
     protected virtual void AfterDeath()
     {
+        // Generate Loot from Table
+        MakeLoot();
         // Temporary Drop Some Loot location
-        for (int i = 0; i < 2; i++)
-        {
-            var lootItem1 = Instantiate(m_LootOne, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
-            var lootItem2 = Instantiate(m_LootTwo, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
+        // for (int i = 0; i < 2; i++)
+        // {
+        //     var lootItem1 = Instantiate(m_LootOne, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
+        //     var lootItem2 = Instantiate(m_LootTwo, transform.position + new Vector3(Random.Range(0.6f, 2f), 0, Random.Range(0.6f, 2f)), Quaternion.identity);
 
-            lootItem1.GetComponent<HealthOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
-            lootItem2.GetComponent<EnergyOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
-        }
+        //     lootItem1.GetComponent<HealthOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
+        //     lootItem2.GetComponent<EnergyOrb>().m_target = m_DropLootTracker.transform; // Target the players loot tracker
+        // }
         m_state = EnemyState.Dead;
         //SpawnEnemyLoot.SpawnLoot(); // commented out for testing
         GameObject.Destroy(gameObject, 1.0f);
