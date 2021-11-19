@@ -1,3 +1,8 @@
+/*
+* Filename: Invincibility.cs
+* Developer: James Lasso
+* Purpose: Subclass for powerup. This gives the player invincibility
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

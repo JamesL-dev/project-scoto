@@ -1,3 +1,8 @@
+/*
+* Filename: LoootTable.cs
+* Developer: James Lasso
+* Purpose: Loot table system using cumulative probability
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

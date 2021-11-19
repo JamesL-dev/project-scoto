@@ -15,15 +15,15 @@ using UnityEngine;
 */
 public class HealthOrb : PowerUp
 {
-    GameObject m_player;
-    public Transform m_target;
-    public float m_minModifier = 5;
-    public float m_maxModifier = 12;
-    public int m_minbonus = 1;
-    public int m_maxBonus = 100;
+    GameObject m_player; // Reference to player
+    public Transform m_target; // Target for follow script
+    public int m_healthBonus = 2; // THE health bonus value
+    public float m_minModifier = 5; // Used for follow target
+    public float m_maxModifier = 12; // Used for follow target
+    public int m_minbonus = 1; // Minimum health bonus amount
+    public int m_maxBonus = 100; // Maximum health bonus amount
     Vector3 m_velocity = Vector3.zero;
-    bool isFollowing = false;
-    public int m_healthBonus = 2;
+    bool isFollowing = false; // Used for follow script
 
     /* Function that contains Start override 
     *  Default powerup Start is overridden here
@@ -77,23 +77,23 @@ public class HealthOrb : PowerUp
     /* Function that sets health bonus
     *  
     *
-    * Parameters: none
+    * Parameters: int amount,
     *
     * Returns: none
     */
-    public void setHealthBonus(int bonus)
+    public void setHealthBonus(int m_amount)
     {
-        if (bonus < m_minbonus)
+        if (m_amount < m_minbonus)
         {
             m_healthBonus = m_minbonus;
         }
-        else if (bonus > m_maxBonus)
+        else if (m_amount > m_maxBonus)
         {
             m_healthBonus = m_maxBonus;
         }
         else
         {
-            m_healthBonus = bonus;
+            m_healthBonus = m_amount;
         }
     }
 
