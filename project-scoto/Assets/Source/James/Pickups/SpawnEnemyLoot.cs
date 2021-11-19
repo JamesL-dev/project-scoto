@@ -1,3 +1,9 @@
+/*
+* Filename: SpawnEnemyLoot.cs
+* Developer: James Lasso
+* Purpose: To spawn enemy loot
+* 
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

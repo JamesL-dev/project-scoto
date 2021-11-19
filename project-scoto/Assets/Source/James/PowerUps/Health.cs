@@ -1,3 +1,8 @@
+/*
+* Filename: Health.cs
+* Developer: James Lasso
+* Purpose: Subclass of PowerUp this is for a permenant health increase
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,3 +1,8 @@
+/*
+* Filename: Speed.cs
+* Developer: James Lasso
+* Purpose: Subclass for powerup. This gives the player a speed increase
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
