@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /*
- * Singleton superclass for the death menu.
+ * Singleton subclass for the death menu.
  *
  * Member variables:
  * m_instance -- The singleton instance of LaunchMenu.
