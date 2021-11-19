@@ -14,13 +14,13 @@ using UnityEngine.InputSystem;
  * Singleton superclass for the pause menu.
  *
  * Member variables:
- * m_levelCount -- A counter to display the current level number.
+ * m_levelCounter -- A counter to display the current level number.
  * m_inputActionMap -- A mapping for inputs that occur while the pause menu is active.
  * m_instance -- The singleton instance of PauseMenu.
  */
 public sealed class PauseMenu : BaseMenu
 {
-    public GameObject m_levelCounter;
+    // public GameObject m_levelCounter;
     [SerializeField] private InputActionMap m_inputActionMap;
     private static PauseMenu m_instance;
 
@@ -74,7 +74,7 @@ public sealed class PauseMenu : BaseMenu
             firstChild.SetActive(true);
             PlayerController.Inst().OnDisable();
             WeaponManager.Inst().OnDisable();
-            m_levelCounter.SetActive(true);
+            // m_levelCounter.SetActive(true);
             GameObject.Find("Player").GetComponent<AudioSource>().Pause();
         }
         else
@@ -83,7 +83,7 @@ public sealed class PauseMenu : BaseMenu
             firstChild.SetActive(false);
             PlayerController.Inst().OnEnable();
             WeaponManager.Inst().OnEnable();
-            m_levelCounter.SetActive(false);
+            // m_levelCounter.SetActive(false);
         }
     }
 
