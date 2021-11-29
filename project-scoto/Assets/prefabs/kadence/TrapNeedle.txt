@@ -1,0 +1,10 @@
+Trap Needle Prefab
+
+Description: This dungeon trap prefab if fully editable and is already animated.
+
+Purpose:  This trap adds another obstacle for the player to avoid while 
+navigating through each level. 
+
+Interactions: This prefab is instantiated a random number of times per room based on room size after the level is generated via the Obstacle 
+Spawner Script. If the player GameObject marked with the Player tag collides with the trap then the player loses health via the Trap Needle 
+Script. The damage can be adjusted. 
