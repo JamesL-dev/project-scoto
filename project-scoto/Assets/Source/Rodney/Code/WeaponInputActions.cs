@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/src/rodney/Code/WeaponInputActions.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Source/Rodney/Code/WeaponInputActions.inputactions'
 
 using System;
 using System.Collections;

@@ -12,7 +12,6 @@ TagManager:
   - WallDoor
   - EnemyCollider
   - DropLootTracker
-  - Obstacle
   layers:
   - Default
   - TransparentFX

@@ -1,0 +1,21 @@
+Health energy orb!
+
+DESCRIPTION:
+This prefab is set up to to add special effects, sound, and a target to interact with
+The Health orb is packed with particle effects to capture the attention of any hungry player, including:
+    - Sound effect support
+    - Special effect support
+    - a target for the orb to track
+    - supplemental follow script
+
+USAGE:
+To use, drag the Health Orb into the hierarchy!
+
+To add a sound effect drag your favorite sound clip right from 
+the project folder into the sound object field.
+
+To add special effects, grab some more particle effects or create your own
+and click and drag into the Special effect field.
+
+You can add a target for the follow script by dragging the desired object from the
+hierarchy into the target field.

@@ -48,7 +48,7 @@ public sealed class Flashlight : MonoBehaviour
     {
         if (m_instance == null)
         {
-            m_instance = GameObject.Find("Player/Flashlight").GetComponent<Flashlight>();
+            m_instance = GameObject.Find("Flashlight").GetComponent<Flashlight>();
         }
         return m_instance;
     }
@@ -100,21 +100,22 @@ public sealed class Flashlight : MonoBehaviour
         m_inputActionMap["ToggleFlashlight"].Disable();
     }
 
-    public void Awake()
+    private void Awake()
     {
         m_inputActionMap["FocusFlashlight"].performed += OnFocusFlashlight;
         m_inputActionMap["NormalFlashlight"].performed += OnNormalFlashlight;
         m_inputActionMap["ToggleFlashlight"].performed += OnToggleFlashlight;
-    }
 
-    private void Start()
-    {
         if (m_instance != null)
         {
             Destroy(this);
             return;
         }
         m_instance = this;
+    }
+
+    private void Start()
+    {
         m_maxBatteryLevel = 100.0f;
         m_timeBetwenFlashlightDeplete = 0.075f;
         m_flashlightDepleteAmnt = 0.5f; // 0.25 works good

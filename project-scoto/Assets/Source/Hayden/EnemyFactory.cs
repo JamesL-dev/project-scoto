@@ -34,7 +34,7 @@ public class EnemyFactory : MonoBehaviour
         position.z += Random.Range(-roomSize.z/3, roomSize.z/3);
         
         UnityEngine.AI.NavMeshHit hit;
-        UnityEngine.AI.NavMesh.SamplePosition(position, out hit, 10f, UnityEngine.AI.NavMesh.AllAreas);
+        UnityEngine.AI.NavMesh.SamplePosition(position, out hit, 100000.0f, UnityEngine.AI.NavMesh.AllAreas);
 
         if (isHeavyEnemySpawn <= m_heavySpawnRate)
         {
@@ -72,7 +72,7 @@ public class EnemyFactory : MonoBehaviour
         return go.GetComponent<HeavyEnemy>();
     }
 
-    private void Start()
+    private void Awake()
     {
         m_heavySpawnRate = 10; // 10%
         m_room = gameObject.transform.parent.gameObject;

@@ -17,8 +17,10 @@ public class PowerUp : MonoBehaviour
 {
     public string powerUpName;
     public bool expiresImmediately;
-    public GameObject specialEffect;
-    public AudioClip soundEffect;
+    public GameObject m_specialEffect;
+    [SerializeField]
+    public AudioClip m_soundEffect;
+    protected AudioSource m_soundEffectSource;
     protected PowerUpState powerUpState;
 
     // keep reference of player here
@@ -46,7 +48,13 @@ public class PowerUp : MonoBehaviour
     protected virtual void Start()
     {
         powerUpState = PowerUpState.InAttractMode;
-        Debug.Log("PowerUp#Start# Ive been called");
+
+        m_soundEffectSource = gameObject.AddComponent<AudioSource>();
+        m_soundEffectSource.clip = m_soundEffect;
+        m_soundEffectSource.volume = 0.5f; 
+        m_soundEffectSource.spatialBlend = 0;
+        m_soundEffectSource.maxDistance = 25.0f;
+        m_soundEffectSource.rolloffMode = AudioRolloffMode.Linear;
     }
 
     /* Function for 3D object interaction.
@@ -58,7 +66,6 @@ public class PowerUp : MonoBehaviour
     */
     protected virtual void OnTriggerEnter (Collider collision)
     {
-            Debug.Log("PowerUp#OnTriggerEnter# Trigger enter being called");
             PowerUpCollected(collision.gameObject);
     }
 
@@ -96,14 +103,14 @@ public class PowerUp : MonoBehaviour
     */
     protected virtual void PowerUpEffects()
     {
-        if (specialEffect != null)
+        if (m_specialEffect != null)
         {
-            Instantiate (specialEffect, transform.position, transform.rotation, transform);
+            Instantiate (m_specialEffect, transform.position, transform.rotation, transform);
         }
 
-        if (soundEffect != null)
+        if (m_soundEffect != null)
         {
-            // MainGameController.main.PlaySound (soundEffect);
+            m_soundEffectSource.Play();
         }
     }
 
@@ -152,7 +159,7 @@ public class PowerUp : MonoBehaviour
     protected virtual void DestroySelfAfterDelay()
     {
         //Destroy(transform.parent.gameObject);
-        Debug.Log("PowerUp#DestroySelfAfterDelay# I have been destroyed");
-        Destroy(gameObject);
+        Debug.Log("PowerUp#DestroySelfAfterDelay: I have been destroyed");
+        Destroy(gameObject, 0.5f);
     }
 }

@@ -13,10 +13,13 @@ using UnityEngine.SceneManagement;
  * Triggers the next level.
  *
  * Member variables:
+ * m_gameLength -- Integer for the number of levels that need to be cleared to win.
  * m_isLoadReady -- Bool for determining if it's time to load the next level.
  */
 public class LevelCompleteDetector : MonoBehaviour
 {
+    public int m_gameLength;
+
     private bool m_isLoadReady = false;
 
     /* Remvoes fade when level starts.
@@ -40,10 +43,21 @@ public class LevelCompleteDetector : MonoBehaviour
         // Detect if fade to black has finished.
         if (m_isLoadReady && UIController.Inst().IsBlack())
         {
-            // Load next level, then remove fade.
+            // Increment level number.
             m_isLoadReady = false;
             LevelGeneration.Inst().SetLevelNum(LevelGeneration.Inst().GetLevelNum() + 1);
-            SceneManager.LoadScene("Game");
+
+            // Test if game is over.
+            if (LevelGeneration.Inst().GetLevelNum() > m_gameLength)
+            {
+                // If enough levels have been cleared, end game.
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+            }
+            else
+            {
+                // Otherwise, load next level.
+                SceneManager.LoadScene("Game");
+            }
         }
     }
 

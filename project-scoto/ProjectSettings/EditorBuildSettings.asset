@@ -12,8 +12,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Game.unity
     guid: 4121fa6dba7f4b6428b5f969bb2bfa6d
   - enabled: 1
-    path: Assets/Scenes/DeathScreen.unity
+    path: Assets/Scenes/DeathMenu.unity
     guid: f46c23e706c666247939a139f1c3ebf6
+  - enabled: 1
+    path: Assets/Scenes/WinMenu.unity
+    guid: d98851ec21f43a740a3ef38ac73cee82
   - enabled: 1
     path: Assets/Tests/PlayMode/haydenPlayMode/enemyMovementTestScene.unity
     guid: be94f6ed21a52bd40b7f7e1b35761cca
@@ -32,5 +35,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Tests/PlayMode/haydenPlayMode/enemyHealthTest.unity
     guid: bebba82bac78fb848b0ab861d46ac8b8
+  - enabled: 1
+    path: Assets/Tests/PlayMode/jamesPlayMode/PowerUpTests.unity
+    guid: 314a12caa13443d48a206af582a22d60
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5014deb25feeaa9429613361155004f4, type: 2}

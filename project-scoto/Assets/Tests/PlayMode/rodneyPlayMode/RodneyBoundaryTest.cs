@@ -34,7 +34,7 @@ public class RodneyBoundaryTest : MonoBehaviour
     }
 
     [UnityTest]
-    public IEnumerator InvBounds()
+    public IEnumerator InvBoundsLower()
     {   
         SceneManager.LoadScene("Game");
         yield return new WaitForSeconds(2);
@@ -52,8 +52,17 @@ public class RodneyBoundaryTest : MonoBehaviour
         obj_.SetCurrentWeapon(-1000);
         yield return new WaitForSeconds(.05F);
         Assert.AreEqual(obj_.CurrentWeapon(), previous_weapon);
+    }
 
-        previous_weapon = obj_.CurrentWeapon();
+    [UnityTest]
+    public IEnumerator InvBoundsUpper()
+    {   
+        SceneManager.LoadScene("Game");
+        yield return new WaitForSeconds(2);
+
+        WeaponManager obj_ = GameObject.Find("Inventory").GetComponent<WeaponManager>();
+        
+        int previous_weapon = obj_.CurrentWeapon();
         yield return new WaitForSeconds(.05F);
         obj_.SetCurrentWeapon(WeaponManager.m_invSize);
         yield return new WaitForSeconds(.05F);

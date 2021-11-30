@@ -1,3 +1,8 @@
+/*
+* Filename: Follow.cs
+* Developer: James Lasso
+* Purpose: Makes object this is attatched to follow a set target
+*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

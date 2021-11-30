@@ -10,6 +10,9 @@ using UnityEngine;
 
 /*
  * Main Class
+ *
+ * Member Varialbes:
+ * m_velocityScalar = scalar velocity passed to grenade rigidbody.velocity
  */
 public class GreekFire : Weapon
 {

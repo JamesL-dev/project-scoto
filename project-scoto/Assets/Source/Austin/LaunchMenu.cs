@@ -1,7 +1,8 @@
 /*
  * Filename: LaunchMenu.cs
  * Developer: Austin Kugler
- * Purpose: This file includes a class for functionality related to the game launch menu.
+ * Purpose: Includes functionality for player interaction with the launch menu.
+ * Software Pattern: Singleton
  */
 using System.Collections;
 using System.Collections.Generic;
@@ -9,32 +10,26 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /*
- * Class for functionality related to the game launch menu.
+ * Singleton subclass for the death menu.
+ *
+ * Member variables:
+ * m_instance -- The singleton instance of LaunchMenu.
  */
-public class LaunchMenu : MonoBehaviour
+public sealed class LaunchMenu : BaseMenu
 {
-    /*
-     * Loads the launch menu.
-     */
-    public virtual void Load()
-    {
-        SceneManager.LoadScene("LaunchMenu");
-    }
+    private static LaunchMenu m_instance;
 
     /*
-     * Starts the next scene when the play button is pressed.
+     * Gets a reference to the instance of the singleton; otherwise creates the necessary.
+     *
+     * Returns:
+     * LaunchMenu -- Reference to the singleton instance.
      */
-    public void NextScene()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
-    /*
-     * Closes the game when the quit button is pressed.
-     */
-    public void QuitGame()
-    {
-        Debug.Log("Application.Quit();");
-        Application.Quit();
+    public static LaunchMenu Inst() {
+        if (m_instance == null)
+        {
+            m_instance = GameObject.Find("LaunchMenu").GetComponent<LaunchMenu>();
+        }
+        return m_instance;
     }
 }

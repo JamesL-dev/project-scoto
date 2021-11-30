@@ -13,11 +13,11 @@ using UnityEngine;
  *
  * Member Variables:
  * m_weapon -- instance of weapon prefab , for activating / deactivating
- * m_projectile -- instance of projectile prefab for instantiating projectile
  * m_damage -- damage tied to the weapon
  * m_maxTime -- time for weapon to fire
  * m_isActive -- tracks if 3d model is active on screen or not
  * m_discovered -- tracks if weapon has been discovered or not
+ * m_objPool -- reference to object pool to obtain projectiles
  */
 public class Weapon : MonoBehaviour
 {

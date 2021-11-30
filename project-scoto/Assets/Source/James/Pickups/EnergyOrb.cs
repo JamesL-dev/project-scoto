@@ -15,7 +15,9 @@ using UnityEngine;
 */
 public class EnergyOrb : PowerUp
 {
-    public int m_EnergyBonus;
+    public int m_energyBonus;
+    public int m_minbonus = 1;
+    public int m_maxBonus = 100;
     GameObject m_player;
     public Transform m_target;
     public float MinModifier = 5;
@@ -28,6 +30,7 @@ public class EnergyOrb : PowerUp
     {
         m_player = GameObject.FindGameObjectWithTag("DropLootTracker");
         m_target = m_player.transform;
+        base.Start();
     }
     /* Function that contains payload information.
     *  Default powerup payload is overridden here
@@ -40,25 +43,36 @@ public class EnergyOrb : PowerUp
     {
         base.PowerUpPayload();
 
-        Debug.Log("EnergyOrb#PowerUpPayload# adding charge to flashlight");
+        Debug.Log("EnergyOrb#PowerUpPayload: Adding" + m_energyBonus + " charge to flashlight");
         m_Flashlight = GameObject.Find("Flashlight").GetComponent<Flashlight>();
         m_Flashlight.AddBattery(5f);
-    }
-
-    /* Function to destroy object when picked up
-    *
-    * Parameters: none
-    *
-    * Returns: none
-    */
-    protected override void DestroySelfAfterDelay()
-    {
-        Destroy(gameObject); 
     }
 
     public void StartFollowing()
     {
         isFollowing = true;
+    }
+
+    /* Setter function for Energy Bonus
+    *
+    * Parameters: none
+    *
+    * Returns: none
+    */
+    public void setEnergyBonus(int bonus)
+    {
+        if (bonus < m_minbonus)
+        {
+            m_energyBonus = m_minbonus;
+        }
+        else if (bonus > m_maxBonus)
+        {
+            m_energyBonus = m_maxBonus;
+        }
+        else
+        {
+            m_energyBonus = bonus;
+        }
     }
 
     /* Function that updates every frame.

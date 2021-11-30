@@ -18,7 +18,6 @@ using UnityEngine;
  * m_maxtime1 -- Lifetime of AOE effect before it starts shrinking
  * m_maxtime2 -- Lifetime of AOE effect with shrink time
  * m_scaleChange -- change of AOE effects scale per frame
- * m_sphere -- Sphere collider attached to object
  */
 public class AOE : MonoBehaviour
 {
@@ -29,24 +28,25 @@ public class AOE : MonoBehaviour
 
     void Awake()
     {
-        m_maxTime2 = m_maxTime1 - 100;
+        m_maxTime2 = m_maxTime1 + 100;
         m_scaleChange = gameObject.transform.localScale/100;
     }
 
     void FixedUpdate()
     {
         m_timer ++;
-        if(m_timer >= m_maxTime2) 
+        // After m_maxTime1 frames, start shrinking ring of fire. After m_maxTime2, delete instance
+        if(m_timer >= m_maxTime1) 
         {
             gameObject.transform.localScale -= m_scaleChange;
-            if(m_timer >= m_maxTime1) { Destroy(gameObject);}
+            if(m_timer >= m_maxTime2) { Destroy(gameObject);}
         }
-        if(m_timer % 20 == 0)
+        // 12 times per second, damage enemies if they are in range
+        if(m_timer % 5 == 0)
         {
             Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, m_radius);
             foreach (var hitCollider in hitColliders)
             {
-                if(hitCollider == null) {continue;}
                 BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hitCollider);
                 if (enemy) { enemy.HitEnemy(BaseEnemy.WeaponType.AOE, m_damage); }
             }

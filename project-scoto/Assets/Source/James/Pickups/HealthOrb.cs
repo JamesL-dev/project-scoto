@@ -15,20 +15,39 @@ using UnityEngine;
 */
 public class HealthOrb : PowerUp
 {
-    GameObject m_player;
-    public Transform m_target;
-    public float MinModifier = 5;
-    public float MaxModifier = 12;
+    GameObject m_player; // Reference to player
+    public Transform m_target; // Target for follow script
+    public int m_healthBonus = 2; // THE health bonus value
+    public float m_minModifier = 5; // Used for follow target
+    public float m_maxModifier = 12; // Used for follow target
+    public int m_minbonus = 1; // Minimum health bonus amount
+    public int m_maxBonus = 100; // Maximum health bonus amount
     Vector3 m_velocity = Vector3.zero;
-    bool isFollowing = false;
-    public int m_healthBonus = 2;
+    bool isFollowing = false; // Used for follow script
 
+    /* Function that contains Start override 
+    *  Default powerup Start is overridden here
+    *
+    * Parameters: none
+    *
+    * Returns: none
+    */
     protected override void Start()
     {
         m_player = GameObject.FindGameObjectWithTag("DropLootTracker");
         m_target = m_player.transform;
-        base.powerUpState = PowerUpState.InAttractMode;
-        Debug.Log("HealthOrb#Start# Ive been called");
+        base.Start();
+    }
+    /* Function that contains onTriggerEnter override 
+    *  Default powerup onTriggerEnter is overridden here
+    *
+    * Parameters: none
+    *
+    * Returns: none
+    */
+    protected override void OnTriggerEnter (Collider collision)
+    {
+        PowerUpCollected(collision.gameObject);
     }
     /* Function that contains payload information.
     *  Default powerup payload is overridden here
@@ -37,17 +56,11 @@ public class HealthOrb : PowerUp
     *
     * Returns: none
     */
-    protected override void OnTriggerEnter (Collider collision)
-    {
-        Debug.Log("HealthOrb#OnTriggerEnter# Trigger enter being called");
-        PowerUpCollected(collision.gameObject);
-    }
     protected override void PowerUpPayload()
     {
         base.PowerUpPayload();
         PlayerData.Inst().TakeHealth(m_healthBonus);
-        Debug.Log("HealthOrb#PowerUpPayLoad# Adding Health to Player");
-        // playerStuff.setScoinAdjustment(addhealth);
+        Debug.Log("HealthOrb#PowerUpPayload: Adding " + m_healthBonus + " to player health");
     }
 
     /* Function to destroy object when picked up
@@ -61,6 +74,29 @@ public class HealthOrb : PowerUp
         isFollowing = true;
     }
 
+    /* Function that sets health bonus
+    *  
+    *
+    * Parameters: int amount,
+    *
+    * Returns: none
+    */
+    public void setHealthBonus(int m_amount)
+    {
+        if (m_amount < m_minbonus)
+        {
+            m_healthBonus = m_minbonus;
+        }
+        else if (m_amount > m_maxBonus)
+        {
+            m_healthBonus = m_maxBonus;
+        }
+        else
+        {
+            m_healthBonus = m_amount;
+        }
+    }
+
     /* Function that updates every frame.
     *  In this case its used to animate the object.
     *
@@ -72,7 +108,7 @@ public class HealthOrb : PowerUp
     {
         if (isFollowing)
         {
-            transform.position = Vector3.SmoothDamp(transform.position, m_target.position, ref m_velocity, Time.deltaTime * Random.Range(MinModifier, MaxModifier));
+            transform.position = Vector3.SmoothDamp(transform.position, m_target.position, ref m_velocity, Time.deltaTime * Random.Range(m_minModifier, m_maxModifier));
         }
     }
 }

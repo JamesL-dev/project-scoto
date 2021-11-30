@@ -6,7 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 /*
  * Singleton that procedurally generates each level's layout and controls the creation of each room within the level.
@@ -124,10 +124,10 @@ public sealed class LevelGeneration : MonoBehaviour
      */
     public void SetLevelNum(int level)
     {
-        if (level < 0)
+        if (level < 1)
         {
-            Debug.LogWarning("Warning: Level number is less than 0, setting to 0 instead.");
-            m_levelNum = 0;
+            Debug.LogWarning("Warning: Level number is less than 1, setting to 1 instead.");
+            m_levelNum = 1;
         }
         else if (level > 100)
         {

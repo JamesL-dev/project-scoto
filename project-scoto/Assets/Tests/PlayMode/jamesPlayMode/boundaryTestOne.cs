@@ -96,5 +96,4 @@ public class boundaryTests
         Debug.Log(scoin.scoinBonus);
         Assert.AreEqual(scoin.scoinBonus, 1);
     }
-    
 }
