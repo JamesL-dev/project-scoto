@@ -12,8 +12,6 @@ TagManager:
   - WallDoor
   - EnemyCollider
   - DropLootTracker
-  - EnergyOrb
-  - HealthOrb
   layers:
   - Default
   - TransparentFX
