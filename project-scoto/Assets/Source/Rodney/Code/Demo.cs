@@ -22,26 +22,26 @@ using UnityEngine.AI;
  */
 public class Demo : MonoBehaviour 
 {
-    [SerializeField] public static int m_counter;
-    [SerializeField] public GameObject m_camera;
-    [SerializeField] public int m_slackSeconds = 10;
+    // [SerializeField] public static GameObject m_camera;
+    [SerializeField] public static NavAgent theNavAgent;
+    [SerializeField] public int m_slackSeconds = 10, m_displayState;
+    [SerializeField] public bool m_lookingAtEnemy;
+    public const int radius1 = 24;
 
+    private float closestEnemyDist;
     private static bool m_jump, m_sprint, m_isSuccessMode, m_attack;
-    private static int m_slackTime;
+    private static int m_slackTime, m_counter;
     private static float rotation;
-   
-    // protected NavMeshAgent m_agent;
+    private static Vector2 m_moveValue;
+    private static Vector3 m_mouseValue;
 
     void Awake()
     {
-        // m_agent = GetComponent<NavMeshAgent>();
-        // m_agent.autoTraverseOffMeshLink = false;
-        // m_agent.speed = 2F;
-        // m_agent = GetComponent<NavMeshAgent>();
-
+        theNavAgent = GameObject.Find("DemoPathfinder").GetComponent<NavAgent>();
         m_jump = m_sprint = false;
         m_isSuccessMode = true;
         m_attack = true;
+        m_moveValue = Vector2.zero;
         m_counter = 0;
         if(m_slackSeconds < 1) {Debug.LogError("m_slackSeconds is to low. Must be 1 seconds or greater"); m_slackSeconds = 10;}
         m_slackTime = m_slackSeconds * 60;
@@ -51,72 +51,118 @@ public class Demo : MonoBehaviour
     {
         m_counter++; 
         m_attack = false;
-        if(m_counter == m_slackTime) { Debug.Log("Demo Mode Turned On");}
+        if(m_counter == m_slackTime) { Debug.Log("Demo Mode Turned On"); NavAgent.SetActive(true);}
 
         Vector3 debugVec = Vector3.zero;
 
         if(On())
         {
-            rotation = m_camera.transform.eulerAngles.x;
-            if(true)
+            // Collider theTarget = hitColliders[target];
+            // var speed = 1F * Time.deltaTime;
+            // Vector3 deltaPos = theTarget.transform.position - gameObject.transform.position;
+
+            // Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0));
+            // RaycastHit hit;
+            // Physics.Raycast(ray, out hit, 5, ~LayerMask.NameToLayer("Player"));
+            // if(!hit.collider == theTarget)
+            // {                        
+            //     float angleBetween = Vector3.Angle(transform.forward, deltaPos);
+            //     transform.Rotate(0, angleBetween * .025F, 0);
+            //     Debug.Log("asdf");
+            // }
+            m_attack = true;
+            m_moveValue = Vector2.zero;
+            m_mouseValue = Vector3.zero;
+
+            List<Collider> enemies = new List<Collider>();
+            closestEnemyDist = (float)radius1;
+
+            Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, radius1);
+            Collider closestEnemy = hitColliders[0];
+            foreach (var hitCollider in hitColliders)
             {
-                Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, 10);
-                bool enemyFound = false;
-                int target = 0;
-                foreach (var hitCollider in hitColliders)
+                if(BaseEnemy.CheckIfEnemy(hitCollider)) 
                 {
-                    if(BaseEnemy.CheckIfEnemy(hitCollider)) 
-                    {
-                        enemyFound = true;
-                        break;
-                    }
-                    target++;
-                }
-                if (enemyFound)
-                {
-                    m_attack = true;
-                    Collider theTarget = hitColliders[target];
-                    var speed = 1F * Time.deltaTime;
-                    Vector3 deltaPos = theTarget.transform.position - gameObject.transform.position;
+                    Vector3 enemyPosition = hitCollider.transform.position;
+                    float thisDistance = Vector3.Magnitude(enemyPosition - gameObject.transform.position);
 
-                    Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0));
-                    RaycastHit hit;
-                    Physics.Raycast(ray, out hit, 5);
-                    if(!hit.collider == theTarget)
-                    {                        
-                        float angleBetween = Vector3.Angle(transform.forward, deltaPos);
-                        transform.Rotate(0, angleBetween * .025F, 0);
-                        Debug.Log("asdf");
-                    }
-
-                    debugVec = theTarget.transform.position;
+                    if(closestEnemyDist > thisDistance) { closestEnemyDist = thisDistance; }
+                    closestEnemy = hitCollider;
+                    enemies.Add(hitCollider);
                 }
             }
-            // Pathfinding
-            if(true)
+
+            Vector3 deltaPos = closestEnemy.transform.position - gameObject.transform.position;
+            float angleBetween = Vector3.Angle(transform.forward, deltaPos);
+
+            // Always look straight forward. Not up or down
+            if(180 >= rotation && rotation >= 1) m_mouseValue.y = 1; 
+            if(359 >= rotation && rotation > 180) m_mouseValue.y = -1; 
+
+            // Vector3.Angle only returns positive angle, so spin right as long as we arent looking at enemy
+            Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0));
+            RaycastHit hit;
+            Physics.Raycast(ray, out hit, 20);
+            m_lookingAtEnemy = false;
+            if(hit.collider != null)
             {
-                // Patrol();
-                if(debugVec != Vector3.zero)
-                {
-                    // if(!m_agent.SetDestination(debugVec))
-                    // {
-                    //     Debug.Log("A");   
-                    // }
-                    
-                }
+                BaseEnemy enemy = BaseEnemy.CheckIfEnemy(hit.collider);
+                if (enemy) { m_lookingAtEnemy = true; }
             }
-            
+
+
+            if(closestEnemyDist < 6)
+            {  
+                m_displayState = 1;
+                NavAgent.SetActive(false);
+
+                m_moveValue = new Vector2(range(gameObject.transform.position.x - closestEnemy.transform.position.x, 1), 
+                    range(gameObject.transform.position.x - closestEnemy.transform.position.z, 1));
+            }
+            else if(closestEnemyDist < 12) 
+            {    
+                m_displayState = 2;
+                NavAgent.SetActive(true);
+                // Vector3 destination = gameObject.transform.position - closestEnemy;
+                // m_agent.SetDestination(gameObject.transform.position + 2*destination);   
+            } 
+            else if(closestEnemyDist < radius1)
+            {
+                m_displayState = 3;
+                NavAgent.SetActive(true);
+
+                m_moveValue = new Vector2(range(theNavAgent.transform.position.x - gameObject.transform.position.x, 1), 
+                    range(theNavAgent.transform.position.z - gameObject.transform.position.z, 1));
+
+                NavAgent.GoTo(closestEnemy.transform.position);
+            }
+            else if(closestEnemyDist == radius1)
+            {
+                m_displayState = 4;
+                NavAgent.SetActive(true);
+
+                
+
+                NavAgent.GoTo(Vector3.zero);
+            }  
+
+
+            if(Vector3.Magnitude(theNavAgent.transform.position - gameObject.transform.position) > 2F)
+            {
+                theNavAgent.transform.position = gameObject.transform.position;
+            }
         }
     }
 
-
-
-
-
-
-
-
-
+    /*
+     * Returns minmum float value
+     */
+    private float range(float variable, float range)
+    {
+        if(variable >= 0 && variable > range) {return range;}
+        if(variable < 0 && variable < -1 * range) {return -1*range;}
+        return variable;
+    }
 
 
     /*
@@ -148,9 +194,7 @@ public class Demo : MonoBehaviour
      */
     public static Vector3 Mouse() 
     { 
-        if(180 >= rotation && rotation >= 1) return Vector3.up; 
-        if(359 >= rotation && rotation > 180) return -Vector3.up; 
-        return Vector3.zero;
+        return m_mouseValue;
     }
 
 
@@ -170,13 +214,21 @@ public class Demo : MonoBehaviour
      */
     public static Vector2 Move()
     {
-        return Vector2.zero;
+        return m_moveValue;
     }
 
     /*
      * Tells demo mode that a player input has occured
      */
-    public static void ResetTimer() { if(On()) Debug.Log("Demo Mode Turned Off."); Demo.m_counter = 0; }
+    public static void ResetTimer() 
+    { 
+        if(On())
+        {
+            Debug.Log("Demo Mode Turned Off.");
+            NavAgent.SetActive(false);
+        }
+        Demo.m_counter = 0; 
+    }
 
     /*
      * Tell demo mode to swap from success mode to failure mode and vice versa
