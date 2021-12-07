@@ -149,7 +149,7 @@ public sealed class WeaponManager : MonoBehaviour
             m_changeCurrWeapon = -1;
         }
 
-        if(Demo.On()) {CurrentWeapon = 2;}
+        if(Demo.On()) {m_changeCurrWeapon = 2;}
     }
 
     public void OnEnable() 

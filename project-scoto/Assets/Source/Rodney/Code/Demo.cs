@@ -179,6 +179,9 @@ public class Demo : MonoBehaviour
      */
     public static bool On() { if (m_isOn) return true; return false; }
 
+    public static void ChangeDemoModeMode(bool val) { m_isOn = val;} 
+
+
     /*
      * Tell Player Movement Algorithm to Jump
      *
