@@ -51,7 +51,8 @@ public class Demo : MonoBehaviour
         Vector3 Target3D = Vector3.zero;
         m_counter++; 
         m_attack = false;
-        if(m_counter == m_slackTime) { Debug.Log("Demo Mode Turned On");}
+        if(m_counter < m_slackTime) {NavAgent.Teleport(gameObject.transform.position); NavAgent.GoTo(gameObject.transform.position);}
+        if(m_counter == m_slackTime) { Debug.Log("Demo Mode Turned On"); }
         if (currentRoom.isCleared()) 
         { 
             currentRoom = LevelGeneration.Inst().m_roomsOpened[LevelGeneration.Inst().m_roomsOpened.Count - 1].gameObject.GetComponentInParent<ProtoRoom>();
@@ -68,7 +69,7 @@ public class Demo : MonoBehaviour
             Collider closestEnemy = hitColliders[0];
             foreach (var hitCollider in hitColliders)
             {
-                if(BaseEnemy.CheckIfEnemy(hitCollider)) 
+                if(BaseEnemy.isEnemyAndAlive(hitCollider)) 
                 {
                     Vector3 enemyPosition = hitCollider.transform.position;
                     float thisDistance = Vector3.Magnitude(enemyPosition - gameObject.transform.position);
@@ -116,14 +117,14 @@ public class Demo : MonoBehaviour
                     NavAgent.GoTo(gameObject.transform.position + new Vector3(0, 0, 10));
                     m_state = 5;
                 }
-                else if(currentRoom.roomType() == 0)
-                {
-                    // if(m_state != 6) {NavAgent.Teleport(gameObject.transform.position); }
+                // else if(currentRoom.roomType() == 0)
+                // {
+                //     // if(m_state != 6) {NavAgent.Teleport(gameObject.transform.position); }
 
-                    Target3D = new Vector3(0, 0, 1);
-                    NavAgent.GoTo(new Vector3(0, 0, 20));
-                    m_state = 6;
-                }
+                //     Target3D = new Vector3(0, 0, 1);
+                //     NavAgent.GoTo(new Vector3(0, 0, 20));
+                //     m_state = 6;
+                // }
                 else
                 {
                     // if(m_state != 4) {NavAgent.Teleport(gameObject.transform.position); }

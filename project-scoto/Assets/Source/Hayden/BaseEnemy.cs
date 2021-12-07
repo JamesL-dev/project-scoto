@@ -110,6 +110,18 @@ public abstract class BaseEnemy : MonoBehaviour
         return enemyScript;
     }
 
+    /* 
+     * Returns true if collider is enemy and alive
+     */
+    static public bool isEnemyAndAlive(Collider collider)
+    {
+        BaseEnemy enemy = BaseEnemy.CheckIfEnemy(collider);
+        if(!enemy) {return false;}
+        if(enemy.m_state == EnemyState.Dying) {return false;}
+        if(enemy.m_state == EnemyState.Dead) {return false;}
+        return true;
+    }
+
     /*
     * Gives the enemy a specified amount of health
     *
