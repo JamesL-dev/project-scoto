@@ -23,6 +23,7 @@ public sealed class PauseMenu : BaseMenu
     public GameObject m_levelCounter;
     [SerializeField] private InputActionMap m_inputActionMap;
     private static PauseMenu m_instance;
+    public GameObject m_player;
 
     /*
      * Gets a reference to the instance of the singleton; otherwise creates the necessary.
@@ -101,4 +102,25 @@ public sealed class PauseMenu : BaseMenu
     {
         m_inputActionMap["PauseGame"].performed += OnPauseGame;
     }
+
+    public void LaunchDemo()
+    {
+        Demo demoMode = m_player.GetComponent<Demo>();
+        
+        if (Demo.m_isOn)
+        {
+            demoMode.ToggleIsOn();
+            LevelGeneration.Inst().SetLevelNum(1);
+            Time.timeScale = 1;
+            PlayerController.Inst().OnEnable();
+            WeaponManager.Inst().OnEnable();
+            SceneManager.LoadScene("Game");
+        }
+        else
+        {
+            demoMode.ToggleIsOn();
+            LoadGame();
+        }
+    }
+        
 }

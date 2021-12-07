@@ -39,7 +39,7 @@ public class Demo : MonoBehaviour
 
     void Awake()
     {
-        m_isOn = true;
+        m_isOn = false;
         theNavAgent = GameObject.Find("DemoPathfinder").GetComponent<NavAgent>();
         m_jump = m_sprint = false;
         m_isSuccessMode = m_attack = true;
@@ -246,5 +246,9 @@ public class Demo : MonoBehaviour
      * seconds tell demo starts with no player input
      */
     public static int MaxSeconds() { return Demo.m_slackTime/60; }
-}
 
+    public void ToggleIsOn()
+    {
+        m_isOn = !m_isOn;
+    }
+}
