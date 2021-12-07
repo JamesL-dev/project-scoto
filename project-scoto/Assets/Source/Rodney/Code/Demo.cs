@@ -40,8 +40,8 @@ public class Demo : MonoBehaviour
     void Awake()
     {
         theNavAgent = GameObject.Find("DemoPathfinder").GetComponent<NavAgent>();
-        m_jump = m_sprint = false;
-        m_isSuccessMode = m_attack = m_followNavAgent = m_isOn = true;
+        m_jump = m_sprint = m_isOn = false;
+        m_isSuccessMode = m_attack = m_followNavAgent =  true;
         m_counter = m_state = 0;
         if(m_slackSeconds < 1) {Debug.LogError("m_slackSeconds is to low. Must be 1 seconds or greater"); m_slackSeconds = 10;}
         m_slackTime = m_slackSeconds * 60;
@@ -55,7 +55,6 @@ public class Demo : MonoBehaviour
         m_attack = false;
         // if(m_counter < m_slackTime) {NavAgent.Teleport(gameObject.transform.position); NavAgent.GoTo(gameObject.transform.position);}
         // if(m_counter == m_slackTime) { Debug.Log("Demo Mode Turned On"); }
-        if(m_isOn) {Debug.Log("Demo Mode Turned On");}
         if(!m_isOn) {NavAgent.Teleport(gameObject.transform.position); NavAgent.GoTo(gameObject.transform.position);}
         if (currentRoom.isCleared()) 
         { 
@@ -125,7 +124,7 @@ public class Demo : MonoBehaviour
                 {
                     // if(m_state != 6) {NavAgent.Teleport(gameObject.transform.position); }
 
-                    Target3D = new Vector3(0, 0, 1);
+                    Target3D = new Vector3(0, 0, 2);
                     NavAgent.GoTo(new Vector3(0, 0, 20));
                     m_state = 6;
                 }
