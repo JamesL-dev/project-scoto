@@ -39,9 +39,10 @@ public class Demo : MonoBehaviour
 
     void Awake()
     {
+        m_isOn = true;
         theNavAgent = GameObject.Find("DemoPathfinder").GetComponent<NavAgent>();
-        m_jump = m_sprint = m_isOn = false;
-        m_isSuccessMode = m_attack = m_followNavAgent =  true;
+        m_jump = m_sprint = false;
+        m_isSuccessMode = m_attack = m_followNavAgent = true;
         m_counter = m_state = 0;
         if(m_slackSeconds < 1) {Debug.LogError("m_slackSeconds is to low. Must be 1 seconds or greater"); m_slackSeconds = 10;}
         m_slackTime = m_slackSeconds * 60;
