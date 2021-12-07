@@ -172,7 +172,7 @@ public class ProtoRoom : MonoBehaviour
      */
     public bool isCleared()
     {
-	    return m_room.roomIsCleared();
+	    return m_room.roomIsCleared() || m_roomType  == 0;
     }
 
     /* Accessor for roomType

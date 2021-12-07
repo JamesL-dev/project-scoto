@@ -113,6 +113,10 @@ public class Room : MonoBehaviour
             // Play sound.
             DoorSound();
         }
+        // else if (enemySpawner == null && !m_isCleared)
+        // {
+        //     m_isCleared = true;
+        // }
     }
 
     /* Sets up the room by creating walls and doors.

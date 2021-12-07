@@ -26,7 +26,7 @@ public class Demo : MonoBehaviour
     [SerializeField] public static NavAgent theNavAgent;
     [SerializeField] public int m_slackSeconds = 10, m_displayState;
     [SerializeField] public float m_displayAngle;
-    [SerializeField] public bool m_lookingAtEnemy, m_isSuccessMode;
+    [SerializeField] public bool m_isSuccessMode, m_isOn;
     public const int radius1 = 24;
     public static ProtoRoom currentRoom;
 
@@ -40,7 +40,7 @@ public class Demo : MonoBehaviour
     {
         theNavAgent = GameObject.Find("DemoPathfinder").GetComponent<NavAgent>();
         m_jump = m_sprint = false;
-        m_isSuccessMode = m_attack = m_followNavAgent = true;
+        m_isSuccessMode = m_attack = m_followNavAgent = m_isOn = true;
         m_counter = m_state = 0;
         if(m_slackSeconds < 1) {Debug.LogError("m_slackSeconds is to low. Must be 1 seconds or greater"); m_slackSeconds = 10;}
         m_slackTime = m_slackSeconds * 60;
@@ -49,7 +49,8 @@ public class Demo : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 Target3D = Vector3.zero;
-        m_counter++; 
+        if(m_isOn) {m_counter++;}
+        if(!m_isOn) {m_counter = 0;}
         m_attack = false;
         if(m_counter < m_slackTime) {NavAgent.Teleport(gameObject.transform.position); NavAgent.GoTo(gameObject.transform.position);}
         if(m_counter == m_slackTime) { Debug.Log("Demo Mode Turned On"); }
@@ -143,9 +144,9 @@ public class Demo : MonoBehaviour
 
 
 
+
             // CONTROL ROTATION OF PLAYER
             m_mouseValue = Vector3.zero;
-            m_lookingAtEnemy = false;
 
             Vector2 Target, Current;
             if(Target3D == Vector3.zero) { Debug.LogError("Target Not Set"); }
@@ -158,44 +159,13 @@ public class Demo : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0));
             RaycastHit hit;
             Physics.Raycast(ray, out hit, 20);
-            if(hit.collider != null && BaseEnemy.CheckIfEnemy(hit.collider)) m_lookingAtEnemy = true;
-
+            if(hit.collider != null && BaseEnemy.CheckIfEnemy(hit.collider)) {} else{m_mouseValue.x = Angle;}
             if(180 >= rotation && rotation >= 1) m_mouseValue.y = 1; 
             if(359 >= rotation && rotation > 180) m_mouseValue.y = -1; 
-            if(!m_lookingAtEnemy) {m_mouseValue.x = Angle;}
             m_displayAngle = Angle;
         }
     }
 
-
-    // /*
-    //  * Returns minimum float value
-    //  */
-    // private Vector3 range(Vector3 variable, float range)
-    // {
-    //     Vector3 returnValue = Vector3.zero;
-        
-    //     if(variable.x >= 0) returnValue.x = (variable.x > range ? range : variable.x);
-    //     else returnValue.x = (variable.x < range ? range : variable.x);
-
-    //     if(variable.y >= 0) returnValue.y = (variable.y > range ? range : variable.y);
-    //     else returnValue.y = (variable.y < range ? range : variable.y);
-
-    //     if(variable.z >= 0) returnValue.z = (variable.z > range ? range : variable.z);
-    //     else returnValue.z = (variable.z < range ? range : variable.z);
-
-    //     return returnValue;
-    // }
-
-    // /*
-    //  * Returns minmum float value
-    //  */
-    // private float range(float variable, float range)
-    // {
-    //     if(variable >= 0 && variable > range) {return range;}
-    //     if(variable < 0 && variable < -1 * range) {return -1*range;}
-    //     return variable;
-    // }
 
 
     /*
@@ -204,7 +174,7 @@ public class Demo : MonoBehaviour
      * Returns:
      * bool -- True if demo mode is on
      */
-    public static bool On() { if (Demo.m_counter >= Demo.m_slackTime) return true; return false; }
+    public static bool On() { if (Demo.m_counter >= Demo.m_slackTime && m_isOn) return true; return false; }
 
     /*
      * Tell Player Movement Algorithm to Jump
