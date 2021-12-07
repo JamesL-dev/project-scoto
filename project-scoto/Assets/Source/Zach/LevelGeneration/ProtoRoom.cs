@@ -163,5 +163,47 @@ public class ProtoRoom : MonoBehaviour
     {
         return m_doorList;
     }
+
+    /* Accessor if the room is cleared
+     *
+     * Returns:
+     * bool[] -- Whether the room is cleared or not
+     */
+    public bool isCleared()
+    {
+	    return m_room.roomIsCleared();
+    }
+
+    /* Accessor for roomType
+     *
+     * Returns:
+     * int -- what type is the room
+     */
+    public int roomType()
+    {
+        return m_roomType;
+    }
+
+    /* Accessor for room x position within level layout grid
+     *
+     * Returns:
+     * x position
+     */
+    public int xPosition()
+    {
+        return m_xPos;
+    }
+
+    /* Accessor for room z position within level layout grid
+     *
+     * Returns:
+     * z position
+     */
+    public int zPosition()
+    {
+        return m_zPos;
+    }
+
+
 }
 

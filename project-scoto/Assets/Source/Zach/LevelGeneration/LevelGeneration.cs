@@ -51,6 +51,8 @@ public sealed class LevelGeneration : MonoBehaviour
         startRoom.transform.parent = transform;
         m_roomCount++;
 
+        Demo.currentRoom = startRoom;
+
         // Make end room.
         ProtoRoom endRoom = Instantiate(m_protoRoom) as ProtoRoom;
         endRoom.SetPosition((m_roomMatrix.Count - 1) / 2, m_roomMatrix[0].Count);
