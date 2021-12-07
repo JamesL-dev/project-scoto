@@ -196,5 +196,13 @@ public class Room : MonoBehaviour
         AudioSource audioData = GetComponent<AudioSource>();
         audioData.Play();
     }
+
+    /* Accessor
+     */
+    public bool roomIsCleared()
+    {
+	    return m_isCleared;
+    }
+
 }
 

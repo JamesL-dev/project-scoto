@@ -7,15 +7,16 @@ public class NavAgent : MonoBehaviour
 {
     [SerializeField] public bool CurrentlyActive;
 
-    public static GameObject m_camera, m_player;
+    public static GameObject m_camera, m_player, m_thisGameObject;
     public static NavMeshAgent m_agent;
     public static bool Active;
     public static Vector3 destination;
 
-    private static bool deactivate;
+    private static bool deactivated;
 
     void Start()
     {
+        m_thisGameObject = GetComponent<GameObject>();
         m_player = GameObject.Find("Player");
         m_camera = GameObject.Find("Main Camera");
         m_agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -23,16 +24,16 @@ public class NavAgent : MonoBehaviour
         gameObject.transform.position = m_player.transform.position;
         m_agent.autoTraverseOffMeshLink = false;
         m_agent.speed = 2F;
-        deactivate = false;
+        deactivated = false;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(deactivate)
+        if(deactivated)
         {
             Active = false;
-            deactivate = false;
+            deactivated = false;
             gameObject.transform.position = Vector3.zero;
             m_agent.SetDestination(Vector3.zero);
         }
@@ -56,10 +57,11 @@ public class NavAgent : MonoBehaviour
         if(value && !Active)
         {
             Active = true;
+            m_thisGameObject.transform.position = m_player.transform.position;
         }
         if(!value && Active)
         {
-            deactivate = true;
+            deactivated = true;
         }
     }
 }

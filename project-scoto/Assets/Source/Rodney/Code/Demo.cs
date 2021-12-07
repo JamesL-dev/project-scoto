@@ -27,6 +27,7 @@ public class Demo : MonoBehaviour
     [SerializeField] public int m_slackSeconds = 10, m_displayState;
     [SerializeField] public bool m_lookingAtEnemy;
     public const int radius1 = 24;
+    public static ProtoRoom currentRoom;
 
     private float closestEnemyDist;
     private static bool m_jump, m_sprint, m_isSuccessMode, m_attack;
@@ -45,6 +46,7 @@ public class Demo : MonoBehaviour
         m_counter = 0;
         if(m_slackSeconds < 1) {Debug.LogError("m_slackSeconds is to low. Must be 1 seconds or greater"); m_slackSeconds = 10;}
         m_slackTime = m_slackSeconds * 60;
+        // StartCoroutine(Init());
     }
 
     void FixedUpdate()
@@ -52,24 +54,15 @@ public class Demo : MonoBehaviour
         m_counter++; 
         m_attack = false;
         if(m_counter == m_slackTime) { Debug.Log("Demo Mode Turned On"); NavAgent.SetActive(true);}
+        if (currentRoom.isCleared()) 
+        {
+            currentRoom = LevelGeneration.Inst().m_roomsOpened[LevelGeneration.Inst().m_roomsOpened.Count - 1].gameObject.GetComponentInParent<ProtoRoom>();
+        }
 
         Vector3 debugVec = Vector3.zero;
 
         if(On())
         {
-            // Collider theTarget = hitColliders[target];
-            // var speed = 1F * Time.deltaTime;
-            // Vector3 deltaPos = theTarget.transform.position - gameObject.transform.position;
-
-            // Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0));
-            // RaycastHit hit;
-            // Physics.Raycast(ray, out hit, 5, ~LayerMask.NameToLayer("Player"));
-            // if(!hit.collider == theTarget)
-            // {                        
-            //     float angleBetween = Vector3.Angle(transform.forward, deltaPos);
-            //     transform.Rotate(0, angleBetween * .025F, 0);
-            //     Debug.Log("asdf");
-            // }
             m_attack = true;
             m_moveValue = Vector2.zero;
             m_mouseValue = Vector3.zero;
@@ -122,7 +115,7 @@ public class Demo : MonoBehaviour
             else if(closestEnemyDist < 12) 
             {    
                 m_displayState = 2;
-                NavAgent.SetActive(true);
+                NavAgent.SetActive(false);
                 // Vector3 destination = gameObject.transform.position - closestEnemy;
                 // m_agent.SetDestination(gameObject.transform.position + 2*destination);   
             } 
@@ -133,7 +126,6 @@ public class Demo : MonoBehaviour
 
                 m_moveValue = new Vector2(range(theNavAgent.transform.position.x - gameObject.transform.position.x, 1), 
                     range(theNavAgent.transform.position.z - gameObject.transform.position.z, 1));
-
                 NavAgent.GoTo(closestEnemy.transform.position);
             }
             else if(closestEnemyDist == radius1)
@@ -142,8 +134,17 @@ public class Demo : MonoBehaviour
                 NavAgent.SetActive(true);
 
                 
+                m_moveValue = new Vector2(range(theNavAgent.transform.position.x - gameObject.transform.position.x, 1), 
+                    range(theNavAgent.transform.position.z - gameObject.transform.position.z, 1));
+                NavAgent.GoTo(currentRoom.gameObject.transform.position);
 
-                NavAgent.GoTo(Vector3.zero);
+                if(currentRoom.roomType() == 1 && Vector3.Magnitude(currentRoom.gameObject.transform.position - gameObject.transform.position) < 1)
+                {
+		            // Behavior if it is the endroom to leave the level
+                    m_displayState = 5;
+                    Debug.Log("AT END ROOM");
+                    NavAgent.GoTo(gameObject.transform.position + new Vector3(0, 0, 1));
+                }
             }  
 
 
@@ -153,6 +154,24 @@ public class Demo : MonoBehaviour
             }
         }
     }
+
+    // /*
+    //  * Finds the next room
+    //  */
+    // public void NextRoom()
+    // {
+	//     int x = currentRoom.xPosition();
+	//     int z = currentRoom.zPosition();
+
+	//     bool[] doors = LevelGeneration.Inst().m_roomMatrix[x][z].GetDoors();
+	//     if(doors[0]) x++;
+	//     else if(doors[1]) z++;
+	//     else if(doors[2]) x--;
+	//     else if(doors[3]) z--;
+
+    //     currentRoom = LevelGeneration.Inst().m_roomMatrix[x][z];
+    // }
+
 
     /*
      * Returns minmum float value
