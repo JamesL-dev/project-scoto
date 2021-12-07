@@ -26,7 +26,8 @@ public class Demo : MonoBehaviour
     [SerializeField] public static NavAgent theNavAgent;
     [SerializeField] public int m_slackSeconds = 10, m_displayState;
     [SerializeField] public float m_displayAngle;
-    [SerializeField] public bool m_isSuccessMode, m_isOn;
+    [SerializeField] public bool m_isSuccessMode;
+    public static bool m_isOn;
     public const int radius1 = 24;
     public static ProtoRoom currentRoom;
 
@@ -118,14 +119,14 @@ public class Demo : MonoBehaviour
                     NavAgent.GoTo(gameObject.transform.position + new Vector3(0, 0, 10));
                     m_state = 5;
                 }
-                // else if(currentRoom.roomType() == 0)
-                // {
-                //     // if(m_state != 6) {NavAgent.Teleport(gameObject.transform.position); }
+                else if(currentRoom.roomType() == 0)
+                {
+                    // if(m_state != 6) {NavAgent.Teleport(gameObject.transform.position); }
 
-                //     Target3D = new Vector3(0, 0, 1);
-                //     NavAgent.GoTo(new Vector3(0, 0, 20));
-                //     m_state = 6;
-                // }
+                    Target3D = new Vector3(0, 0, 1);
+                    NavAgent.GoTo(new Vector3(0, 0, 20));
+                    m_state = 6;
+                }
                 else
                 {
                     // if(m_state != 4) {NavAgent.Teleport(gameObject.transform.position); }
