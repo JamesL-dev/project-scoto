@@ -20,10 +20,11 @@ public class InteractableBox : MonoBehaviour
     public bool m_isInRange;
     public UnityEvent m_interactAction;
     public LootTable thisLoot;
+    bool IsLooted = false;
 
     void Start()
     {
-        
+
     }
 
     void Update()
@@ -38,14 +39,22 @@ public class InteractableBox : MonoBehaviour
     */    
     private void MakeLoot()
     {
-        if (thisLoot != null)
+        if (IsLooted == false)
         {
-            PowerUp current = thisLoot.LootPowerup();
-            if (current != null)
+            if (thisLoot != null)
             {
-                Instantiate(current.gameObject, transform.position + new Vector3(-0.6f, 2f, 0), Quaternion.identity);
-                Debug.Log("Spawning " + current.gameObject.name);
+                PowerUp current = thisLoot.LootPowerup();
+                if (current != null)
+                {
+                    Instantiate(current.gameObject, transform.position + new Vector3(-0.6f, 2f, 0), Quaternion.identity);
+                    Debug.Log("Spawning " + current.gameObject.name);
+                    IsLooted = true;
+                }
             }
+        }
+        else
+        {
+            Debug.Log("InteractableBox#MakeLoot: Chest has been looted");
         }
     }
     /* Function to see if player is in range of the box
