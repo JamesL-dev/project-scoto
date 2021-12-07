@@ -2829,9 +2829,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52eb1560bf9dfab40958e1a6e71bb159, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_slackSeconds: 2
+  m_slackSeconds: 1
   m_displayState: 0
-  m_lookingAtEnemy: 0
+  m_displayAngle: 0
   m_isSuccessMode: 1
 --- !u!82 &685583362
 AudioSource:

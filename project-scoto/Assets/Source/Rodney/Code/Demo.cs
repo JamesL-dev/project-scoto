@@ -50,11 +50,13 @@ public class Demo : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 Target3D = Vector3.zero;
-        if(m_isOn) {m_counter++;}
-        if(!m_isOn) {m_counter = 0;}
+        // if(m_isOn) {m_counter++;}
+        // if(!m_isOn) {m_counter = 0;}
         m_attack = false;
-        if(m_counter < m_slackTime) {NavAgent.Teleport(gameObject.transform.position); NavAgent.GoTo(gameObject.transform.position);}
-        if(m_counter == m_slackTime) { Debug.Log("Demo Mode Turned On"); }
+        // if(m_counter < m_slackTime) {NavAgent.Teleport(gameObject.transform.position); NavAgent.GoTo(gameObject.transform.position);}
+        // if(m_counter == m_slackTime) { Debug.Log("Demo Mode Turned On"); }
+        if(m_isOn) {Debug.Log("Demo Mode Turned On");}
+        if(!m_isOn) {NavAgent.Teleport(gameObject.transform.position); NavAgent.GoTo(gameObject.transform.position);}
         if (currentRoom.isCleared()) 
         { 
             currentRoom = LevelGeneration.Inst().m_roomsOpened[LevelGeneration.Inst().m_roomsOpened.Count - 1].gameObject.GetComponentInParent<ProtoRoom>();
@@ -175,7 +177,7 @@ public class Demo : MonoBehaviour
      * Returns:
      * bool -- True if demo mode is on
      */
-    public static bool On() { if (Demo.m_counter >= Demo.m_slackTime && m_isOn) return true; return false; }
+    public static bool On() { if (m_isOn) return true; return false; }
 
     /*
      * Tell Player Movement Algorithm to Jump
