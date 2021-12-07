@@ -32,7 +32,7 @@ public class Demo : MonoBehaviour
     public static ProtoRoom currentRoom;
 
     private float closestEnemyDist, Angle;
-    private static bool m_jump, m_sprint, m_attack, m_followNavAgent;
+    private static bool m_jump, m_sprint, m_attack;
     private static int m_slackTime, m_counter, m_state;
     private static float rotation;
     private static Vector3 m_mouseValue;
@@ -42,7 +42,7 @@ public class Demo : MonoBehaviour
         m_isOn = true;
         theNavAgent = GameObject.Find("DemoPathfinder").GetComponent<NavAgent>();
         m_jump = m_sprint = false;
-        m_isSuccessMode = m_attack = m_followNavAgent = true;
+        m_isSuccessMode = m_attack = true;
         m_counter = m_state = 0;
         if(m_slackSeconds < 1) {Debug.LogError("m_slackSeconds is to low. Must be 1 seconds or greater"); m_slackSeconds = 10;}
         m_slackTime = m_slackSeconds * 60;
