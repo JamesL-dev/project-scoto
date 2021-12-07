@@ -25,6 +25,7 @@ public sealed class LevelGeneration : MonoBehaviour
 {
     public ProtoRoom m_protoRoom;
     public List<List<ProtoRoom>> m_roomMatrix = new List<List<ProtoRoom>>();
+    public List<Room> m_roomsOpened = new List<Room>();
 
     private static LevelGeneration m_instance;
     private const float m_mwScaling = 0.1f, m_mhScaling = 0.2f;

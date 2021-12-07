@@ -74,28 +74,40 @@ public class Room : MonoBehaviour
                 // North door, so open south door in room with z + 1.
                 Room tempRoom = LevelGeneration.Inst().GetRoom(m_xPos, m_zPos + 1);
                 if (tempRoom != null)
+                {
                     tempRoom.OpenDoorInRoom(2);
+                    LevelGeneration.Inst().m_roomsOpened.Add(tempRoom);
+                }
             }
             if (m_doorList[1])
             {
                 // East door, so open west door in room with x + 1.
                 Room tempRoom = LevelGeneration.Inst().GetRoom(m_xPos + 1, m_zPos);
                 if (tempRoom != null)
+                {
                     tempRoom.OpenDoorInRoom(3);
+                    LevelGeneration.Inst().m_roomsOpened.Add(tempRoom);
+                }
             }
             if (m_doorList[2])
             {
                 // South door, so open north door in room with z - 1.
                 Room tempRoom = LevelGeneration.Inst().GetRoom(m_xPos, m_zPos - 1);
                 if (tempRoom != null)
+                {
                     tempRoom.OpenDoorInRoom(0);
+                    LevelGeneration.Inst().m_roomsOpened.Add(tempRoom);
+                }
             }
             if (m_doorList[3])
             {
                 // West door, so open east door in room with x - 1.
                 Room tempRoom = LevelGeneration.Inst().GetRoom(m_xPos - 1, m_zPos);
                 if (tempRoom != null)
+                {
                     tempRoom.OpenDoorInRoom(1);
+                    LevelGeneration.Inst().m_roomsOpened.Add(tempRoom);
+                }
             }
 
             // Play sound.
