@@ -61,6 +61,8 @@ public sealed class LevelGeneration : MonoBehaviour
         endRoom.transform.parent = transform;
         m_roomCount++;
 
+        Demo.endRoom = endRoom;
+
         // // DEBUG: Print visualization of level.
         // Inst().PrintLevel();
 

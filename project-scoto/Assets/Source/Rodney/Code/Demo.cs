@@ -31,9 +31,10 @@ public class Demo : MonoBehaviour
     public static bool m_isOn;
     public const int radius1 = 25;
     public static ProtoRoom currentRoom;
+    public static ProtoRoom endRoom;
 
     private float closestEnemyDist, Angle;
-    private static bool m_jump, m_sprint, m_attack;
+    private static bool m_jump, m_sprint, m_attack, foundEndRoom;
     private static int m_slackTime, m_counter, m_state;
     private static float rotation;
     private static Vector3 m_mouseValue;
@@ -43,7 +44,7 @@ public class Demo : MonoBehaviour
         m_isOn = false;
         theNavAgent = GameObject.Find("DemoPathfinder").GetComponent<NavAgent>();
         m_camera = GameObject.Find("Main Camera");
-        m_jump = m_sprint = false;
+        m_jump = m_sprint = foundEndRoom = false;
         m_isSuccessMode = m_attack = true;
         m_counter = m_state = 0;
         if(m_slackSeconds < 1) {Debug.LogError("m_slackSeconds is to low. Must be 1 seconds or greater"); m_slackSeconds = 10;}
@@ -84,14 +85,19 @@ public class Demo : MonoBehaviour
                 }
             }
 
+            // if (currentRoom.roomType() == 1)
+            // {
+            //     Debug.Log("WE FOUND THE END ROOM");
+            // }
 
             // Find next room
             if ( currentRoom.isCleared() || currentRoom.roomType() == 2 ) 
             { 
                 if (currentRoom.roomType() == 2)
                 {
-                    Debug.Log(LevelGeneration.Inst().m_roomsOpened);
+                    // Debug.Log(LevelGeneration.Inst().m_roomsOpened);
                 }
+
                 
                 if (LevelGeneration.Inst().m_roomsOpened.Count > 0)
                 {
@@ -101,16 +107,24 @@ public class Demo : MonoBehaviour
                 } 
                 else
                 {
-                    Transform enemySpawner = currentRoom.transform.Find("EnemySpawner");
-                    if(enemySpawner != null)
+                    // if no enemies, NavAgent.GoTo(endRoom.gameObject.transform.position)
+                    bool foundEnemy = false;
+                    foreach (var hitCollider in Physics.OverlapSphere(gameObject.transform.position, 10000))
                     {
-                        foreach(Transform child in enemySpawner)
+                        if(BaseEnemy.isEnemyAndAlive(hitCollider)) 
                         {
-                            NavAgent.GoTo(child.position);
+                            foundEnemy = true;
+                            break;
                         }
-                    }
+                    } 
+                    if(foundEnemy == false)
+                    {
+                        currentRoom = endRoom;
+                        // Debug.Log("NO ENEMIES FOUND");
+                    }      
                 }    
             }
+
 
 
 
@@ -123,7 +137,7 @@ public class Demo : MonoBehaviour
                 NavAgent.GoTo(gameObject.transform.position - closestEnemy.transform.position);
                 m_state = 1;
             }
-            else if(closestEnemyDist < 16) 
+            else if(closestEnemyDist < 12) 
             {    
                 Target3D = closestEnemy.transform.position - gameObject.transform.position;
                 
@@ -140,13 +154,16 @@ public class Demo : MonoBehaviour
             {
                 m_attack = false;
 
-                if((currentRoom.roomType() == 1 && Vector3.Magnitude(currentRoom.gameObject.transform.position - gameObject.transform.position) < 1) || m_state == 5)
+                if((currentRoom.roomType() == 1 && Vector3.Magnitude(currentRoom.gameObject.transform.position - gameObject.transform.position) < 1) || foundEndRoom == true)
                 {
 		            // Behavior if it is the endroom to leave the level
                     // if(m_state != 5) {NavAgent.Teleport(gameObject.transform.position); }
-
+                    foundEndRoom = true;
+                    Debug.Log("asdf");
                     Target3D = new Vector3(0, 0, 1);
-                    NavAgent.GoTo(gameObject.transform.position + new Vector3(0, 0, 10));
+
+                    // NavAgent.GoTo(gameObject.transform.position + new Vector3(0, 0, 20));
+                    NavAgent.Teleport(gameObject.transform.position);
                     m_state = 5;
                 }
                 else if(currentRoom.roomType() == 0)
@@ -166,14 +183,22 @@ public class Demo : MonoBehaviour
                 }                            
             } 
 
+
             // Vector3 move = NavAgent.getPosition() - gameObject.transform.position;
             // move.y = gameObject.transform.position.y;
 
             // gameObject.transform.position = gameObject.transform.position + .25F * move;
 
-            Vector3 move = NavAgent.getPosition();
-            move.y = gameObject.transform.position.y;
-            gameObject.transform.position = move;
+            if(foundEndRoom) 
+            { 
+                gameObject.transform.position = gameObject.transform.position + .2F * Vector3.forward;
+            }
+            else
+            {
+                Vector3 move = NavAgent.getPosition();
+                move.y = gameObject.transform.position.y;
+                gameObject.transform.position = move;
+            }
 
             if(Vector3.Magnitude(NavAgent.getPosition() - gameObject.transform.position) > 2F) NavAgent.Teleport(gameObject.transform.position);
             m_displayState = m_state;
