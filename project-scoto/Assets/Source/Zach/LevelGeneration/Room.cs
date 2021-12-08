@@ -76,7 +76,7 @@ public class Room : MonoBehaviour
                 if (tempRoom != null)
                 {
                     tempRoom.OpenDoorInRoom(2);
-                    LevelGeneration.Inst().m_roomsOpened.Add(tempRoom);
+                    LevelGeneration.Inst().m_roomsOpened.Enqueue(tempRoom);
                 }
             }
             if (m_doorList[1])
@@ -86,7 +86,7 @@ public class Room : MonoBehaviour
                 if (tempRoom != null)
                 {
                     tempRoom.OpenDoorInRoom(3);
-                    LevelGeneration.Inst().m_roomsOpened.Add(tempRoom);
+                    LevelGeneration.Inst().m_roomsOpened.Enqueue(tempRoom);
                 }
             }
             if (m_doorList[2])
@@ -96,7 +96,7 @@ public class Room : MonoBehaviour
                 if (tempRoom != null)
                 {
                     tempRoom.OpenDoorInRoom(0);
-                    LevelGeneration.Inst().m_roomsOpened.Add(tempRoom);
+                    LevelGeneration.Inst().m_roomsOpened.Enqueue(tempRoom);
                 }
             }
             if (m_doorList[3])
@@ -106,7 +106,7 @@ public class Room : MonoBehaviour
                 if (tempRoom != null)
                 {
                     tempRoom.OpenDoorInRoom(1);
-                    LevelGeneration.Inst().m_roomsOpened.Add(tempRoom);
+                    LevelGeneration.Inst().m_roomsOpened.Enqueue(tempRoom);
                 }
             }
 

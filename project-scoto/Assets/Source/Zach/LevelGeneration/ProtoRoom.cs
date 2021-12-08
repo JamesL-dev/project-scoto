@@ -68,7 +68,7 @@ public class ProtoRoom : MonoBehaviour
         {
             m_startRoom = Instantiate(m_startRoom, transform);
             m_room = m_startRoom.GetComponent<StartRoom>();
-            LevelGeneration.Inst().m_roomsOpened.Add(m_room);
+            LevelGeneration.Inst().m_roomsOpened.Enqueue(m_room);
         }
         else if (GetRoomType() == 1)
         {
