@@ -111,7 +111,7 @@ public sealed class WeaponManager : MonoBehaviour
                 if (m_three.ReadValue<float>() != 0) {m_currWeapon = 2; ChangeWeaponVal = 1;}
                 // if (m_four.ReadValue<float>() != 0) {m_currWeapon = 3; ChangeWeaponVal = 1;}
                 // SWITCH WHICH MODEL IS ACTIVATED
-                if(Demo.On()) {m_currWeapon = 1; ChangeWeaponVal = 1;}
+                if(Demo.On() && m_currWeapon != 1) {m_currWeapon = 1; ChangeWeaponVal = 1;}
                 if(ChangeWeaponVal == 1) 
                 {
                     Demo.ResetTimer();
