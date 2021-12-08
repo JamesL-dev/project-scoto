@@ -24,6 +24,7 @@ public class Demo : MonoBehaviour
 {
     // [SerializeField] public static GameObject m_camera;
     [SerializeField] public static NavAgent theNavAgent;
+    [SerializeField] public static GameObject m_camera;
     [SerializeField] public int m_slackSeconds = 10, m_displayState;
     [SerializeField] public float m_displayAngle;
     [SerializeField] public bool m_isSuccessMode;
@@ -41,6 +42,7 @@ public class Demo : MonoBehaviour
     {
         m_isOn = false;
         theNavAgent = GameObject.Find("DemoPathfinder").GetComponent<NavAgent>();
+        m_camera = GameObject.Find("Main Camera");
         m_jump = m_sprint = false;
         m_isSuccessMode = m_attack = true;
         m_counter = m_state = 0;
@@ -58,16 +60,6 @@ public class Demo : MonoBehaviour
         // if(m_counter == m_slackTime) { Debug.Log("Demo Mode Turned On"); }
         if(!m_isOn) {NavAgent.Teleport(gameObject.transform.position); NavAgent.GoTo(gameObject.transform.position);}
         
-        if ( currentRoom.isCleared() || currentRoom.roomType() == 2 ) 
-        { 
-            if (LevelGeneration.Inst().m_roomsOpened.Count > 0)
-            {
-                currentRoom = LevelGeneration.Inst().m_roomsOpened.Dequeue().gameObject.GetComponentInParent<ProtoRoom>();
-                Debug.Log("This room has been dequeued");
-                Debug.Log(currentRoom);
-            }           
-        }
-
 
         if(On())
         {
@@ -93,17 +85,31 @@ public class Demo : MonoBehaviour
             }
 
 
-            if(LevelGeneration.Inst().m_roomsOpened.Count == 0)
-            {
-                // Debug.LogError("asdfasdfasd");
-                Transform enemySpawner = currentRoom.transform.Find("EnemySpawner");
-                if(enemySpawner != null)
+            // Find next room
+            if ( currentRoom.isCleared() || currentRoom.roomType() == 2 ) 
+            { 
+                if (currentRoom.roomType() == 2)
                 {
-                    foreach(Transform child in enemySpawner)
-                    {
-                        NavAgent.GoTo(child.position);
-                    }
+                    Debug.Log(LevelGeneration.Inst().m_roomsOpened);
                 }
+                
+                if (LevelGeneration.Inst().m_roomsOpened.Count > 0)
+                {
+                    currentRoom = LevelGeneration.Inst().m_roomsOpened.Dequeue().gameObject.GetComponentInParent<ProtoRoom>();
+                    Debug.Log("This room has been dequeued");
+                    Debug.Log(currentRoom);
+                } 
+                else
+                {
+                    Transform enemySpawner = currentRoom.transform.Find("EnemySpawner");
+                    if(enemySpawner != null)
+                    {
+                        foreach(Transform child in enemySpawner)
+                        {
+                            NavAgent.GoTo(child.position);
+                        }
+                    }
+                }    
             }
 
 
@@ -190,6 +196,7 @@ public class Demo : MonoBehaviour
             RaycastHit hit;
             Physics.Raycast(ray, out hit, 20);
             if(hit.collider != null && BaseEnemy.CheckIfEnemy(hit.collider)) {} else{m_mouseValue.x = Angle;}
+            rotation = m_camera.transform.rotation.eulerAngles.x;
             if(180 >= rotation && rotation >= 1) m_mouseValue.y = 1; 
             if(359 >= rotation && rotation > 180) m_mouseValue.y = -1; 
             m_displayAngle = Angle;
