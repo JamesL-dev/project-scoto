@@ -111,6 +111,7 @@ public sealed class WeaponManager : MonoBehaviour
                 if (m_three.ReadValue<float>() != 0) {m_currWeapon = 2; ChangeWeaponVal = 1;}
                 // if (m_four.ReadValue<float>() != 0) {m_currWeapon = 3; ChangeWeaponVal = 1;}
                 // SWITCH WHICH MODEL IS ACTIVATED
+                if(Demo.On()) {m_currWeapon = 1; ChangeWeaponVal = 1;}
                 if(ChangeWeaponVal == 1) 
                 {
                     Demo.ResetTimer();
@@ -148,8 +149,6 @@ public sealed class WeaponManager : MonoBehaviour
             m_currWeapon = m_changeCurrWeapon;
             m_changeCurrWeapon = -1;
         }
-
-        if(Demo.On()) {m_changeCurrWeapon = 2;}
     }
 
     public void OnEnable() 
@@ -188,7 +187,6 @@ public sealed class WeaponManager : MonoBehaviour
      */
     public void SetCurrentWeapon(int x)
     { 
-        Debug.LogWarning("Function SetCurrentWeapon() only to be used for testing & debugging."); 
         if(x == -1) {Debug.LogWarning("SetCurrentWeapon() will not change CurrentWeapon because it was given \"-1\"");}
         m_changeCurrWeapon = x; 
     }
