@@ -20,7 +20,7 @@ public class NavAgent : MonoBehaviour
 
         gameObject.transform.position = m_player.transform.position;
         m_agent.autoTraverseOffMeshLink = false;
-        m_agent.speed = 15F;
+        m_agent.speed = 12F;
         destination = new Vector3(0, 0, 20);
         position = Vector2.zero;
     }

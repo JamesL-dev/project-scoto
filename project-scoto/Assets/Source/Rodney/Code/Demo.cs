@@ -28,7 +28,7 @@ public class Demo : MonoBehaviour
     [SerializeField] public float m_displayAngle;
     [SerializeField] public bool m_isSuccessMode;
     public static bool m_isOn;
-    public const int radius1 = 24;
+    public const int radius1 = 25;
     public static ProtoRoom currentRoom;
 
     private float closestEnemyDist, Angle;
@@ -57,14 +57,22 @@ public class Demo : MonoBehaviour
         // if(m_counter < m_slackTime) {NavAgent.Teleport(gameObject.transform.position); NavAgent.GoTo(gameObject.transform.position);}
         // if(m_counter == m_slackTime) { Debug.Log("Demo Mode Turned On"); }
         if(!m_isOn) {NavAgent.Teleport(gameObject.transform.position); NavAgent.GoTo(gameObject.transform.position);}
-        if (currentRoom.isCleared()) 
+        
+        if ( currentRoom.isCleared() || currentRoom.roomType() == 2 ) 
         { 
-            currentRoom = LevelGeneration.Inst().m_roomsOpened[LevelGeneration.Inst().m_roomsOpened.Count - 1].gameObject.GetComponentInParent<ProtoRoom>();
+            if (LevelGeneration.Inst().m_roomsOpened.Count > 0)
+            {
+                currentRoom = LevelGeneration.Inst().m_roomsOpened.Dequeue().gameObject.GetComponentInParent<ProtoRoom>();
+                Debug.Log("This room has been dequeued");
+                Debug.Log(currentRoom);
+            }           
         }
 
 
         if(On())
         {
+            PlayerData.Inst().TakeHealth(1F);
+
             // Find enemies
             List<Collider> enemies = new List<Collider>();
             closestEnemyDist = (float)radius1;
@@ -85,17 +93,31 @@ public class Demo : MonoBehaviour
             }
 
 
+            if(LevelGeneration.Inst().m_roomsOpened.Count == 0)
+            {
+                // Debug.LogError("asdfasdfasd");
+                Transform enemySpawner = currentRoom.transform.Find("EnemySpawner");
+                if(enemySpawner != null)
+                {
+                    foreach(Transform child in enemySpawner)
+                    {
+                        NavAgent.GoTo(child.position);
+                    }
+                }
+            }
+
+
 
             // CONTROL MOVEMENT OF PLAYER
             m_attack = true;
-            if(closestEnemyDist < 6)
+            if(closestEnemyDist < 8)
             {  
                 // if(m_state != 1) {NavAgent.Teleport(gameObject.transform.position);}
                 Target3D = closestEnemy.transform.position - gameObject.transform.position;
                 NavAgent.GoTo(gameObject.transform.position - closestEnemy.transform.position);
                 m_state = 1;
             }
-            else if(closestEnemyDist < 12) 
+            else if(closestEnemyDist < 16) 
             {    
                 Target3D = closestEnemy.transform.position - gameObject.transform.position;
                 
@@ -138,10 +160,15 @@ public class Demo : MonoBehaviour
                 }                            
             } 
 
-            Vector3 move = NavAgent.getPosition() - gameObject.transform.position;
-            move.y = gameObject.transform.position.y;
+            // Vector3 move = NavAgent.getPosition() - gameObject.transform.position;
+            // move.y = gameObject.transform.position.y;
 
-            gameObject.transform.position = gameObject.transform.position + .25F * move;
+            // gameObject.transform.position = gameObject.transform.position + .25F * move;
+
+            Vector3 move = NavAgent.getPosition();
+            move.y = gameObject.transform.position.y;
+            gameObject.transform.position = move;
+
             if(Vector3.Magnitude(NavAgent.getPosition() - gameObject.transform.position) > 2F) NavAgent.Teleport(gameObject.transform.position);
             m_displayState = m_state;
 
@@ -233,7 +260,7 @@ public class Demo : MonoBehaviour
     { 
         if(On())
         {
-            Debug.Log("Demo Mode Turned Off.");
+            // Debug.Log("Demo Mode Turned Off.");
         }
         Demo.m_counter = 0; 
     }
