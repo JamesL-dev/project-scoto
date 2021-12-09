@@ -22,11 +22,9 @@ using UnityEngine.AI;
  */
 public class Demo : MonoBehaviour 
 {
-    // [SerializeField] public static GameObject m_camera;
     [SerializeField] public static NavAgent theNavAgent;
     [SerializeField] public static GameObject m_camera;
     [SerializeField] public bool m_isSuccessMode;
-    [SerializeField] public float m_displayAngle;
     public static bool m_isOn;
     public const int radius1 = 25;
     public static ProtoRoom currentRoom;
@@ -48,19 +46,16 @@ public class Demo : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 Target3D = Vector3.zero;
-        m_attack = false;
-        if(!m_isOn) {NavAgent.Teleport(gameObject.transform.position); NavAgent.GoTo(gameObject.transform.position);}
-        
-
         if(On())
         {
-            PlayerData.Inst().TakeHealth(1F);
+            if(m_isSuccessMode) { PlayerData.Inst().TakeHealth(1F); }
+            Flashlight.Inst().AddBattery(1F);
+            Vector3 Target3D = Vector3.zero;
+            m_attack = false;        
 
             // Find enemies
             List<Collider> enemies = new List<Collider>();
             closestEnemyDist = (float)radius1;
-
             Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, radius1);
             Collider closestEnemy = hitColliders[0];
             foreach (var hitCollider in hitColliders)
@@ -82,25 +77,15 @@ public class Demo : MonoBehaviour
                 if (LevelGeneration.Inst().m_roomsOpened.Count > 0)
                 {
                     currentRoom = LevelGeneration.Inst().m_roomsOpened.Dequeue().gameObject.GetComponentInParent<ProtoRoom>();
-                    // Debug.Log("This room has been dequeued");
-                    // Debug.Log(currentRoom);
                 } 
                 else
                 {
                     bool foundEnemy = false;
                     foreach (var hitCollider in Physics.OverlapSphere(gameObject.transform.position, 10000))
                     {
-                        if(BaseEnemy.isEnemyAndAlive(hitCollider)) 
-                        {
-                            foundEnemy = true;
-                            break;
-                        }
+                        if(BaseEnemy.isEnemyAndAlive(hitCollider)) { foundEnemy = true; break; }
                     } 
-                    if(foundEnemy == false)
-                    {
-                        currentRoom = endRoom;
-                        // Debug.Log("NO ENEMIES FOUND");
-                    }      
+                    if(foundEnemy == false) { currentRoom = endRoom; }      
                 }    
             }
 
@@ -108,40 +93,37 @@ public class Demo : MonoBehaviour
 
 
             // CONTROL MOVEMENT OF PLAYER
-            m_attack = true;
+            Target3D = closestEnemy.transform.position - gameObject.transform.position;
             if(closestEnemyDist < 8)
             {  
-                Target3D = closestEnemy.transform.position - gameObject.transform.position;
-                NavAgent.GoTo(gameObject.transform.position - closestEnemy.transform.position);
+                if(m_isSuccessMode) 
+                { 
+                    NavAgent.GoTo(gameObject.transform.position - closestEnemy.transform.position); 
+                }
             }
             else if(closestEnemyDist < 12) 
-            {    
-                Target3D = closestEnemy.transform.position - gameObject.transform.position;
-            } 
+            {
+                if(!m_isSuccessMode) { NavAgent.GoTo(closestEnemy.transform.position);}
+            }
             else if(closestEnemyDist < radius1)
             {
-                Target3D = closestEnemy.transform.position - gameObject.transform.position;
                 NavAgent.GoTo(closestEnemy.transform.position);
             } 
+            else if(currentRoom.roomType() == 1 && Vector3.Magnitude(currentRoom.gameObject.transform.position - gameObject.transform.position) < 1)
+            {
+                foundEndRoom = true;
+            }
+            else if(currentRoom.roomType() == 0)
+            {
+                Target3D = new Vector3(0, 0, 1);
+                NavAgent.GoTo(new Vector3(0, 0, 35));
+            }
             else
             {
-                m_attack = false;
+                Target3D = NavAgent.getPosition() - gameObject.transform.position;
+                NavAgent.GoTo(currentRoom.gameObject.transform.position);
+            }                             
 
-                if(currentRoom.roomType() == 1 && Vector3.Magnitude(currentRoom.gameObject.transform.position - gameObject.transform.position) < 1)
-                {
-                    foundEndRoom = true;
-                }
-                else if(currentRoom.roomType() == 0)
-                {
-                    Target3D = new Vector3(0, 0, 1);
-                    NavAgent.GoTo(new Vector3(0, 0, 35));
-                }
-                else
-                {
-                    Target3D = NavAgent.getPosition() - gameObject.transform.position;
-                    NavAgent.GoTo(currentRoom.gameObject.transform.position);
-                }                            
-            } 
 
             if(foundEndRoom) 
             { 
@@ -157,10 +139,8 @@ public class Demo : MonoBehaviour
 
 
 
-
             // CONTROL ROTATION OF PLAYER
             m_mouseValue = Vector3.zero;
-
             Vector2 Target, Current;
             Target.x = Target3D.x; 
             Target.y = Target3D.z; 
@@ -172,11 +152,22 @@ public class Demo : MonoBehaviour
 
             RaycastHit hit;
             Physics.Raycast(Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0)), out hit, radius1);
-            if(hit.collider != null && BaseEnemy.CheckIfEnemy(hit.collider)) {} else{m_mouseValue.x = .5F*Angle;}
+            if(hit.collider != null && BaseEnemy.CheckIfEnemy(hit.collider)) 
+            {
+                if(m_isSuccessMode) { m_attack = true; }
+            } 
+            else
+            {
+                m_mouseValue.x = .5F*Angle;
+            }
             rotation = m_camera.transform.rotation.eulerAngles.x;
-            if(180 >= rotation && rotation > 1) m_mouseValue.y = 1 + rotation/45; 
-            if(359 > rotation && rotation > 180) m_mouseValue.y = -1 - (360-rotation)/45; 
-            m_displayAngle = Angle;
+            if(180 >= rotation && rotation > 1) m_mouseValue.y = 1 + rotation/10; 
+            if(359 > rotation && rotation > 180) m_mouseValue.y = -1 - (360-rotation)/10; 
+        }
+        else
+        {
+            NavAgent.Teleport(gameObject.transform.position); 
+            NavAgent.GoTo(gameObject.transform.position);
         }
     }
 
